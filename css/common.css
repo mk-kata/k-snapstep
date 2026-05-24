@@ -139,6 +139,7 @@ header.site-header.scrolled {
   width: auto;
   display: block;
   transition: height 0.4s ease;
+  mix-blend-mode: multiply;
 }
 header.site-header.scrolled .site-logo-img {
   height: 36px;
