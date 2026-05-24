@@ -1,0 +1,5 @@
+AuthUserFile /home/users/2/lolipop.jp-dp57064100/web/ksnapstep/test0627/.htpasswd
+AuthGroupFile /dev/null
+AuthName "ログインパスワード"
+AuthType Basic
+require valid-user

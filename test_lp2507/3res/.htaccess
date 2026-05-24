@@ -1,0 +1,4 @@
+#AuthType Basic
+#AuthName "Input your ID and Password."
+#AuthUserFile /home/xs094296/xs094296.xsrv.jp/public_html/3res/.htpasswd
+#require valid-user

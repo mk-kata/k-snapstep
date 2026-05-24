@@ -1,0 +1,269 @@
+@charset "utf-8";
+/* CSS Document */
+/*202412 created by nishiyama*/
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html,
+body {
+	font-family: 'ROBOTO', serif;
+
+	color: #231815;
+	margin: 0 auto;
+	font-size: 16px;
+}
+a {
+	text-decoration: none;
+	color: #231815;
+}
+a:hover {
+	opacity: 0.8;
+}
+li {
+	list-style: none;
+}
+img {
+	margin: 0;
+	padding: 0;
+	display: block;
+	vertical-align: bottom;
+	width: 100%;
+}
+h1 img {
+	width: 100%;
+	margin: 0 auto;
+	vertical-align: bottom;
+	display: block;
+}
+.global_nav {
+	width: 100%;
+
+	background: #a30100;
+	z-index: 3;
+	a {
+		color: #fff;
+	}
+}
+.global_nav ul {
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.nav1 {
+	gap: 2rem;
+	padding: 2.2rem 0;
+}
+/*.nav2 {gap: 1.5rem;}*/
+.global_nav li {
+	float: left;
+	list-style: none;
+
+	text-align: center;
+}
+/*.icons {width: 3rem;}*/
+
+/* 固定用クラス */
+.nav1.fixed {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 9999;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* オプションで影も */
+	background-color: #a30100;
+}
+
+/* hamburger */
+.hamburger {
+	display: none;
+	position: fixed;
+	z-index: 3;
+	right: 13px;
+	top: 12px;
+	width: 42px;
+	height: 42px;
+	cursor: pointer;
+	text-align: center;
+	background-color: #e6e1d8;
+	margin-top: 0.3rem;
+}
+.hamburger span {
+	display: block;
+	position: absolute;
+	width: 30px;
+	height: 2px;
+	left: 6px;
+	background: #000;
+	-webkit-transition: 0.3s ease-in-out;
+	-moz-transition: 0.3s ease-in-out;
+	transition: 0.3s ease-in-out;
+}
+.hamburger span:nth-child(1) {
+	top: 10px;
+}
+.hamburger span:nth-child(2) {
+	top: 20px;
+}
+.hamburger span:nth-child(3) {
+	top: 30px;
+}
+/* ナビ開いてる時のボタン */
+.hamburger.active {
+	background-color: #fff;
+}
+.hamburger.active span:nth-child(1) {
+	top: 16px;
+	left: 6px;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+.hamburger.active span:nth-child(2),
+.hamburger.active span:nth-child(3) {
+	top: 16px;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+nav.globalMenuSp {
+	position: fixed;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	background: #fff;
+	text-align: center;
+	transform: translateY(-130%);
+	transition: all 0.3s;
+	width: 100%;
+}
+nav.globalMenuSp ul {
+	flex-direction: column;
+	justify-content: flex-start;
+	background: #fff;
+	margin: 0 auto;
+	padding: 2.8rem;
+	width: 100%;
+	width: 25rem;
+}
+.spli1 {
+	padding-top: 2rem;
+}
+.spli2:first-child {
+	margin-top: -2rem;
+}
+.spli2 {
+	padding-top: 1.5rem !important;
+	width: 100% !important;
+	text-align: center;
+	margin-bottom: -2rem;
+}
+.spli2 a,
+.spli2 a:visited {
+	color: #333;
+}
+.spli2_1 span {
+	display: inline-block;
+	margin-right: 1rem;
+}
+.spli2_1 span:last-child {
+	margin-right: 0;
+}
+.spli2_1 {
+	margin-top: 2.4rem;
+}
+
+.nav1 a,
+.nav1 a:visited {
+	text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-variation-settings: 'wdth' 100;
+	font-size: clamp(16px, 10vw, 22px);
+}
+
+.nav2 a {
+	display: block;
+	width: 50%;
+	height: 50%;
+}
+.ul1 {
+	height: 100vh;
+	padding-bottom: 10em;
+}
+nav.globalMenuSp ul li {
+	list-style-type: none;
+	padding: 0;
+	width: 50%;
+	border-bottom: #707070 solid 1px;
+}
+nav.globalMenuSp ul li:last-child {
+	padding-bottom: 0;
+	border-bottom: none;
+	color: #333;
+}
+nav.globalMenuSp ul li a {
+	display: block;
+	padding: 1rem 0;
+	text-decoration: none;
+	text-align: center;
+	font-weight: 600;
+}
+/* このクラスを、jQueryで付与・削除する */
+nav.globalMenuSp.active {
+	transform: translateY(0%);
+}
+
+@media screen and (max-width: 1000px) {
+	.global_nav {
+		padding-bottom: 0;
+		background: #fff !important;
+	}
+	.global_nav li {
+		font-size: 1.6rem;
+	}
+	.globalMenuSp.active {
+		top: 0;
+	}
+	.nav1 {
+		display: none;
+		padding: 0;
+	}
+	.hamburger {
+		display: block;
+	}
+	.nav1 li,
+	.nav2 {
+		display: none;
+	}
+	.spli2:first-child {
+		border-top: 1px solid #707070;
+		margin-top: 0.1rem;
+		padding-top: 0 !important;
+	}
+}
+@media screen and (max-width: 900px) {
+	nav.globalMenuSp ul li {
+		display: block;
+	}
+}
+@media screen and (max-width: 850px) {
+	.nav2 li {
+		padding-right: 1rem;
+	}
+}
+@media screen and (max-width: 680px) {
+}
+@media screen and (max-width: 600px) {
+}
+@media screen and (max-width: 560px) {
+}
+@media screen and (max-width: 480px) {
+	.global_nav li {
+		font-size: 1rem;
+	}
+}

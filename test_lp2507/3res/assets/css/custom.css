@@ -1,0 +1,347 @@
+@charset "UTF-8";
+.ms-container{
+  width:100% !important;
+}
+.ck-editor__editable_inline {
+  min-height: 400px;
+}
+
+#header-in h1 img,
+#footer .logo img {
+  width: auto;
+  height: 80px;
+}
+
+#container.sub #nav {
+  margin-top: 100px;
+}
+#container.top #nav {
+  margin-top: 0;
+}
+.radar-box canvas {
+  max-width: 100%;
+}
+
+#main main {
+  max-width: 1280px;
+  margin: auto;
+  width: 100%;
+}
+
+.pager-static {
+  text-align: right;
+}
+.pager-static ul.pager {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+}
+.pager-static ul.pager li {
+  width: 2em;
+  height: 2em;
+  border: #333 1px solid;
+  text-align: center;
+  color: #333;
+  display: flex;
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+.pager-static ul.pager li.active {
+  background: #333;
+  color: #fff;
+}
+.user-table th, .user-table td {
+  padding: 1em 1.5em;
+  vertical-align: top;
+  border: none;
+}
+
+.error {
+  color: #cc0000;
+  font-weight: bold;
+  background: #fff0f0;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+
+#_mypage .sidebar ul.nav_mypage {
+  display: flex;
+  row-gap: 5px;
+  flex-wrap: wrap;
+}
+#_mypage .sidebar ul.nav_mypage li {
+  display: block;
+  width: 100%;
+  border-left: 5px solid #F67571;
+}
+#_mypage .sidebar ul.nav_mypage li a {
+  display: block;
+  padding: 0.8em;
+  color: #000;
+  transition: 0.2s;
+  position: relative;
+}
+#_mypage .sidebar ul.nav_mypage li a i {
+  padding-right: 0.8em;
+}
+#_mypage .sidebar ul.nav_mypage li a:hover {
+  opacity: 0.7;
+}
+
+
+#_mypage span.notice {
+  position: absolute;     /* 相対位置に指定 */
+  display: flex;
+  width: auto;
+  justify-content: center;
+  align-items: center;
+  top: 50%;             /* 表示位置を上から-10pxの位置にする */
+  right: 10px;/* 表示位置を右から内側に10pxの位置 */
+  color: #FFF;            /* 文字色を白に指定 */
+  font-weight: normal;      /* 太文字にする */
+  line-height: 20px;      /* 行の高さを指定 */
+  text-align: center;     /* 文字を中央揃えにする */
+  background: #f00;    /* 背景色をオレンジに指定 */
+  border-radius: 10px;    /* line-heightの半分の角丸を指定 */
+  min-width: 20px;        /* 最低幅を指定 */
+  height: 20px;
+  padding: 0 3px 1px 3px;         /* 左右に少しだけ余白を設定 */
+  box-sizing: border-box; /* 計算しやすいように */
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  font-size: 11px;
+}
+
+#_mypage .item-msg h3 {
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+#_mypage .item-msg h5 {
+  color: #999;
+  font-style: italic;
+  text-align: right;
+  margin-top: 1em;
+}
+
+
+.modal{
+  display: none;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.modal__bg{
+  background: rgba(0,0,0,0.5);
+  height: 100vh;
+  position: absolute;
+  width: 100%;
+}
+.modal__content{
+  background: #FFF;
+  left: 50%;
+  padding: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 60%;
+  background-size: 100% auto;
+
+}
+.modal__content .joinbox{
+  background: #FFF;
+}
+.modal__content .modal_img {
+  text-align: center;
+  margin-bottom: 1em;
+}
+.modal__content p {
+  color: #333;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-align: center;
+}
+.modal__content p strong {
+  text-decoration: underline;
+}
+.modal__content p.preview_message {
+  border: #999 1px solid;
+  font-weight: normal;
+  text-align: left;
+  padding: 1em;
+  font-size: 0.9rem;
+}
+.modal__content .button {
+  text-align: center;
+}
+.modal__content .button a,
+.modal__content .button button
+{
+  color: #fff;
+  background: #F67571;
+  display: inline-block;
+  font-size: 1.4rem;
+  padding: 0.4em 1em;
+  margin: 0 auto;
+  font-weight: bold;
+  border-radius: 0;
+}
+
+.shopify-buy__product__actual-price,
+.shopify-buy__product__price {
+  font-family: "aktiv-grotesk", sans-serif;
+  text-align: left;
+}
+
+@media (max-width: 787px) {
+  .modal__content{
+    width: 90%;
+  }
+  .modal__content p {
+    color: #333;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+.item-card.loop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.item-card.loop .item {
+  width: calc( calc( 100% - 3em ) / 4);
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-card.loop .item .flex-end {
+  width: 100%;
+  align-items: end;
+}
+
+@media (max-width: 787px) {
+  .item-card.loop .item {
+    width: calc( calc( 100% - 1em ) / 2);
+    position: relative;
+  }
+}
+.item-card.loop .item .flex .thumb {
+  width: 100%;
+  max-width: 100%;
+}
+.item-card.loop .item .flex .thumb .img-box {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+}
+.item-card.loop .item .flex .thumb img {
+  width: 100%; /* コンテナの幅に合わせる */
+  height: 100%; /* コンテナの高さに合わせる */
+  object-fit: cover; /* 画像をコンテナ内に埋め込み、アスペクト比を維持しトリミングする */
+  object-position: center center; /* 画像を右上に配置（トリミング位置の調整） */
+}
+#_mypage .flex-end {
+  position: relative;
+  display: flex;
+  margin-top: 1em;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+#_mypage .btn-box {
+  width: 35%;
+  border: #000 1px solid;
+  padding: 0.8em 0.8em;
+  line-height: 1;
+  font-size: 80%;
+  color: #000;
+  margin: 0;
+  font-weight: normal;
+  min-width: auto;
+  letter-spacing: 0;
+  text-align: center;
+  color: #FFF;
+  background-color: #000;
+  min-width: 80px;
+  white-space: nowrap;
+}
+#_mypage .btn-box:first-of-type {
+  border-right: none;
+}
+#_mypage .stat-box {
+  background: #999;
+  color: #fff;
+  padding: 0.5em 0.8em;
+  font-size: 80%;
+  position: absolute;
+  top: 0;
+}
+#_mypage .flex-end._full .btn-box:first-of-type {
+  width: 100%;
+  border: #000 1px solid;
+}
+.item-card.loop .item .content-area {
+  width: 100%;
+}
+.item-card.loop .item .content-area p {
+  width: 100%;
+}
+.item-card.loop .item .item_name {
+  margin-bottom: 0;
+}
+.item-card.loop .item .brand_name {
+  margin-bottom: 0;
+  color: #aaa;
+}
+.item-card.loop .item .price {
+  font-size: 80%;
+  margin-top: 0.5em;
+}
+.item-card.loop .item .item_description {
+  font-size: 80%;
+  margin-bottom: 0;
+  margin-top: 0.5em;
+}
+
+.fitimage img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+.table-detail .fitimage {
+  width: 200px;
+  height: 200px;
+  border: #eee 1px solid;
+  background: #f5f5f5;
+  padding: 20px;
+}
+.table-detail td span {
+  color: #ccc;
+}
+.table td {
+  vertical-align: top;
+}
+.text-center {
+  text-align: center;
+}
+.form-signup a.btn {
+  margin: 40px auto 20px;
+  display: inline-block;
+  background: #000;
+  color: #FFF;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+#header-in h1 img,
+#footer .logo img {
+  height: 60px;
+}
