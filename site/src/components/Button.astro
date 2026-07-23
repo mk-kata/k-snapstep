@@ -1,0 +1,15 @@
+---
+// 主CTA・副CTAの2段構造(docs/KSNAPSTEP_DESIGN_GUIDE.md 17番)。
+// 意匠の最終確定ではなく、CTAの構造だけを確認するための最小実装。
+interface Props {
+  href: string;
+  variant?: "primary" | "ghost";
+}
+
+const { href, variant = "primary" } = Astro.props;
+const className = variant === "primary" ? "btn-primary" : "btn-ghost";
+---
+
+<a href={href} class={className}>
+  <slot />
+</a>

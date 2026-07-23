@@ -1,0 +1,62 @@
+---
+// K-SNAPSTEP 共通フッター
+//
+// 参照元: docs/KSNAPSTEP_WIREFRAME.md 5番
+// - MARORIRIへのリンクは、他の主要ページと同列に置かず、末尾の控えめな1行として扱う
+// - 外部リンクであることが分かる表記を付ける(docs/KSNAPSTEP_DESIGN_GUIDE.md 17・23番)
+// - note・ココナラ・本来面目noteへのリンクは今回含めない
+
+import { site, mainNav, urls, maroriri, copyright } from "../../config/site";
+
+const primaryPages = mainNav.filter((item) => item.href !== urls.reading);
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner container">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">{site.name}</p>
+      <p class="site-footer__tagline">{site.tagline}</p>
+      <p class="site-footer__owner">代表：{site.owner}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="フッターナビゲーション">
+      <div class="site-footer__nav-group">
+        <p class="site-footer__nav-heading">主要ページ</p>
+        <ul>
+          {
+            primaryPages.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="site-footer__nav-group">
+        <p class="site-footer__nav-heading">読みもの</p>
+        <ul>
+          <li><a href={urls.reading}>読みもの一覧</a></li>
+        </ul>
+      </div>
+
+      <div class="site-footer__nav-group">
+        <p class="site-footer__nav-heading">法務等</p>
+        <ul>
+          <li><a href={urls.contact}>お問い合わせ</a></li>
+          <li><a href={urls.privacy}>プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <p class="site-footer__maroriri">
+      コーダー・Web制作者向けの活動
+      <a href={maroriri.url} rel="noopener" target="_blank">
+        MARORIRI<span class="external-link-indicator" aria-hidden="true">↗</span
+        ><span class="visually-hidden">(外部サイト)</span>
+      </a>
+    </p>
+
+    <p class="site-footer__copyright">{copyright}</p>
+  </div>
+</footer>

@@ -1,0 +1,61 @@
+---
+// K-SNAPSTEP 共通ページヘッダー(固定下層ページ用)
+//
+// 参照元: docs/KSNAPSTEP_WIREFRAME.md 6番(共通ファーストビュー)
+// 料金・CTAはすべて任意(props)とし、対応できることページ等では省略できるようにする。
+
+interface Props {
+  /** ページ名(小見出しラベル。例:「1日WEB担当者」) */
+  pageName: string;
+  /** 主見出し */
+  heading: string;
+  /** 導入文 */
+  intro?: string;
+  /** 概要バッジ列(サービスページのみ想定) */
+  badges?: string[];
+  /** 料金(サービスページのみ想定) */
+  price?: { amount: string; unit?: string };
+  /** 補足キャプション */
+  note?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+}
+
+const { pageName, heading, intro, badges = [], price, note, ctaLabel, ctaHref } = Astro.props;
+---
+
+<div class="page-header">
+  <p class="page-header__eyebrow">{pageName}</p>
+  <h1 class="page-header__heading">{heading}</h1>
+
+  {intro && <p class="page-header__intro">{intro}</p>}
+
+  {
+    badges.length > 0 && (
+      <ul class="page-header__badges">
+        {badges.map((badge) => (
+          <li>{badge}</li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    price && (
+      <p class="page-header__price">
+        <span class="page-header__price-amount">{price.amount}</span>
+        {price.unit && <span class="page-header__price-unit">{price.unit}</span>}
+      </p>
+    )
+  }
+
+  {note && <p class="page-header__note">{note}</p>}
+
+  {
+    ctaLabel && ctaHref && (
+      <a class="btn-primary page-header__cta" href={ctaHref}>
+        {ctaLabel}
+      </a>
+    )
+  }
+</div>

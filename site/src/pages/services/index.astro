@@ -1,0 +1,25 @@
+---
+// 対応できること(ルート骨格のみ。確定10セクション本文の実装は次工程。docs/KSNAPSTEP_SITE_SPEC.md 13番)
+// 料金は表示しない(docs/KSNAPSTEP_WIREFRAME.md 12番)。
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+---
+
+<BaseLayout
+  title="対応できること（仮）"
+  description="Webの困りごとを、どこへ頼むかまで整理する対応範囲の仮ページです。本文は次工程で実装します。"
+  layoutType="page"
+>
+  <div class="container content-width">
+    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "対応できること" }]} />
+
+    <PageHeader
+      pageName="対応できること"
+      heading="対応できること（仮見出し）"
+      intro="Webの困りごとを、どこへ頼むかまで整理します。確定本文は次工程で実装します。"
+    />
+
+    <p>本文は次工程で実装する予定です（確定10セクション。docs/KSNAPSTEP_SITE_SPEC.md 13番)。</p>
+  </div>
+</BaseLayout>

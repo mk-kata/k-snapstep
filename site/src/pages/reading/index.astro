@@ -1,0 +1,61 @@
+---
+// 読みもの一覧(ルート骨格のみ。公開初期は「小さな会社のホームページ見直しノート」1シリーズ運用の想定。
+// docs/KSNAPSTEP_SITE_SPEC.md 16番)
+//
+// draft: true の記事は、本番向け一覧には表示しない方針(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 14番)。
+// 開発確認のために表示する場合は「開発確認用の下書き記事」であることを明記する。
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+import { getCollection } from "astro:content";
+
+const allArticles = await getCollection("articles");
+const publishedArticles = allArticles.filter((article) => article.data.draft === false);
+const draftArticles = allArticles.filter((article) => article.data.draft === true);
+---
+
+<BaseLayout
+  title="読みもの（仮）"
+  description="小さな会社や事業者がWebを判断するための読みもの一覧の仮ページです。"
+  layoutType="page"
+>
+  <div class="container content-width">
+    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "読みもの" }]} />
+
+    <PageHeader
+      pageName="読みもの"
+      heading="読みもの（仮見出し）"
+      intro="小さな会社のホームページ見直しノートの一覧です。確定本文・記事一覧デザインは次工程で実装します。"
+    />
+
+    <h2>公開中の記事</h2>
+    {
+      publishedArticles.length === 0 ? (
+        <p>現在、公開中の記事はありません（サンプル記事のみのため）。</p>
+      ) : (
+        <ul>
+          {publishedArticles.map((article) => (
+            <li>{article.data.title}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      draftArticles.length > 0 && (
+        <>
+          <h2>開発確認用の下書き記事</h2>
+          <p>
+            ここに表示されている記事は<strong>開発確認用の下書き記事</strong>です。draft:
+            true が設定されているため、本番向けの一覧には表示されません。
+          </p>
+          <ul>
+            {draftArticles.map((article) => (
+              <li>{article.data.title}（draft: {String(article.data.draft)}）</li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </div>
+</BaseLayout>

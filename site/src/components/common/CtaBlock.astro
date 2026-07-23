@@ -1,0 +1,45 @@
+---
+// K-SNAPSTEP 汎用CTAコンポーネント
+//
+// 全ページへ同じ問い合わせCTAを機械的に表示しない方針(docs/KSNAPSTEP_WIREFRAME.md 7番)。
+// 今回はコンポーネントの作成のみ行い、各ページへの大量配置は行わない。
+
+interface Props {
+  /** 小さなラベル(任意) */
+  label?: string;
+  heading: string;
+  body?: string;
+  buttonLabel: string;
+  url: string;
+  variant?: "primary" | "quiet" | "reading";
+  secondaryLinkLabel?: string;
+  secondaryLinkUrl?: string;
+}
+
+const {
+  label,
+  heading,
+  body,
+  buttonLabel,
+  url,
+  variant = "primary",
+  secondaryLinkLabel,
+  secondaryLinkUrl,
+} = Astro.props;
+---
+
+<div class={`cta-block cta-block--${variant}`}>
+  {label && <p class="cta-block__label">{label}</p>}
+  <p class="cta-block__heading">{heading}</p>
+  {body && <p class="cta-block__body">{body}</p>}
+  <a class={variant === "quiet" ? "btn-ghost" : "btn-primary"} href={url}>
+    {buttonLabel}
+  </a>
+  {
+    secondaryLinkLabel && secondaryLinkUrl && (
+      <a class="cta-block__secondary-link" href={secondaryLinkUrl}>
+        {secondaryLinkLabel}
+      </a>
+    )
+  }
+</div>

@@ -1,0 +1,56 @@
+---
+// K-SNAPSTEP トップページ(Astro構築確認用の仮ページ)
+// 本番用の完成ページではない。確定9セクション本文(docs/KSNAPSTEP_SITE_SPEC.md 10番)の実装は次の工程で行う。
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { site, urls } from "../config/site";
+
+const sampleArticles = await getCollection("articles");
+---
+
+<BaseLayout
+  title={site.name}
+  description={site.defaultDescription}
+  layoutType="home"
+>
+  <div class="container content-width">
+    <p><strong>Astro構築確認用の仮ページです。</strong></p>
+
+    <h1>{site.name}</h1>
+    <p>小さな会社や事業者の外部Web担当者</p>
+
+    <p>
+      共通レイアウト・共通ヘッダー・共通フッター・基本ナビゲーションが正しく動作するかを
+      確認するための、新サイト構築中の確認ページです。確定した9セクションの本文は、
+      次の工程で実装します。
+    </p>
+
+    <h2>主要ページへの仮リンク</h2>
+    <ul>
+      <li><a href={urls.oneDayWebManager}>1日WEB担当者</a></li>
+      <li><a href={urls.monthlySupport}>月額Web担当サポート</a></li>
+      <li><a href={urls.services}>対応できること</a></li>
+      <li><a href={urls.profile}>片山まゆみについて</a></li>
+      <li><a href={urls.reading}>読みもの</a></li>
+      <li><a href={urls.contact}>お問い合わせ</a></li>
+    </ul>
+
+    <hr />
+
+    <h2>Content Collections 動作確認</h2>
+    <p>
+      読みもの機能の土台として設定した Content Collections
+      から、サンプル記事を{sampleArticles.length}件読み込めました(サンプルのため
+      draft: true に設定しています)。
+    </p>
+    <ul>
+      {
+        sampleArticles.map((article) => (
+          <li>
+            {article.data.title}（draft: {String(article.data.draft)}）
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

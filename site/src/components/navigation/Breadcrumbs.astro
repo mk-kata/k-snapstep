@@ -1,0 +1,31 @@
+---
+// K-SNAPSTEP 共通パンくず(最小構成)
+//
+// 参照元: docs/KSNAPSTEP_WIREFRAME.md 6番
+// - トップページでは原則表示しない(呼び出し側で判断する。本コンポーネート自体は自己判定しない)
+// - 構造化データ(BreadcrumbList)は今回実装しない
+
+interface BreadcrumbItem {
+  label: string;
+  /** 現在ページの場合は省略する(リンクにしない) */
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="パンくず">
+  <ol class="breadcrumbs__list">
+    {
+      items.map((item) => (
+        <li class="breadcrumbs__item">
+          {item.href ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

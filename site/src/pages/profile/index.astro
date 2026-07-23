@@ -1,0 +1,25 @@
+---
+// プロフィール(ルート骨格のみ。確定9セクション本文の実装は次工程。docs/KSNAPSTEP_SITE_SPEC.md 14番)
+// プロフィール写真はまだ表示しない(使用有無は未確定)。
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+---
+
+<BaseLayout
+  title="片山まゆみについて（仮）"
+  description="K-SNAPSTEPの代表・片山まゆみのプロフィール仮ページです。本文は次工程で実装します。"
+  layoutType="page"
+>
+  <div class="container content-width">
+    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "片山まゆみについて" }]} />
+
+    <PageHeader
+      pageName="片山まゆみについて"
+      heading="片山まゆみについて（仮見出し）"
+      intro="経歴・現在の仕事・判断軸を紹介するページです。確定本文は次工程で実装します。プロフィール写真は今回まだ表示していません。"
+    />
+
+    <p>本文は次工程で実装する予定です（確定9セクション。docs/KSNAPSTEP_SITE_SPEC.md 14番)。</p>
+  </div>
+</BaseLayout>

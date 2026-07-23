@@ -1,0 +1,95 @@
+---
+// K-SNAPSTEP 共通レイアウト
+//
+// 役割: <!doctype html>・<html lang="ja">・<head>(title/description/canonical/OGP/Twitter Card/favicon)・
+// skip link・共通ヘッダー・<main id="main-content">・共通フッターを提供する。
+//
+// 今回まだ実装しないもの(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 25番「基盤」の一部):
+// - GTM(GTM-TXFRNQ3)の設置
+// - formrunの設置
+// - JSON-LDの実装(既存の「本来面目らぼ」名義JSON-LDは移植しない)
+//
+// OGP画像・本番URLは仮の値。正式ロゴ・ドメイン運用方針確定後に差し替える。
+
+import SiteHeader from "../components/global/SiteHeader.astro";
+import SiteFooter from "../components/global/SiteFooter.astro";
+import { site } from "../config/site";
+// src/styles/ 配下のCSSはViteのimportで読み込む(public/配下に置いて直接<link>する方式は取らない)。
+// これにより、Astroが自動でハッシュ付きファイル名を発行し、正しくdistへ出力・参照される。
+import "../styles/tokens.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  noindex?: boolean;
+  ogType?: string;
+  ogImage?: string;
+  bodyClass?: string;
+  /** ページの種類を表す任意のラベル(例: "page" | "home" | "article")。body要素にクラスとして付与する */
+  layoutType?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  noindex = false,
+  ogType = "website",
+  ogImage,
+  bodyClass = "",
+  layoutType = "page",
+} = Astro.props;
+
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site.url).toString();
+const pageTitle = title === site.name ? site.defaultTitle : `${title} ｜ ${site.name}`;
+const bodyClasses = [`layout-${layoutType}`, bodyClass].filter(Boolean).join(" ");
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- OGP(値は仮。KSNAPSTEP_DESIGN_GUIDE.md確定後に本番用へ差し替え) -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    {ogImage && <meta property="og:image" content={new URL(ogImage, site.url).toString()} />}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={new URL(ogImage, site.url).toString()} />}
+
+    <!-- favicon(仮参照。正式ロゴ確定後に差し替え) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- JSON-LDは今回未実装。固定ページ・記事実装時に新規作成する -->
+    <!-- GTMは今回未設置 -->
+  </head>
+  <body class={bodyClasses}>
+    <a class="skip-link" href="#main-content">本文へ移動</a>
+
+    <p class="build-notice">
+      この画面はAstro基盤の動作確認用の仮ページです。本番用の完成ページではありません。
+    </p>
+
+    <SiteHeader />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <SiteFooter />
+  </body>
+</html>

@@ -1,0 +1,26 @@
+---
+// お問い合わせ(ルート骨格のみ。formrunは今回まだ設置しない。docs/KSNAPSTEP_SITE_SPEC.md 15番)
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+---
+
+<BaseLayout
+  title="お問い合わせ（仮）"
+  description="K-SNAPSTEPへのお問い合わせ仮ページです。formrunはまだ設置していません。"
+  layoutType="page"
+>
+  <div class="container content-width">
+    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "お問い合わせ" }]} />
+
+    <PageHeader
+      pageName="お問い合わせ"
+      heading="まとまっていなくても、今の状況をお送りください。（仮見出し）"
+      intro="確定本文・フォーム項目は次工程で実装します。"
+    />
+
+    <p class="build-notice" style="text-align:left; padding:1em; border:1px dashed var(--color-border);">
+      ここに問い合わせフォーム（formrun）を設置予定です。今回はまだ設置していません。
+    </p>
+  </div>
+</BaseLayout>

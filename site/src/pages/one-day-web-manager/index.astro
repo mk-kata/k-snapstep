@@ -1,0 +1,30 @@
+---
+// 1日WEB担当者(ルート骨格のみ。確定12セクション本文の実装は次工程。docs/KSNAPSTEP_SITE_SPEC.md 11番)
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
+import { urls } from "../../config/site";
+---
+
+<BaseLayout
+  title="1日WEB担当者（仮）"
+  description="単発・1テーマ・1サイトで、今のWebの状況を整理する1日WEB担当者の仮ページです。本文は次工程で実装します。"
+  layoutType="page"
+>
+  <div class="container content-width">
+    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "1日WEB担当者" }]} />
+
+    <PageHeader
+      pageName="1日WEB担当者"
+      heading="1日WEB担当者（仮見出し）"
+      intro="単発で、ひとつのWeb課題について状況を整理します。確定本文は次工程で実装します。"
+      badges={["単発", "1テーマ・1サイト", "全国オンライン対応"]}
+      price={{ amount: "55,000円（税込）", unit: "/ 1回" }}
+      note="実施後フォローを含みます。詳細な料金内訳・含まれる内容は次工程で実装します。"
+      ctaLabel="今の状況を相談する（仮リンク）"
+      ctaHref={urls.contact}
+    />
+
+    <p>本文は次工程で実装する予定です（確定12セクション。docs/KSNAPSTEP_SITE_SPEC.md 11番)。</p>
+  </div>
+</BaseLayout>

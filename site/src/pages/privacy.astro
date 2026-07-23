@@ -1,0 +1,29 @@
+---
+// K-SNAPSTEP プライバシーポリシー(仮ページ)
+//
+// 初回公開では既存URL /privacy.html を維持する方針(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 18番)。
+// astro.config.mjs の build.format: "preserve" により、
+// このファイル名(privacy.astro → 出力時 privacy.html)がそのままURLになる。
+// 実際の条文(既存privacy.htmlの内容)はまだ移植していない。
+// 既存ルートの privacy.html(正式実装元)は変更していない。
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Breadcrumbs from "../components/navigation/Breadcrumbs.astro";
+---
+
+<BaseLayout
+  title="プライバシーポリシー（仮）"
+  description="Astro基盤で /privacy.html というURLのまま出力できるかを確認するための仮ページです。"
+  layoutType="page"
+>
+  <div class="container content-width">
+    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "プライバシーポリシー（仮）" }]} />
+
+    <h1>プライバシーポリシー（仮ページ）</h1>
+    <p>
+      このページは、共通レイアウト(ヘッダー・フッター含む)を使用しつつ、
+      <code>/privacy.html</code> というURLのまま出力できることを確認するための仮ページです。
+      実際の条文（既存<code>privacy.html</code>の内容)はまだ移植していません。
+    </p>
+    <p>既存の正式実装元にある<code>privacy.html</code>は、このAstro環境作成にあたって変更していません。</p>
+  </div>
+</BaseLayout>

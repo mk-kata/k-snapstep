@@ -1,0 +1,103 @@
+---
+// K-SNAPSTEP 共通ヘッダー
+//
+// 参照元: docs/KSNAPSTEP_SITE_SPEC.md 9番・docs/KSNAPSTEP_WIREFRAME.md 3・4番
+//
+// - ブランドは文字だけの仮ワードマーク(画像ロゴは未確定、docs/KSNAPSTEP_DESIGN_GUIDE.md 8番)
+// - 片山まゆみの個人名はヘッダーへ大きく表示しない
+// - 固定ヘッダーは今回採用しない(docs/KSNAPSTEP_WIREFRAME.md 3番、最終未確定)
+// - JavaScriptなしでも通常ナビ・お問い合わせへ到達できるよう、
+//   スマートフォンの折りたたみは「JSが実行できた場合にのみ」CSSで隠す設計にしている
+//   (下部の<script>参照。JS失敗時は常時展開表示のまま)。
+
+import { site, mainNav, contactCta } from "../../config/site";
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-header__inner container">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__name">{site.name}</span>
+      <span class="site-header__tagline">{site.tagline}</span>
+    </a>
+
+    <button
+      type="button"
+      class="site-header__menu-toggle"
+      data-menu-toggle
+      aria-expanded="false"
+      aria-controls="site-nav"
+    >
+      <span class="site-header__menu-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">メニューを開く</span>
+    </button>
+
+    <nav
+      class="site-nav"
+      id="site-nav"
+      data-site-nav
+      aria-label="グローバルナビゲーション"
+    >
+      <ul class="site-nav__list">
+        {
+          mainNav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn-primary site-nav__cta" href={contactCta.href}>
+        {contactCta.label}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // 最小限のJavaScriptによるスマートフォンナビの開閉。
+  // このスクリプトが失敗しても(try/catchの外側で例外が起きても)、
+  // js-nav-enabledクラスが付与されない限りCSS側でナビは常に表示されたままになる。
+  try {
+    const header = document.querySelector<HTMLElement>("[data-site-header]");
+    const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    const nav = header?.querySelector<HTMLElement>("[data-site-nav]");
+
+    if (header && toggle && nav) {
+      const closeMenu = () => {
+        nav.classList.remove("is-open");
+        toggle.setAttribute("aria-expanded", "false");
+      };
+
+      const openMenu = () => {
+        nav.classList.add("is-open");
+        toggle.setAttribute("aria-expanded", "true");
+        // メニュー表示時、最初のナビリンクへフォーカスを移す
+        const firstLink = nav.querySelector<HTMLAnchorElement>("a");
+        firstLink?.focus();
+      };
+
+      toggle.addEventListener("click", () => {
+        const isOpen = nav.classList.contains("is-open");
+        if (isOpen) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("is-open")) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+
+      // ここまで正常に配線できた場合のみ、CSSでの折りたたみ表示を有効化する。
+      document.documentElement.classList.add("js-nav-enabled");
+    }
+  } catch (error) {
+    // JavaScriptが失敗しても、js-nav-enabledクラスが付かないため
+    // ナビはCSS上は常時展開されたまま表示され、主要ページへの到達手段は失われない。
+    console.error("SiteHeader nav script failed:", error);
+  }
+</script>

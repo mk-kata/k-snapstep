@@ -1,0 +1,24 @@
+---
+// K-SNAPSTEP 404ページ(共通レイアウト使用。本文の本実装はdocs/KSNAPSTEP_WIREFRAME.md 19番参照、次工程)
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { urls } from "../config/site";
+---
+
+<BaseLayout
+  title="ページが見つかりません（仮）"
+  description="Astro基盤の404出力方法を確認するための仮ページです。"
+  noindex={true}
+  layoutType="error"
+>
+  <div class="container content-width">
+    <h1>404</h1>
+    <p>ページが見つかりませんでした。</p>
+    <p><a href="/">トップページへ</a></p>
+    <ul>
+      <li><a href={urls.oneDayWebManager}>1日WEB担当者</a></li>
+      <li><a href={urls.monthlySupport}>月額Web担当サポート</a></li>
+      <li><a href={urls.services}>対応できること</a></li>
+      <li><a href={urls.reading}>読みもの</a></li>
+    </ul>
+  </div>
+</BaseLayout>
