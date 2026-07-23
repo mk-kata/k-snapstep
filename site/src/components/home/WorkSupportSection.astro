@@ -1,0 +1,23 @@
+---
+// トップページ セクション7｜必要に応じて、実作業にも対応します
+//
+// 出典: docs/MARORIRI_SITE_SPEC.md 448〜462行目(15-1 セクション7、確定本文)。
+// MARORIRIというブランド名の言及はなく、変更せずそのまま使用している。
+//
+// 【訂正】前回実装は、docs/KSNAPSTEP_SITE_SPEC.md 6番の一文のみを抜粋し、
+// 前段(「基本は、状況の確認、判断、制作会社や担当者への指示整理です」)を欠いていた。
+// 今回、確定本文全体へ差し替えた。詳細は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 6・12番を参照。
+import { urls } from "../../config/site";
+---
+
+<section class="work-support">
+  <div class="container">
+    <h2 class="section-heading">必要に応じて、実作業にも対応します。</h2>
+    <p class="work-support__body">
+      基本は、状況の確認、判断、制作会社や担当者への指示整理です。実作業が必要な場合は、内容と予算を確認したうえで、個別にお見積もりします。CMSの修正、サーバーやドメインの設定、不具合対応など、内容により対応します。
+    </p>
+    <p class="topics__link">
+      <a href={urls.services}>対応できることを見る</a>
+    </p>
+  </div>
+</section>

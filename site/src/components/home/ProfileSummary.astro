@@ -1,0 +1,25 @@
+---
+// トップページ セクション8｜片山まゆみについて
+//
+// 出典: docs/MARORIRI_SITE_SPEC.md 465〜479行目(15-1 セクション8、確定本文)。
+// プロフィール詳細ページ(docs/KSNAPSTEP_SITE_SPEC.md 14番)とは異なる、
+// トップページ専用の要約文として元から書き分けられている(同474行目「補足要素」)。
+// プロフィール写真は今回使用しない(docs/KSNAPSTEP_SITE_SPEC.md 24番・WIREFRAME 25番のとおり未確定のため)。
+// MARORIRIというブランド名の言及はなく、変更せずそのまま使用している。
+//
+// 【訂正】前回実装は、経験年数等の具体的な事実が指定資料内で確認できないと判断し、
+// 氏名・役割のみの独自文としていた。今回、MARORIRI_SITE_SPEC.mdの確定本文
+// (「35年以上」「銀行、印刷会社を経て」等)を確認できたため、そのまま差し替えた。
+// 詳細は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 7・12番を参照。
+import { urls } from "../../config/site";
+---
+
+<section class="profile-summary">
+  <div class="container">
+    <h2 class="section-heading">片山まゆみについて。</h2>
+    <p class="profile-summary__body">
+      銀行、印刷会社を経て、Web制作の仕事に入りました。以来35年以上、制作する側と、発注する側の両方に関わってきました。制作経験を土台に、現在は状況の確認や判断、制作側への指示整理を中心にしています。
+    </p>
+    <a class="btn-ghost" href={urls.profile}>片山まゆみについて見る</a>
+  </div>
+</section>

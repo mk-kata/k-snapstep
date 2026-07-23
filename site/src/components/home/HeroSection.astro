@@ -1,0 +1,36 @@
+---
+// トップページ セクション1｜ファーストビュー
+//
+// 出典: docs/KSNAPSTEP_SITE_SPEC.md 10番セクション1(確定本文をそのまま使用)。
+// 見出し・本文・CTAとも確定文であり、要約・言い換えは行っていない。
+// 「MARORIRIは」→「K-SNAPSTEPは」の変更点(仕様書に明記済み)のみ反映。
+import { urls } from "../../config/site";
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__text">
+      <h1 class="hero__heading">Webの判断を、社内だけで抱えないために。</h1>
+      <p class="hero__body">
+        K-SNAPSTEPは、専任のWeb担当者がいない会社や事業者のための、外部Web担当者です。制作会社に何を頼めばよいか分からない、今のサイトをどうするか決められない。そんなとき、発注する側に立って状況を確認し、次に誰が何をするかを整理します。単発の「1日WEB担当者」と、継続して確認する「月額Web担当サポート」があります。
+      </p>
+      <div class="hero__cta">
+        <a class="btn-primary" href={urls.contact}>今の状況を相談する</a>
+        <a class="btn-ghost" href={urls.oneDayWebManager}>1日WEB担当者を見る</a>
+      </div>
+    </div>
+
+    <div class="hero__aside" aria-hidden="false">
+      <dl class="hero__aside-list">
+        <div>
+          <dt>単発</dt>
+          <dd>1日WEB担当者</dd>
+        </div>
+        <div>
+          <dt>継続</dt>
+          <dd>月額Web担当サポート</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</section>

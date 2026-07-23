@@ -1,56 +1,59 @@
 ---
-// K-SNAPSTEP トップページ(Astro構築確認用の仮ページ)
-// 本番用の完成ページではない。確定9セクション本文(docs/KSNAPSTEP_SITE_SPEC.md 10番)の実装は次の工程で行う。
+// K-SNAPSTEP トップページ
+//
+// 確定9セクション構成(docs/KSNAPSTEP_SITE_SPEC.md 10番・docs/KSNAPSTEP_WIREFRAME.md 9番)。
+// 旧セクション9「マロリリコーダー部」・旧「本来面目らぼ」・占い関連の内容は含めていない。
+// MARORIRIへの導線は、共通フッターの補助リンクのみ(トップページ本文には設置しない)。
+//
+// 各セクションの確定本文の出典・未確定箇所は、各コンポーネント冒頭のコメントを参照。
+// セクション2・5・6・7・8・9は、docs/KSNAPSTEP_HOME_COPY_AUDIT.mdの調査により
+// docs/MARORIRI_SITE_SPEC.md 15-1(旧トップページ確定本文)から採用している。
+// 全体の状況は docs/KSNAPSTEP_HOME_IMPLEMENTATION.md にまとめている。
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+import HeroSection from "../components/home/HeroSection.astro";
+import ConcernsSection from "../components/home/ConcernsSection.astro";
+import RoleSection from "../components/home/RoleSection.astro";
+import ServiceComparison from "../components/home/ServiceComparison.astro";
+import TopicsSection from "../components/home/TopicsSection.astro";
+import ExperienceSection from "../components/home/ExperienceSection.astro";
+import WorkSupportSection from "../components/home/WorkSupportSection.astro";
+import ProfileSummary from "../components/home/ProfileSummary.astro";
+import CtaBlock from "../components/common/CtaBlock.astro";
+import "../styles/home.css";
 import { site, urls } from "../config/site";
-
-const sampleArticles = await getCollection("articles");
 ---
 
 <BaseLayout
   title={site.name}
   description={site.defaultDescription}
   layoutType="home"
+  showBuildNotice={false}
 >
-  <div class="container content-width">
-    <p><strong>Astro構築確認用の仮ページです。</strong></p>
+  <HeroSection />
+  <ConcernsSection />
+  <RoleSection />
+  <ServiceComparison />
+  <TopicsSection />
+  <ExperienceSection />
+  <WorkSupportSection />
+  <ProfileSummary />
 
-    <h1>{site.name}</h1>
-    <p>小さな会社や事業者の外部Web担当者</p>
-
-    <p>
-      共通レイアウト・共通ヘッダー・共通フッター・基本ナビゲーションが正しく動作するかを
-      確認するための、新サイト構築中の確認ページです。確定した9セクションの本文は、
-      次の工程で実装します。
-    </p>
-
-    <h2>主要ページへの仮リンク</h2>
-    <ul>
-      <li><a href={urls.oneDayWebManager}>1日WEB担当者</a></li>
-      <li><a href={urls.monthlySupport}>月額Web担当サポート</a></li>
-      <li><a href={urls.services}>対応できること</a></li>
-      <li><a href={urls.profile}>片山まゆみについて</a></li>
-      <li><a href={urls.reading}>読みもの</a></li>
-      <li><a href={urls.contact}>お問い合わせ</a></li>
-    </ul>
-
-    <hr />
-
-    <h2>Content Collections 動作確認</h2>
-    <p>
-      読みもの機能の土台として設定した Content Collections
-      から、サンプル記事を{sampleArticles.length}件読み込めました(サンプルのため
-      draft: true に設定しています)。
-    </p>
-    <ul>
-      {
-        sampleArticles.map((article) => (
-          <li>
-            {article.data.title}（draft: {String(article.data.draft)}）
-          </li>
-        ))
-      }
-    </ul>
+  <div class="container">
+    <!--
+      セクション9｜お問い合わせ(旧セクション10)
+      出典: docs/MARORIRI_SITE_SPEC.md 499〜513行目(15-1 セクション10、確定本文)。
+      docs/KSNAPSTEP_HOME_COPY_AUDIT.mdの調査範囲(セクション2・5・6・7・8)外だが、
+      同一資料を確認する過程で本セクションの確定本文も発見したため、あわせて差し替えた
+      (docs/KSNAPSTEP_HOME_COPY_AUDIT.md 8・13番参照)。MARORIRIの言及なし。
+      見出し・CTAは docs/KSNAPSTEP_WIREFRAME.md 9番セクション9とも一致。
+    -->
+    <CtaBlock
+      heading="何を頼めばよいか分からない段階でも、ご相談ください。"
+      body="まだ依頼する内容が決まっていなくても構いません。今困っていることをお送りください。内容を確認したうえで、1日WEB担当者と月額サポート、どちらが合うかも含めてご案内します。基本はオンラインでの相談です。内容や地域によっては、訪問での対応も可能です。"
+      buttonLabel="今の状況を相談する"
+      url={urls.contact}
+      variant="primary"
+      headingLevel="h2"
+    />
   </div>
 </BaseLayout>

@@ -28,6 +28,12 @@ interface Props {
   bodyClass?: string;
   /** ページの種類を表す任意のラベル(例: "page" | "home" | "article")。body要素にクラスとして付与する */
   layoutType?: string;
+  /**
+   * 「Astro基盤の動作確認用の仮ページです」という表示の有無。
+   * トップページは確定9セクションを実装済みのため false にする
+   * (docs/KSNAPSTEP_HOME_IMPLEMENTATION.md 参照)。下層ページはまだ仮本文のため既定でtrueのまま。
+   */
+  showBuildNotice?: boolean;
 }
 
 const {
@@ -39,6 +45,7 @@ const {
   ogImage,
   bodyClass = "",
   layoutType = "page",
+  showBuildNotice = true,
 } = Astro.props;
 
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site.url).toString();
@@ -80,9 +87,13 @@ const bodyClasses = [`layout-${layoutType}`, bodyClass].filter(Boolean).join(" "
   <body class={bodyClasses}>
     <a class="skip-link" href="#main-content">本文へ移動</a>
 
-    <p class="build-notice">
-      この画面はAstro基盤の動作確認用の仮ページです。本番用の完成ページではありません。
-    </p>
+    {
+      showBuildNotice && (
+        <p class="build-notice">
+          この画面はAstro基盤の動作確認用の仮ページです。本番用の完成ページではありません。
+        </p>
+      )
+    }
 
     <SiteHeader />
 

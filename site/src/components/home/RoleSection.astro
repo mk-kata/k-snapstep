@@ -1,0 +1,23 @@
+---
+// トップページ セクション3｜K-SNAPSTEPが行うこと
+//
+// 出典: docs/KSNAPSTEP_SITE_SPEC.md 10番セクション3(見出し・導入文は確定本文)。
+// 6つの短いラベルは docs/KSNAPSTEP_WIREFRAME.md 9番セクション3の
+// 「番号なし2×3グリッド」の確定ラベルをそのまま使用(一本道の工程に見せない構成)。
+const labels = ["現状確認", "問題を分ける", "情報確認", "今/今しない", "担当整理", "次を決める"];
+---
+
+<section class="role">
+  <div class="container">
+    <h2 class="section-heading">状況を確認し、次にすることを整理します。</h2>
+    <p class="role__intro">K-SNAPSTEPが行うのは、次の整理です。</p>
+
+    <ul class="role__grid">
+      {
+        labels.map((label) => (
+          <li class="role__label">{label}</li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

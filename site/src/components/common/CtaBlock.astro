@@ -14,6 +14,12 @@ interface Props {
   variant?: "primary" | "quiet" | "reading";
   secondaryLinkLabel?: string;
   secondaryLinkUrl?: string;
+  /**
+   * 見出しのタグ名。ページ内の独立したセクション見出しとして使う場合は"h2"を指定する
+   * (docs/KSNAPSTEP_HOME_IMPLEMENTATION.md セクション9で使用)。
+   * 既定は"p"(他の要素内の一部として使う場合、見出し階層に影響を与えない)。
+   */
+  headingLevel?: "h2" | "h3" | "p";
 }
 
 const {
@@ -25,12 +31,15 @@ const {
   variant = "primary",
   secondaryLinkLabel,
   secondaryLinkUrl,
+  headingLevel = "p",
 } = Astro.props;
+
+const HeadingTag = headingLevel;
 ---
 
 <div class={`cta-block cta-block--${variant}`}>
   {label && <p class="cta-block__label">{label}</p>}
-  <p class="cta-block__heading">{heading}</p>
+  <HeadingTag class="cta-block__heading">{heading}</HeadingTag>
   {body && <p class="cta-block__body">{body}</p>}
   <a class={variant === "quiet" ? "btn-ghost" : "btn-primary"} href={url}>
     {buttonLabel}

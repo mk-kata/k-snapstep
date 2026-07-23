@@ -1,0 +1,30 @@
+---
+// トップページ セクション2｜このような状態になっていませんか
+//
+// 出典: docs/MARORIRI_SITE_SPEC.md 333〜352行目(15-1 セクション2、確定本文)。
+// docs/KSNAPSTEP_SITE_SPEC.md 10番は「既存本文(6項目)をそのまま維持」と参照するのみで
+// 本文自体は記載していなかったため、参照元である旧MARORIRI_SITE_SPEC.mdを確認して採用した。
+// MARORIRIというブランド名の言及はなく、変更せずそのまま使用している。
+// 詳細な出典・分類は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 3番を参照。
+const items = [
+  "制作会社に何を頼めばよいか、提案や見積もりが妥当かどうか、判断できない",
+  "サイトを直したいが、どこから手をつけるか決められない",
+  "古いCMSやECサイトを、このまま使うか移行するか迷っている",
+  "サーバー、ドメイン、メールの管理状況が分からない",
+  "修正を依頼したが、意図どおりになっているか確認できない",
+  "経営者や担当者が、Webの判断まで一人で抱えている",
+];
+---
+
+<section class="concerns">
+  <div class="container">
+    <h2 class="section-heading">このような状態になっていませんか。</h2>
+    <ul class="concerns__list">
+      {
+        items.map((item) => (
+          <li class="concerns__item">{item}</li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+---
+// トップページ セクション5｜このようなテーマを扱います(相談テーマ例)
+//
+// 出典: docs/MARORIRI_SITE_SPEC.md 407〜426行目(15-1 セクション5、確定本文)。
+// CTA文言・リンク先も同424行目の確定内容(「1日WEB担当者で相談できることを見る」)をそのまま使用。
+// MARORIRIというブランド名の言及はなく、変更せずそのまま使用している。
+// 詳細な出典・分類は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 4番を参照。
+import { urls } from "../../config/site";
+
+const topics = [
+  "サイトの問題点と、改修する順番",
+  "制作会社の選定、相見積もりや提案内容の比較",
+  "WordPressやMovable Typeを残すか、改修・移行するか",
+  "ECサイトや複数の販売環境の整理",
+  "サーバー、ドメイン、メールの管理状況確認",
+  "SEOやアクセス解析をもとにした改善箇所の整理",
+];
+---
+
+<section class="topics">
+  <div class="container">
+    <h2 class="section-heading">このようなテーマを扱います。</h2>
+
+    <ul class="topics__grid">
+      {
+        topics.map((topic) => (
+          <li class="topics__item">{topic}</li>
+        ))
+      }
+    </ul>
+
+    <p class="topics__link">
+      <a href={urls.oneDayWebManager}>1日WEB担当者で相談できることを見る</a>
+    </p>
+  </div>
+</section>

@@ -1,0 +1,265 @@
+/*
+ * K-SNAPSTEP トップページ専用CSS(暫定)
+ *
+ * 参照元: docs/KSNAPSTEP_DESIGN_GUIDE.md(方向案B「外部Web担当者の実務ノート」)
+ * 【重要】ここに定義する数値・余白・配色もすべて暫定値であり、最終デザインではない。
+ * 装飾カード・影・大きな角丸を多用しない、赤いボタンを繰り返さない、という方針に沿う。
+ * ファーストビューは画面いっぱいの高さに固定していない。
+ */
+
+section {
+  padding-block: var(--space-l);
+  border-bottom: 1px solid var(--color-border);
+}
+
+section:nth-child(even) {
+  background: var(--color-bg-alt);
+}
+
+.section-heading {
+  font-size: 1.375rem;
+  margin: 0 0 var(--space-s);
+}
+
+/* ============ セクション1: ファーストビュー ============ */
+
+.hero {
+  padding-block: var(--space-l);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--space-l);
+  align-items: start;
+}
+
+.hero__heading {
+  font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem);
+  margin: 0 0 var(--space-s);
+  line-height: 1.4;
+}
+
+.hero__body {
+  margin: 0 0 var(--space-m);
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+
+.hero__aside {
+  border: 1px solid var(--color-border);
+  padding: var(--space-m);
+}
+
+.hero__aside-list {
+  margin: 0;
+  display: grid;
+  gap: var(--space-s);
+}
+
+.hero__aside-list > div {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-s);
+}
+
+.hero__aside-list > div:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.hero__aside-list dt {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.hero__aside-list dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__aside {
+    order: 2;
+  }
+}
+
+/* ============ セクション2: 困りごと(チェックリスト) ============ */
+
+.concerns__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.concerns__item {
+  padding: 0.75em 0.5em 0.75em 1.75em;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+.concerns__item::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+}
+
+@media (max-width: 760px) {
+  .concerns__list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============ セクション3: K-SNAPSTEPが行うこと ============ */
+
+.role__intro {
+  margin: 0 0 var(--space-m);
+}
+
+.role__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+}
+
+.role__label {
+  padding: var(--space-s);
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .role__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============ セクション4: サービス比較 ============ */
+
+.service-comparison__note {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-m);
+}
+
+.service-comparison__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-m);
+}
+
+.service-comparison__card {
+  border: 1px solid var(--color-border);
+  padding: var(--space-m);
+}
+
+.service-comparison__label {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.service-comparison__title {
+  margin: 0.25em 0 var(--space-s);
+}
+
+.service-comparison__price {
+  margin: 0 0 var(--space-s);
+}
+
+.service-comparison__price-amount {
+  font-size: 1.375rem;
+  font-weight: 700;
+}
+
+.service-comparison__price-unit {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin-inline-start: 0.25em;
+}
+
+.service-comparison__facts {
+  margin: 0 0 var(--space-m);
+  padding-left: 1.1em;
+}
+
+.service-comparison__facts li {
+  margin-bottom: 0.35em;
+}
+
+@media (max-width: 760px) {
+  .service-comparison__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============ セクション5: 相談テーマ例 ============ */
+
+.topics__grid {
+  list-style: none;
+  margin: 0 0 var(--space-m);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.topics__item {
+  padding: 0.6em 0.75em;
+  border-top: 1px solid var(--color-border);
+}
+
+.topics__link a {
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 760px) {
+  .topics__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============ セクション6: Webサイトだけでなく、その周辺まで確認します ============ */
+
+.experience__body {
+  max-width: var(--content-width);
+  margin: 0 0 var(--space-s);
+}
+
+.experience__examples {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-m);
+}
+
+/* ============ セクション7: 必要な実作業について ============ */
+
+.work-support__body {
+  max-width: var(--content-width);
+  margin: 0 0 var(--space-m);
+}
+
+/* ============ セクション8: プロフィール概要 ============ */
+
+.profile-summary__body {
+  max-width: var(--content-width);
+  margin: 0 0 var(--space-m);
+}

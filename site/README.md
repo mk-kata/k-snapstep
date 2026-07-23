@@ -4,7 +4,7 @@
 
 **リポジトリルートにある既存の静的サイト(`index.html`・`labo/index.html`・`privacy.html`・`css/`・`js/`・`images/`・`sitemap.xml`等)は、現在の本番サイトの参照用としてそのまま残しています。** このAstro環境の作成にあたって、既存ルートファイルは一切変更・移動・削除していません。公開方法(自動デプロイか手動アップロードか)が未確認のため、当面はルートの既存ファイルを直接編集しません。
 
-現時点では、共通レイアウト・共通ヘッダー・共通フッター・基本ナビゲーション・固定ページのルート骨格・CSSトークンが実装されています。**確定本文の全面実装、GTM、formrun、JSON-LD、リダイレクト、本番公開はまだ行っていません。**次工程で、まずトップページの確定9セクション本文を実装する予定です。
+現時点では、共通レイアウト・共通ヘッダー・共通フッター・基本ナビゲーション・固定ページのルート骨格・CSSトークンに加え、**トップページの確定9セクションを実装済み**です。下層ページ(1日WEB担当者・月額Web担当サポート・対応できること・プロフィール・お問い合わせ・読みもの・プライバシーポリシー)は、引き続き仮本文のままです。**GTM、formrun、JSON-LD、リダイレクト、本番公開はまだ行っていません。**次工程は、まず1日WEB担当者ページの確定本文実装です。
 
 ---
 
@@ -107,7 +107,22 @@ CSSはすべて`src/styles/tokens.css`に追加した(header/nav/footer/breadcru
 | `/privacy.html` | `src/pages/privacy.astro` |
 | `dist/404.html` | `src/pages/404.astro` |
 
-いずれも確定本文は未実装(「本文は次工程で実装する」の仮表示のみ)。`/reading/`では、`draft: true`の記事は「公開中の記事」一覧には含めず、「開発確認用の下書き記事」という見出しで別枠表示する方針を実装済み。
+`/`(トップページ)以外は確定本文が未実装(「本文は次工程で実装する」の仮表示のみ)。`/reading/`では、`draft: true`の記事は「公開中の記事」一覧には含めず、「開発確認用の下書き記事」という見出しで別枠表示する方針を実装済み。
+
+---
+
+## トップページ(確定9セクション実装済み)
+
+`src/pages/index.astro`に、`docs/KSNAPSTEP_SITE_SPEC.md`10番・`docs/KSNAPSTEP_WIREFRAME.md`9番の確定9セクション(ファーストビュー/困りごと/K-SNAPSTEPが行うこと/1日WEB担当者と月額Web担当サポート/相談テーマ例/幅広く確認できる理由/必要な実作業について/片山まゆみプロフィール/お問い合わせ)を実装した。詳細は`docs/KSNAPSTEP_HOME_IMPLEMENTATION.md`を参照。
+
+- **本文の正本**: `KSNAPSTEP_SITE_SPEC.md` > `KSNAPSTEP_WIREFRAME.md` > `KSNAPSTEP_DESIGN_GUIDE.md` > `MARORIRI_SITE_SPEC.md`(ブランド再構成前の確定本文)の優先順で使用した。確定本文がある箇所は要約・言い換えせずそのまま使用している
+- **2026年7月23日 本文監査により更新**: `docs/KSNAPSTEP_HOME_COPY_AUDIT.md`の調査により、セクション2(困りごと)・5(相談テーマ例)・6(幅広く確認できる理由)・7(必要な実作業)・8(プロフィール概要)、および参考発見のセクション9(お問い合わせ)の確定本文が`docs/MARORIRI_SITE_SPEC.md`15-1(旧トップページ本文)にそのまま存在することが判明し、暫定文から差し替えた。いずれもMARORIRIというブランド名の言及がなく、変更なしで使用できた。**特にセクション6は、前回実装で資料整理用の項目ラベル(「幅広い範囲を確認できる理由」)を誤って表示見出しとして使用していたバグがあり、実際の確定見出し(「Webサイトだけでなく、その周辺まで確認します。」)へ訂正した**
+- 旧「本来面目らぼ」・「頭の中をほどく」・占い(`unki_guide`・`uranai_blender`)・マロリリコーダー部・コーディングチェック等は一切含めていない(ビルド後のHTMLで不在を確認済み)
+- MARORIRIへの言及はトップページ本文にはなく、共通フッターの補助リンクのみ
+- プロフィール写真・新ロゴ・図版はいずれも未使用/未作成
+- トップページ専用コンポーネント: `src/components/home/`配下(HeroSection・ConcernsSection・RoleSection・ServiceComparison・TopicsSection・ExperienceSection・WorkSupportSection・ProfileSummary)。セクション9(お問い合わせ)は新規コンポーネントを作らず、既存の`CtaBlock`を`headingLevel="h2"`で再利用した(見出し階層をh2で統一するため、`CtaBlock`に`headingLevel`propを追加した)
+- 専用CSSは`src/styles/home.css`(トップページからのみ`import`。既存の`tokens.css`は変更せず、その上に追加する形)
+- トップページのみ、共通レイアウトの`showBuildNotice={false}`により「Astro基盤の動作確認用の仮ページです」という表示を非表示にした(下層ページは引き続き表示)
 
 ---
 

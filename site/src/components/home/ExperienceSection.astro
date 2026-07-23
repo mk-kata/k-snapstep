@@ -1,0 +1,42 @@
+---
+// トップページ セクション6｜幅広い範囲を確認できる理由
+//
+// 出典: docs/MARORIRI_SITE_SPEC.md 429〜445行目(15-1 セクション6、確定本文)。
+// 見出しは docs/MARORIRI_WIREFRAME.md 283行目でも同一表現を確認済み。
+// MARORIRIというブランド名の言及はなく、変更せずそのまま使用している。
+//
+// 【訂正】前回実装では、docs/KSNAPSTEP_SITE_SPEC.md・docs/KSNAPSTEP_WIREFRAME.mdが
+// 資料整理用に付けた項目ラベル「幅広い範囲を確認できる理由」を誤って表示見出しとして使用し、
+// 本文もプロフィールページ用の経歴チェーンを転用していた。今回、実際の確定見出し・本文へ
+// 全面的に差し替えた。詳細は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 5・6・12番を参照。
+import { urls } from "../../config/site";
+
+const examples = [
+  "WordPress",
+  "Movable Type",
+  "楽天市場やMakeShopなどのEC環境",
+  "サーバー・ドメイン・DNS",
+  "GA4・Search Console",
+];
+---
+
+<section class="experience">
+  <div class="container">
+    <h2 class="section-heading">Webサイトだけでなく、その周辺まで確認します。</h2>
+
+    <p class="experience__body">
+      Web制作には35年以上関わってきました。制作だけでなく、発注、指示、進行、確認にも携わり、CMS、EC、サーバー、SEO、アクセス解析まで、Webに関わる領域を横断して経験してきました。
+    </p>
+    <p class="experience__body">
+      一つのツールの知識だけで判断するのではなく、今の環境と運用方法を確認したうえで、必要であれば専門家や制作会社へ何を依頼すればよいかも整理します。
+    </p>
+
+    <p class="experience__examples">
+      代表例：{examples.join("／")}
+    </p>
+
+    <p class="topics__link">
+      <a href={urls.services}>対応できることを見る</a>
+    </p>
+  </div>
+</section>
