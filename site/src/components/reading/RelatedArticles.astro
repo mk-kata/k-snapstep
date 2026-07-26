@@ -1,0 +1,53 @@
+---
+// 記事詳細 専用｜関連記事
+//
+// 参照元: docs/MARORIRI_CONTENT_WIREFRAME.md 6・10番(関連記事は「あれば表示、なければ非表示」)。
+
+interface RelatedItem {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  items: RelatedItem[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="related-articles" aria-label="関連記事">
+      <h2 class="related-articles__heading">関連記事</h2>
+      <ul class="related-articles__list">
+        {items.map((item) => (
+          <li>
+            <a href={item.href}>{item.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .related-articles {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-articles__heading {
+    font-size: 1.125rem;
+    margin: 0 0 0.75em;
+  }
+
+  .related-articles__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related-articles__list li {
+    margin-bottom: 0.5em;
+  }
+</style>

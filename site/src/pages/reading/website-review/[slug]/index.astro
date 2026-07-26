@@ -1,0 +1,173 @@
+---
+// 記事詳細(小さな会社のホームページ見直しノート)
+//
+// 参照元: docs/KSNAPSTEP_SITE_SPEC.md 17番・docs/MARORIRI_CONTENT_WIREFRAME.md 6・8・9番。
+// 構成: パンくず→シリーズ名→記事タイトル→公開日(・更新日)→導入文→条件付き目次→
+// 本文→関連記事→シリーズ一覧へ戻る→(関係する場合のみ)サービス導線。
+// 全記事に同じ大型CTAを表示しない(serviceLinkが設定されている記事のみ表示)。
+// draft: true の記事は静的パスを生成しないため、一般には到達できない。
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../../components/navigation/Breadcrumbs.astro";
+import TableOfContents from "../../../../components/common/TableOfContents.astro";
+import RelatedArticles from "../../../../components/reading/RelatedArticles.astro";
+import { urls } from "../../../../config/site";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles", ({ data }) => !data.draft && data.series === "website-review");
+  return articles.map((article) => ({
+    params: { slug: article.data.slug ?? article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { Content, headings } = await render(article);
+
+const allArticles = await getCollection("articles", ({ data }) => !data.draft && data.series === "website-review");
+const relatedEntries = article.data.relatedArticles
+  .map((relatedId) => allArticles.find((a) => (a.data.slug ?? a.id) === relatedId))
+  .filter((entry): entry is (typeof allArticles)[number] => Boolean(entry));
+
+const tocItems = headings
+  .filter((heading) => heading.depth === 2)
+  .map((heading) => ({ href: `#${heading.slug}`, label: heading.text }));
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric" });
+---
+
+<BaseLayout
+  title={article.data.title}
+  description={article.data.description}
+  layoutType="article"
+  showBuildNotice={false}
+>
+  <div class="container content-width">
+    <Breadcrumbs
+      items={[
+        { label: "トップ", href: "/" },
+        { label: "読みもの", href: urls.reading },
+        { label: "小さな会社のホームページ見直しノート", href: `${urls.reading}website-review/` },
+        { label: article.data.title },
+      ]}
+    />
+
+    <article>
+      <header class="article-header">
+        <p class="article-header__series">小さな会社のホームページ見直しノート</p>
+        <h1>{article.data.title}</h1>
+        <p class="article-header__meta">
+          <time datetime={article.data.publishedDate.toISOString().slice(0, 10)}>
+            公開日：{formatDate(article.data.publishedDate)}
+          </time>
+          {
+            article.data.updatedDate && (
+              <time datetime={article.data.updatedDate.toISOString().slice(0, 10)}>
+                （更新日：{formatDate(article.data.updatedDate)}）
+              </time>
+            )
+          }
+        </p>
+        <p class="article-header__intro">{article.data.introduction ?? article.data.description}</p>
+      </header>
+
+      <TableOfContents items={tocItems} />
+
+      <div class="article-body">
+        <Content />
+      </div>
+
+      {
+        article.data.serviceLink && article.data.serviceLinkText && (
+          <p class="article-service-link">
+            この内容に関連するページ： <a href={article.data.serviceLink}>{article.data.serviceLinkText}</a>
+          </p>
+        )
+      }
+
+      <RelatedArticles
+        items={relatedEntries.map((entry) => ({
+          href: `${urls.reading}website-review/${entry.data.slug ?? entry.id}/`,
+          title: entry.data.title,
+        }))}
+      />
+
+      <p class="back-link"><a href={`${urls.reading}website-review/`}>← シリーズ一覧へ戻る</a></p>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .article-header {
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-m);
+  }
+
+  .article-header__series {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin: 0 0 0.5em;
+  }
+
+  .article-header__meta {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .article-header__intro {
+    max-width: var(--content-width);
+  }
+
+  .article-body {
+    max-width: var(--content-width);
+    line-height: 1.9;
+  }
+
+  .article-body :global(h2) {
+    margin-top: var(--space-l);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .article-body :global(h3) {
+    margin-top: var(--space-m);
+  }
+
+  .article-body :global(p) {
+    margin-bottom: 1.25em;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    margin-bottom: 1.25em;
+    padding-left: 1.5em;
+  }
+
+  .article-body :global(li) {
+    margin-bottom: 0.4em;
+  }
+
+  .article-body :global(blockquote) {
+    border-left: 3px solid var(--color-accent);
+    margin: var(--space-m) 0;
+    padding: 0.25em 0 0.25em 1em;
+    color: var(--color-text-muted);
+  }
+
+  .article-body :global(img) {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .article-service-link {
+    background: var(--color-bg-alt);
+    padding: var(--space-s);
+    max-width: var(--content-width);
+  }
+
+  .back-link {
+    padding-top: var(--space-m);
+  }
+</style>

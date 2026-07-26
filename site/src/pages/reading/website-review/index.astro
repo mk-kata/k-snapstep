@@ -1,0 +1,95 @@
+---
+// 小さな会社のホームページ見直しノート一覧
+//
+// 参照元: docs/KSNAPSTEP_SITE_SPEC.md 17番・docs/KSNAPSTEP_WIREFRAME.md 16番・
+// docs/MARORIRI_CONTENT_WIREFRAME.md 5番。
+// 記事数が少ない段階は時系列一覧とし、増えた段階で分類を追加できる設計とする(同5番)。
+// 見出し・導入文は確定資料に本文が見当たらなかったため、今回新規作成した(新規本文案)。
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumbs from "../../../components/navigation/Breadcrumbs.astro";
+import ArticleCard from "../../../components/reading/ArticleCard.astro";
+import { getCollection } from "astro:content";
+import { urls } from "../../../config/site";
+
+const articles = (await getCollection("articles", ({ data }) => !data.draft && data.series === "website-review")).sort(
+  (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
+);
+---
+
+<BaseLayout
+  title="小さな会社のホームページ見直しノート"
+  description="小さな会社や事業者が、自社のホームページや制作会社とのやり取りを見直すための読みものです。技術者向けのコード解説ブログではありません。"
+  layoutType="page"
+  showBuildNotice={false}
+>
+  <div class="container content-width">
+    <Breadcrumbs
+      items={[
+        { label: "トップ", href: "/" },
+        { label: "読みもの", href: urls.reading },
+        { label: "小さな会社のホームページ見直しノート" },
+      ]}
+    />
+
+    <header class="page-header">
+      <p class="page-header__eyebrow">読みもの</p>
+      <h1 class="page-header__heading">小さな会社のホームページ見直しノート</h1>
+      <p class="page-header__intro">
+        専任のWeb担当者がいない小さな会社や事業者が、自社のホームページや制作体制を判断するための読みものです。コードの書き方を教える技術ブログではなく、状況の確認・判断の仕方を扱います。記事は公開日順に並んでいます。
+      </p>
+      <a href={urls.reading}>← 読みもの一覧へ戻る</a>
+    </header>
+
+    <section class="article-list">
+      <h2 class="article-list__heading">記事一覧</h2>
+      {
+        articles.length === 0 ? (
+          <p>現在、公開中の記事はありません。</p>
+        ) : (
+          articles.map((article) => (
+            <ArticleCard
+              href={`${urls.reading}website-review/${article.data.slug ?? article.id}/`}
+              title={article.data.title}
+              description={article.data.description}
+              publishedDate={article.data.publishedDate}
+            />
+          ))
+        )
+      }
+    </section>
+
+    <p class="quiet-links">
+      関連するサービス： <a href={urls.oneDayWebManager}>1日WEB担当者</a> ／
+      <a href={urls.monthlySupport}>月額Web担当サポート</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-m);
+  }
+
+  .page-header__eyebrow {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin: 0 0 0.5em;
+  }
+
+  .page-header__heading {
+    margin: 0 0 0.5em;
+  }
+
+  .article-list__heading {
+    font-size: 1.125rem;
+  }
+
+  .quiet-links {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+</style>

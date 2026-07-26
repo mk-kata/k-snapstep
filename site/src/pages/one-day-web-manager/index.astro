@@ -1,30 +1,400 @@
 ---
-// 1日WEB担当者(ルート骨格のみ。確定12セクション本文の実装は次工程。docs/KSNAPSTEP_SITE_SPEC.md 11番)
+// 1日WEB担当者
+//
+// 出典: docs/KSNAPSTEP_SITE_SPEC.md 11番のとおり、docs/MARORIRI_SITE_SPEC.md 15-2
+// (518〜813行目、全12セクション)を確認した結果、本文中に「MARORIRI」という
+// 事業全体のブランド名を主語にした記述はなく、コーダー向けサービスへの導線も存在しないため、
+// 全12セクションを無変更で使用している(要約・言い換えは行っていない)。既存確定本文。
+//
+// 目次は主要セクションのみに絞った(docs/KSNAPSTEP_WIREFRAME.md 8番)。
+// FAQはネイティブ<details>によるアコーディオン(FaqAccordion)。JavaScriptは使用していない。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
+import TableOfContents from "../../components/common/TableOfContents.astro";
+import StepList from "../../components/common/StepList.astro";
+import PriceTable from "../../components/common/PriceTable.astro";
+import FaqAccordion from "../../components/common/FaqAccordion.astro";
+import CtaBlock from "../../components/common/CtaBlock.astro";
 import { urls } from "../../config/site";
+
+const tocItems = [
+  { href: "#about", label: "1日WEB担当者とは" },
+  { href: "#situations", label: "こんな状況で、ご相談いただけます" },
+  { href: "#examples", label: "3つのパターンで見る当日の流れ" },
+  { href: "#flow", label: "お問い合わせから実施後までの流れ" },
+  { href: "#included", label: "含まれること・含まれないこと" },
+  { href: "#pricing", label: "料金と実施の概要" },
+  { href: "#faq", label: "よくあるご質問" },
+];
+
+const themeExamples = [
+  "今のサイトを直すか、作り直すか",
+  "制作会社とのやり取りをどう進めるか",
+  "制作途中で止まっている案件をどう動かすか",
+  "AIで作ったサイトを、このまま公開してよいか",
+  "Web施策の優先順位をどう決めるか",
+];
+
+const patterns = [
+  {
+    title: "パターン1｜制作会社とのやり取りが止まっている中小企業",
+    before: "制作会社から見積もりや提案が来ているが、社内で判断できず、返事ができないまま時間が経っている。",
+    materials: "制作会社からの見積書・提案書、現在のサイト、社内で出ている意見",
+    onTheDay: "提案の背景、社内の目的、予算感、決裁の流れ",
+    viewpoint: "提案の金額だけでなく、その提案によって何を実現したいのかが、社内で共有されているかを確認します。",
+    decide: "確認すべき点、制作会社に伝え返す内容、社内の担当者",
+    output: "制作会社への回答書、または修正指示書(相談内容に応じてどちらか一つ)",
+    after: "回答書をもとに、制作会社とのやり取りを再開する",
+  },
+  {
+    title: "パターン2｜ホームページを直すか、作り直すか迷っている個人事業主",
+    before: "一人で判断しており、直すべきか作り直すべきか、決め手がないまま時間が経っている。",
+    materials: "現在のサイト、アクセス解析(あれば)、パンフレットやサービス資料",
+    onTheDay: "サイトで本来伝えたいこと、誰に見てもらいたいか、予算と時期",
+    viewpoint: "見た目の古さだけでなく、誰に何を伝えるサイトなのかが明確になっているかを確認します。",
+    decide: "直す部分と作り直す部分の切り分け、優先順位",
+    output: "トップページ構成案、または優先修正項目の一覧",
+    after: "制作会社へ依頼する内容を整理する、または自分で直す順番を確認する",
+  },
+  {
+    title: "パターン3｜AIで作ったサイトを公開してよいか不安な事業者",
+    before: "AIやノーコードでサイトができたが、このまま公開していいのか判断がつかない。",
+    materials: "現在のサイトのURL、AIへ出した指示(あれば)",
+    onTheDay: "公開の目的、想定する見る人、公開までの希望時期",
+    viewpoint: "文章や構成が事業の実態と合っているか、見る人に必要な情報が入っているかを確認します。",
+    decide: "公開前に直す点、公開後でよい点",
+    output: "公開前チェックリスト、またはAIへの修正指示",
+    after: "チェックリストに沿って自分で修正するか、専門家に依頼する部分を切り分ける",
+  },
+];
+
+const flowSteps = [
+  {
+    title: "お問い合わせ",
+    body: "お名前、会社名または屋号、サイトURL、現在困っていること、連絡先をお送りください。この時点で、資料のご準備は必要ありません。",
+  },
+  {
+    title: "内容確認・ご案内",
+    body: "内容を確認し、進め方をご案内します。実施することになった場合は、テーマをひとつに決め、日程を調整します。",
+  },
+  {
+    title: "事前確認(90分程度まで)",
+    body: "事前ヒアリングにご回答いただき、今回のテーマに関係する資料をご提出いただきます。お送りいただいた回答と資料を、90分程度までの範囲で事前に確認します。",
+  },
+  {
+    title: "当日(約4時間・オンライン)",
+    body: "現状確認 → サイトや資料の確認 → 問題の切り分け → 優先順位の決定 → 誰が何をするかの決定 → 成果物にまとめる内容の確認",
+  },
+  {
+    title: "WEB担当者メモ・成果物のご提出(実施後3営業日以内)",
+    body: "当日確認した内容をもとに作成し、お渡しします。",
+  },
+  {
+    title: "フォロー(実施後14日以内・オンライン30分・1回)",
+    body: "当日に決めた内容で実際に動けたか、WEB担当者メモや成果物に不明点がないかを確認します。新しいテーマの相談や、追加の資料作成は含まれません。",
+  },
+];
+
+const included = [
+  "相談テーマを決めるための事前案内",
+  "サイト・資料の事前確認(90分程度まで)",
+  "当日のオンライン相談(約4時間)",
+  "問題の切り分けと優先順位の決定",
+  "次に誰が何をするかの整理",
+  "WEB担当者メモ",
+  "相談テーマに応じた成果物1点",
+  "実施後14日以内のオンラインフォロー30分・1回",
+];
+
+const notIncluded = [
+  "ホームページ一式の制作",
+  "本格的なデザインやコーディング",
+  "全ページの原稿作成",
+  "広告運用",
+  "継続的な制作進行管理",
+];
+
+const priceRows = [
+  { label: "料金", value: "55,000円(税込)" },
+  { label: "対応方法", value: "全国オンライン対応" },
+  { label: "当日の相談時間", value: "約4時間" },
+  { label: "事前確認", value: "90分程度まで" },
+  { label: "対象", value: "原則として1回につき1テーマ・1サイト" },
+  { label: "提出物", value: "WEB担当者メモ＋相談テーマに応じた資料1点" },
+  { label: "提出期限", value: "実施後3営業日以内" },
+  { label: "フォロー", value: "実施後14日以内・オンライン30分・1回" },
+];
+
+const faqItems = [
+  {
+    question: "オンラインでの実施は、どのように行いますか？",
+    answer: "オンラインでの実施方法は、お申し込み後、使用するツールとあわせてご案内します。",
+  },
+  {
+    question: "制作会社とすでに契約している場合でも相談できますか？",
+    answer: "はい、ご相談いただけます。今の契約内容を踏まえたうえで、次にどう対応するかを一緒に整理します。",
+  },
+  {
+    question: "資料が何も整理されていなくても申し込めますか？",
+    answer:
+      "お問い合わせ時点では、資料は不要です。正式にお申し込みいただいた後、事前確認の中で、今回のテーマに関係する範囲の資料をご案内します。",
+  },
+  {
+    question: "当日に決めた内容について、後から確認したいことが出てきた場合は？",
+    answer:
+      "当日に決めた内容に関する確認は、実施後の30分フォローで承ります。新しいテーマや追加の検討が必要な場合は、別日での1日WEB担当者または月額Web担当サポートをご案内します。",
+  },
+  {
+    question: "複数のサイトや、複数のテーマを一度に相談できますか？",
+    answer:
+      "対象は原則として1回につき1テーマ・1サイトです。複数のサイトやテーマがある場合は、別日での1日WEB担当者、または月額Web担当サポートをご案内します。",
+  },
+  {
+    question: "秘密保持契約(NDA)には対応していますか？",
+    answer: "秘密保持契約をご希望の場合は、お問い合わせ時にお知らせください。内容を確認したうえで対応をご案内します。",
+  },
+];
 ---
 
 <BaseLayout
-  title="1日WEB担当者（仮）"
-  description="単発・1テーマ・1サイトで、今のWebの状況を整理する1日WEB担当者の仮ページです。本文は次工程で実装します。"
+  title="1日WEB担当者"
+  description="1日だけ、発注する側のWeb担当者になります。ひとつのWeb課題について状況を確認し、次に誰が何をするかを決める、単発55,000円(税込)のサービスです。"
   layoutType="page"
+  showBuildNotice={false}
 >
   <div class="container content-width">
     <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "1日WEB担当者" }]} />
 
     <PageHeader
       pageName="1日WEB担当者"
-      heading="1日WEB担当者（仮見出し）"
-      intro="単発で、ひとつのWeb課題について状況を整理します。確定本文は次工程で実装します。"
+      heading="1日だけ、発注する側のWeb担当者になります。"
+      intro="ひとつのWeb課題について状況を確認し、次に誰が何をするかを決めます。WEB担当者メモとテーマに応じた資料1点、実施後のフォローまで含め、全国オンライン対応・55,000円(税込)です。"
       badges={["単発", "1テーマ・1サイト", "全国オンライン対応"]}
-      price={{ amount: "55,000円（税込）", unit: "/ 1回" }}
-      note="実施後フォローを含みます。詳細な料金内訳・含まれる内容は次工程で実装します。"
-      ctaLabel="今の状況を相談する（仮リンク）"
+      ctaLabel="お問い合わせへ"
       ctaHref={urls.contact}
+      secondaryLabel="料金と実施概要を見る"
+      secondaryHref="#pricing"
     />
 
-    <p>本文は次工程で実装する予定です（確定12セクション。docs/KSNAPSTEP_SITE_SPEC.md 11番)。</p>
+    <TableOfContents items={tocItems} minItems={1} />
+
+    <section id="about" class="section-block">
+      <h2>ひとつのテーマを、実際に動かせる状態にするサービスです。</h2>
+      <p>
+        1日WEB担当者は、専任のWeb担当者がいない会社や、一人で判断まで担っている方のために、1日だけ発注する側に立ち、Webに関する判断と進行を支えるサービスです。
+      </p>
+      <p>
+        対象は、原則として1回につき1テーマ・1サイトです。複数のテーマを同時に扱うと、当日の4時間では判断材料をそろえきれないため、扱う範囲をあらかじめ絞っています。
+      </p>
+      <p>
+        「テーマ」とは、たとえば「今のサイトを直すか作り直すか」「制作会社とのやり取りをどう進めるか」といった、ひとつの判断のかたまりです。
+      </p>
+    </section>
+
+    <section id="situations" class="section-block">
+      <h2>こんな状況で、ご相談いただけます。</h2>
+      <p>制作会社から提案や見積もりが来ているが、内容を判断する材料がなく、返事が止まっている。</p>
+      <p>今のホームページを直すか作り直すか迷ったまま、時間だけが過ぎている。</p>
+      <p>社内の意見がまとまらず、進めるべきか決められない。</p>
+      <p>一人で判断しているため、何を基準に決めればよいか分からない。</p>
+      <p>AIやノーコードでサイトを作ったが、このまま公開していいのか判断がつかない。</p>
+      <p>Web、SNS、広告など、何から手をつけるべきか優先順位が見えない。</p>
+      <p>制作会社とすでに契約している場合でも、ご相談いただけます。現在の契約内容ややり取りを確認し、次に何を確認し、何を伝えるかを整理します。</p>
+      <p>資料が整理されていなくても構いません。現在のサイトのURLと、困っていることが分かれば、まずはお問い合わせいただけます。</p>
+    </section>
+
+    <section id="themes" class="section-block">
+      <h2>その日は、次のようなテーマを扱います。</h2>
+      <p>正式なお申し込みの際に、その日のテーマを一つ確定します。</p>
+      <ul class="plain-list">
+        {themeExamples.map((theme) => <li>{theme}</li>)}
+      </ul>
+    </section>
+
+    <section id="examples" class="section-block">
+      <h2>3つのパターンで、当日の流れをご紹介します。</h2>
+      <div class="pattern-grid">
+        {
+          patterns.map((pattern) => (
+            <article class="pattern-card">
+              <h3>{pattern.title}</h3>
+              <dl>
+                <dt>相談前の状況</dt>
+                <dd>{pattern.before}</dd>
+                <dt>事前に確認する資料</dt>
+                <dd>{pattern.materials}</dd>
+                <dt>当日確認する内容</dt>
+                <dd>{pattern.onTheDay}</dd>
+                <dt class="pattern-card__viewpoint-label">判断するときの視点</dt>
+                <dd class="pattern-card__viewpoint">{pattern.viewpoint}</dd>
+                <dt>その日に決めること</dt>
+                <dd>{pattern.decide}</dd>
+                <dt>作成する成果物</dt>
+                <dd>{pattern.output}</dd>
+                <dt>相談後の行動</dt>
+                <dd>{pattern.after}</dd>
+              </dl>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="flow" class="section-block">
+      <h2>お問い合わせから、実施後までの流れ。</h2>
+      <StepList steps={flowSteps} />
+    </section>
+
+    <section id="memo" class="section-block">
+      <h2>お渡しするのは、この二つです。</h2>
+      <p>
+        WEB担当者メモには、当日確認した現在の主な問題、優先順位、今はしなくてよいこと、次に誰が何をするかをまとめます。
+      </p>
+      <p>
+        成果物は、相談テーマに応じて一つ作成します。たとえば、制作会社への回答書、修正指示書、トップページ構成案、公開前チェックリストなどから、その日の相談内容に合うものです。
+      </p>
+    </section>
+
+    <section id="included" class="section-block">
+      <h2>1日で行うこと、基本料金に含まれないこと。</h2>
+      <p>55,000円(税込)には、次のすべてが含まれます。</p>
+      <div class="include-exclude">
+        <div class="include-exclude__col">
+          <p class="include-exclude__heading">含まれること</p>
+          <ul class="plain-list">
+            {included.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div class="include-exclude__col include-exclude__col--exclude">
+          <p class="include-exclude__heading">基本料金に含まれないこと</p>
+          <ul class="plain-list">
+            {notIncluded.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+      <p>
+        継続的な相談や制作進行の確認が必要な場合は、月額Web担当サポート(月額55,000円・税込)でご案内します。デザイン、コーディング、原稿作成などの実制作が必要な場合は、内容を確認したうえで別途お見積もりします。
+      </p>
+      <p><a href="#upsell">月額Web担当サポートについて見る</a></p>
+    </section>
+
+    <section id="pricing" class="section-block">
+      <h2>料金と、実施の概要。</h2>
+      <PriceTable rows={priceRows} />
+      <a class="btn-primary" href={urls.contact}>お問い合わせへ</a>
+    </section>
+
+    <section id="upsell" class="section-block">
+      <h2>その後も、継続して相談したい方へ。</h2>
+      <p>
+        複数のテーマを継続して整理したい場合や、制作会社とのやり取りを定期的に確認したい場合は、月額Web担当サポート(月額55,000円・税込)をご案内しています。月2回・各60分のオンライン面談で、提案や見積もりの確認、更新・改修の優先順位整理、公開物や修正内容の確認など、その月に必要なテーマを扱います。
+      </p>
+      <p>
+        1日WEB担当者は一つの課題を単発で集中して整理するサービスです。月額Web担当サポートは、月2回に分けて継続的に確認します。どちらが上位ということではなく、単発か継続かの違いです。
+      </p>
+      <p>デザイン、コーディング、原稿作成などの実制作が必要な場合は、内容を確認したうえで別途お見積もりします。</p>
+      <a class="btn-ghost" href={urls.monthlySupport}>月額Web担当サポートを見る</a>
+    </section>
+
+    <section id="faq" class="section-block">
+      <h2>よくあるご質問。</h2>
+      <FaqAccordion items={faqItems} />
+    </section>
+
+    <div id="contact-cta">
+      <CtaBlock
+        heading="まずは、今の状況をお聞かせください。"
+        body="今困っていることと、連絡先をお送りください。内容を確認し、進め方をご案内します。"
+        buttonLabel="今の状況を相談する"
+        url={urls.contact}
+        variant="primary"
+        headingLevel="h2"
+      />
+    </div>
   </div>
 </BaseLayout>
+
+<style>
+  .section-block {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section-block h2 {
+    margin-top: 0;
+  }
+
+  .plain-list {
+    padding-left: 1.25em;
+  }
+
+  .plain-list li {
+    margin-bottom: 0.5em;
+  }
+
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-m);
+    margin-top: var(--space-m);
+  }
+
+  .pattern-card {
+    border: 1px solid var(--color-border);
+    padding: var(--space-s);
+  }
+
+  .pattern-card h3 {
+    font-size: 1rem;
+    margin-top: 0;
+  }
+
+  .pattern-card dt {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-top: 0.75em;
+  }
+
+  .pattern-card dd {
+    margin: 0.2em 0 0;
+  }
+
+  .pattern-card__viewpoint-label {
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  .pattern-card__viewpoint {
+    background: var(--color-bg-alt);
+    padding: 0.5em;
+  }
+
+  .include-exclude {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-m);
+    margin: var(--space-m) 0;
+  }
+
+  .include-exclude__col {
+    border: 1px solid var(--color-border);
+    padding: var(--space-s);
+  }
+
+  .include-exclude__col--exclude {
+    background: var(--color-bg-alt);
+  }
+
+  .include-exclude__heading {
+    font-weight: 700;
+    margin-top: 0;
+  }
+
+  @media (max-width: 760px) {
+    .pattern-grid,
+    .include-exclude {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

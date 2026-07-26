@@ -465,6 +465,13 @@ main a {
   color: var(--color-text-muted);
 }
 
+.page-header__cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  margin-top: var(--space-s);
+}
+
 /* ============ 汎用CTA ============ */
 
 .cta-block {

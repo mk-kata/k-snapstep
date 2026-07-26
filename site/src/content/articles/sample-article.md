@@ -1,6 +1,8 @@
 ---
 title: "【サンプル記事】これはContent Collections動作確認用のダミー記事です"
 description: "本番記事ではありません。Astroのcontent.config.tsが正しく記事を読み込めるかを確認するためだけのサンプルです。"
+series: "website-review"
+introduction: "本番記事ではありません。draft: true の記事が一覧・詳細に表示されないことを確認するためのサンプルです。"
 publishedDate: 2026-01-01
 draft: true
 relatedArticles: []

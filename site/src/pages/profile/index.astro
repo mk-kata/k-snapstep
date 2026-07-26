@@ -1,25 +1,205 @@
 ---
-// プロフィール(ルート骨格のみ。確定9セクション本文の実装は次工程。docs/KSNAPSTEP_SITE_SPEC.md 14番)
-// プロフィール写真はまだ表示しない(使用有無は未確定)。
+// 片山まゆみプロフィール
+//
+// 出典: docs/KSNAPSTEP_SITE_SPEC.md 14番のとおり、docs/MARORIRI_SITE_SPEC.md 15-3
+// (815〜1004行目、全9セクション)を土台に、次のK-SNAPSTEP向け調整を行った(確定済みの調整方針)。
+// - セクション2: マロリリコーダー部の段落を削除(旧事業の内容を取り除く最小限の調整)
+// - セクション8: 見出し・本文をMARORIRIへの外部リンク的な扱いへ調整(SITE_SPEC 14番の調整案を採用)
+// - セクション9: 本文中の「マロリリコーダー部」への言及を除外し、CTAを「MARORIRIを見る」へ変更
+//   (今回のタスク指示で除外対象と明記されたため。SITE_SPEC 14番は「本文は維持、CTAのみ調整」としているが、
+//   本文中の「マロリリコーダー部」の語自体は除外方針と矛盾するため、除外に伴う最小限の調整として扱った)
+// - 「対応できることを見る」への導線は、確定9セクションに含まれていなかったため、
+//   今回のページ実装指示に基づき、末尾の控えめなリンクとして新規に1行追加した(新規作成箇所)
+// プロフィール写真は今回まだ使用しない。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
+import CtaBlock from "../../components/common/CtaBlock.astro";
+import { urls, maroriri } from "../../config/site";
+
+const roles = ["要望整理", "指示変換", "修正確認", "進行順の決定", "担当整理", "認識のずれの確認"];
+const judgments = [
+  "新しい技術だから使うのではなく、その事業に必要かどうかを考えます。",
+  "制作会社の提案を否定するのではなく、目的に合っているかを確認します。",
+  "すべてを一度に進めようとせず、今することと、今はしないことを分けます。",
+  "分からないまま発注してしまう状態を、できるだけ減らします。",
+  "AIが出した答えをそのまま採用せず、前提や条件を確認してから使います。",
+];
 ---
 
 <BaseLayout
-  title="片山まゆみについて（仮）"
-  description="K-SNAPSTEPの代表・片山まゆみのプロフィール仮ページです。本文は次工程で実装します。"
+  title="片山まゆみについて"
+  description="Webを作る側と、依頼する側の間で仕事をしてきました。銀行、印刷会社を経て、Web制作には35年以上関わってきた片山まゆみのプロフィールです。"
   layoutType="page"
+  showBuildNotice={false}
 >
   <div class="container content-width">
     <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "片山まゆみについて" }]} />
 
     <PageHeader
       pageName="片山まゆみについて"
-      heading="片山まゆみについて（仮見出し）"
-      intro="経歴・現在の仕事・判断軸を紹介するページです。確定本文は次工程で実装します。プロフィール写真は今回まだ表示していません。"
+      heading="Webを作る側と、依頼する側の間で仕事をしてきました。"
+      intro="片山まゆみです。銀行、印刷会社を経て、Web制作には35年以上関わってきました。制作だけでなく、事業者の要望を整理し、制作側へ伝え、進行を確認する仕事も担ってきました。現在は「1日WEB担当者」として、発注する側の判断と進行を支えています。"
     />
 
-    <p>本文は次工程で実装する予定です（確定9セクション。docs/KSNAPSTEP_SITE_SPEC.md 14番)。</p>
+    <section class="section-block">
+      <h2>今は、こんな仕事をしています。</h2>
+      <p>
+        今は「1日WEB担当者」として、専任のWeb担当者がいない会社や、一人で判断まで担っている方のご相談を受けています。1日だけ発注する側に立ち、ひとつのWeb課題について、何を決め、次に誰が何をするかを明確にする仕事です。
+      </p>
+      <p>
+        継続的な確認が必要な方には、月額Web担当サポートで、月2回・各60分のオンライン面談を通じてWebの判断と進行を確認し、制作会社への確認事項や改修の優先順位を整理します。料金は月額55,000円(税込)です。
+      </p>
+    </section>
+
+    <section class="section-block">
+      <h2>銀行、印刷会社を経て、Web制作の仕事へ。</h2>
+      <p>最初は銀行に勤務していました。</p>
+      <p>
+        その後、印刷会社で営業事務やDTPに携わりました。営業事務と制作の両方に関わり、依頼された内容が制作物になるまでの流れを経験しました。
+      </p>
+      <p>その後、Web制作の仕事に入りました。以来35年以上、Web制作の現場に関わり続けています。</p>
+      <p class="career-chain">
+        <span class="visually-hidden">経歴の流れ：</span>銀行勤務<span aria-hidden="true"> → </span>印刷会社(営業事務・DTP)<span aria-hidden="true"> → </span>Web制作<span aria-hidden="true"> → </span>現在(K-SNAPSTEP)
+      </p>
+    </section>
+
+    <section class="section-block">
+      <h2>道具は変わっても、考えることは変わりません。</h2>
+      <p>
+        HTML、Flash、CSS、CMS、WordPress、AI。Web制作に関わってきた35年余りの間に、使う道具は何度も変わりました。
+      </p>
+      <p>
+        それでも変わらないのは、事業者が何を伝えたいか、見る人に何が必要かを考えることです。道具が新しくなっても、この部分を飛ばして作ることはできません。
+      </p>
+      <p>AIも同じです。使うかどうかより、その事業に必要かどうかを、そのつど考えています。</p>
+    </section>
+
+    <section class="section-block">
+      <h2>制作だけでなく、間に立つ仕事も。</h2>
+      <p>制作の現場では、作ることだけでなく、次のような役割を担ってきました。</p>
+      <p>
+        クライアントの要望を聞き、整理すること。それを、制作側に伝わる指示に変えること。修正後の内容を確認し、意図通りに反映されているかを見ること。
+      </p>
+      <p>
+        制作の順番を決め、誰が何をするかを整理すること。クライアントと制作側、それぞれの認識にずれがないかを確認すること。
+      </p>
+      <p>
+        何を作るかがまだ明確になっていない段階から、制作されたものが意図通りになっているかを確認するところまで、発注と制作の両方に関わってきました。
+      </p>
+      <ul class="role-tags" aria-label="担ってきた役割">
+        {roles.map((role) => <li>{role}</li>)}
+      </ul>
+    </section>
+
+    <section class="section-block">
+      <h2>判断するときに、大切にしていること。</h2>
+      <p>これまでの仕事の中で、次のような判断を大切にしてきました。</p>
+      <ul class="plain-list">
+        {judgments.map((judgment) => <li>{judgment}</li>)}
+      </ul>
+    </section>
+
+    <section class="section-block">
+      <h2>1日WEB担当者が生まれた理由。</h2>
+      <p>
+        小さな会社では、専任のWeb担当者を置くことが難しい場合があります。それでも、制作会社へ依頼する前後には、発注する側で判断する人が必要になります。
+      </p>
+      <p>これまで、制作に入る前の「何を頼み、何を決めるか」という段階で、話が止まっている場面を多く見てきました。</p>
+      <p>
+        そこで、常駐や専任という形ではなく、必要なときだけ発注する側に入るサービスとして、「1日WEB担当者」を形にしました。
+      </p>
+    </section>
+
+    <section class="section-block section-block--quiet">
+      <h2>もうひとつの活動、MARORIRIについて。</h2>
+      <p>
+        K-SNAPSTEPで実践しているWebの仕事の考え方を、MARORIRIで次のWeb実務者へ伝えています。コーダーとして現場で考えるための場です。
+      </p>
+      <p>
+        <a href={maroriri.url} rel="noopener" target="_blank">
+          MARORIRIを見る<span class="external-link-indicator" aria-hidden="true">↗</span
+          ><span class="visually-hidden">(外部サイト)</span>
+        </a>
+      </p>
+    </section>
+
+    <section class="section-block">
+      <h2>Webのことで、判断に迷っている方へ。</h2>
+      <p>ホームページや制作会社とのやり取りなど、Webのことで判断に迷っていることがあれば、今の状況をお聞かせください。1日WEB担当者については、詳細ページでご案内しています。</p>
+      <div class="profile-cta-links">
+        <a class="btn-ghost" href={urls.oneDayWebManager}>1日WEB担当者について見る</a>
+        <a class="quiet-link" href={urls.services}>対応できることを見る</a>
+      </div>
+    </section>
+
+    <div id="contact-cta">
+      <CtaBlock
+        heading="今の状況を相談する"
+        body="ホームページや制作会社とのやり取りなど、Webのことで判断に迷っていることがあれば、今の状況をお聞かせください。"
+        buttonLabel="今の状況を相談する"
+        url={urls.contact}
+        variant="primary"
+        headingLevel="h2"
+      />
+    </div>
   </div>
 </BaseLayout>
+
+<style>
+  .section-block {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section-block h2 {
+    margin-top: 0;
+  }
+
+  .section-block--quiet {
+    background: var(--color-bg-alt);
+    padding-inline: var(--space-s);
+  }
+
+  .career-chain {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    border-top: 1px dashed var(--color-border);
+    padding-top: var(--space-s);
+  }
+
+  .role-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    list-style: none;
+    padding: 0;
+    margin: var(--space-s) 0 0;
+  }
+
+  .role-tags li {
+    border: 1px solid var(--color-border);
+    padding: 0.25em 0.75em;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .plain-list {
+    padding-left: 1.25em;
+  }
+
+  .plain-list li {
+    margin-bottom: 0.5em;
+  }
+
+  .profile-cta-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .quiet-link {
+    font-size: 0.9375rem;
+  }
+</style>

@@ -1,30 +1,284 @@
 ---
-// 月額Web担当サポート(ルート骨格のみ。確定10セクション本文の実装は次工程。docs/KSNAPSTEP_SITE_SPEC.md 12番)
+// 月額Web担当サポート
+//
+// 出典: docs/KSNAPSTEP_SITE_SPEC.md 12番のとおり、docs/MARORIRI_SITE_SPEC.md 15-5
+// (1266〜1475行目、全10セクション)を確認した結果、本文中に「MARORIRI」という
+// 事業全体のブランド名を主語にした記述はないため、全10セクションを無変更で使用している。既存確定本文。
+//
+// 一直線の工程図にはせず、必要に応じて確認を繰り返すことが伝わる構成にする指示のため、
+// セクション3(月額サポートで行うこと)は番号付き工程図ではなく非直線グリッドで実装した
+// (docs/KSNAPSTEP_WIREFRAME.md 11番の「循環配置イメージ」に対応)。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
+import TableOfContents from "../../components/common/TableOfContents.astro";
+import PriceTable from "../../components/common/PriceTable.astro";
+import CtaBlock from "../../components/common/CtaBlock.astro";
 import { urls } from "../../config/site";
+
+const tocItems = [
+  { href: "#who", label: "このような方へ" },
+  { href: "#actions", label: "月額サポートで行うこと" },
+  { href: "#meetings", label: "月2回のオンライン面談" },
+  { href: "#topics", label: "扱うテーマ" },
+  { href: "#message-vs-meeting", label: "メッセージと面談の使い分け" },
+  { href: "#pricing", label: "料金と含まれる内容" },
+  { href: "#difference", label: "1日WEB担当者との違い" },
+];
+
+const whoItems = [
+  "社内に専任のWeb担当者がおらず、経営者や事務担当者がWebの判断まで担っている",
+  "制作会社とのやり取りを任せられる人がいない",
+  "Webサイトの修正や改修が複数あり、優先順位を決められない",
+  "制作会社からの提案や見積もりが妥当か分からない",
+  "CMS、サーバー、ドメインなどの管理状況を定期的に確認したい",
+  "単発ではなく、継続して状況を把握してほしい",
+];
+
+const actions = [
+  "現在動いているWeb案件や課題を確認する",
+  "その月に優先することを決める",
+  "制作会社や担当者へ確認する内容を整理する",
+  "提案、見積もり、修正内容を確認する",
+  "次回までに誰が何をするかを決める",
+];
+
+const topics = [
+  "制作会社からの提案・見積もりの確認、制作会社を変更する際の引き継ぎ整理",
+  "改修や更新の優先順位",
+  "修正指示の整理と、公開された内容の確認",
+  "CMSを残すか、改修・移行するか",
+  "サーバー、ドメイン、メールの管理",
+  "GA4やSearch Consoleの確認",
+  "ECサイトや複数の販売環境の整理",
+];
+
+const priceRows = [
+  { label: "料金", value: "月額55,000円(税込)" },
+  { label: "面談", value: "月2回・各60分・オンライン" },
+  { label: "扱う内容", value: "その月に必要なテーマを選んで確認" },
+  { label: "メッセージ連絡", value: "資料・URL共有、日程調整、短い確認" },
+  { label: "実作業", value: "個別見積もり" },
+];
 ---
 
 <BaseLayout
-  title="月額Web担当サポート（仮）"
-  description="月2回・各60分のオンライン面談で、Webの判断と進行を継続的に確認する月額Web担当サポートの仮ページです。本文は次工程で実装します。"
+  title="月額Web担当サポート"
+  description="専任のWeb担当者がいない会社・事業者のために、月2回のオンライン面談でWebの判断と進行を継続的に確認する、月額55,000円(税込)のサービスです。"
   layoutType="page"
+  showBuildNotice={false}
 >
   <div class="container content-width">
     <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "月額Web担当サポート" }]} />
 
     <PageHeader
       pageName="月額Web担当サポート"
-      heading="月額Web担当サポート（仮見出し）"
-      intro="継続して、Webの判断と進行を確認します。確定本文は次工程で実装します。"
+      heading="専任のWeb担当者がいない会社・事業者のための、月額Web担当サポート。"
+      intro="専任のWeb担当者がいない会社や事業者のために、月2回のオンライン面談で、Webの判断と進行を継続的に確認します。制作会社とのやり取りや、改修の優先順位を整理し、次に誰が何をするかを明確にします。更新作業だけでなく、Webに関する判断と進行を確認するサービスです。"
       badges={["継続", "月2回・各60分", "オンライン面談"]}
-      price={{ amount: "月額55,000円（税込）", unit: "/ 月" }}
-      note="実作業は別途見積もりです。詳細な内容は次工程で実装します。"
-      ctaLabel="継続的な確認について相談する（仮リンク）"
+      ctaLabel="月額サポートについて相談する"
       ctaHref={urls.contact}
     />
 
-    <p>本文は次工程で実装する予定です（確定10セクション。docs/KSNAPSTEP_SITE_SPEC.md 12番)。</p>
+    <TableOfContents items={tocItems} minItems={1} />
+
+    <section id="who" class="section-block">
+      <h2>このような方へ。</h2>
+      <ul class="plain-list">
+        {whoItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section id="actions" class="section-block">
+      <h2>月ごとに、状況を確認し整理します。</h2>
+      <p>月額Web担当サポートでは、次を行います。</p>
+      <ul class="cycle-grid">
+        {actions.map((action, index) => (
+          <li class="cycle-grid__item">
+            <span class="cycle-grid__num" aria-hidden="true">{index + 1}</span>
+            {action}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="meetings" class="section-block">
+      <h2>2回の面談は、案件の状況に合わせて使えます。</h2>
+      <p>
+        月2回のオンライン面談は、1回目と2回目の内容を固定していません。たとえば、月初に状況と優先順位を確認し、月中や月末に進行状況や制作物を確認するという使い方もできます。
+      </p>
+      <p>
+        大きな制作案件が動いていない月は、CMSやサーバーの管理状況、今後予定している改修などの確認を中心にします。複数の案件が重なる月は、優先順位や担当の整理を中心にするなど、そのときの状況に合わせて使い方を変えられます。
+      </p>
+      <p class="note-box">
+        上記は使い方の一例です。月初・月中・月末の役割を固定で運用するものではありません。
+      </p>
+    </section>
+
+    <section id="topics" class="section-block">
+      <h2>このようなテーマを扱います。</h2>
+      <ul class="plain-list">
+        {topics.map((topic) => <li>{topic}</li>)}
+      </ul>
+    </section>
+
+    <section id="production-partner" class="section-block">
+      <h2>制作会社の提案を、発注する側の視点で確認します。</h2>
+      <p>
+        制作会社から提案や見積もりが届いたときに、その内容が現在の目的や運用方法に合っているかを確認します。制作会社へ任せることと、発注する側で決めることを分け、質問や依頼の内容を具体化します。
+      </p>
+      <p>修正や制作が進んだあとは、依頼した内容が意図どおりに反映されているかを確認します。</p>
+    </section>
+
+    <section id="message-vs-meeting" class="section-block">
+      <h2>判断が必要なことは、画面を見ながら確認します。</h2>
+      <div class="compare-columns">
+        <div class="compare-columns__col">
+          <p class="compare-columns__heading">メッセージでできること</p>
+          <p>
+            URLや資料の共有、面談前に確認してほしい内容の共有、日程調整、短い事実確認には、メッセージをご利用いただけます。
+          </p>
+        </div>
+        <div class="compare-columns__col">
+          <p class="compare-columns__heading">面談で扱うこと</p>
+          <p>
+            問題の整理や判断、複数の条件が関係する相談は、文章だけでは状況を正しく把握しにくいことがあります。そうした内容は、オンライン面談で画面や資料を確認しながら扱います。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section-block">
+      <h2>料金と、含まれる内容。</h2>
+      <p>月額55,000円(税込)です。</p>
+      <p>
+        月2回・各60分のオンライン面談で、その月に必要なテーマを確認します。提案・見積もり・修正内容の確認、優先順位と次の担当の整理を行います。資料やURLの共有、短い確認のためのメッセージ連絡も含まれます。
+      </p>
+      <p>実作業が必要な場合は、内容を確認したうえで個別にお見積もりします。</p>
+      <PriceTable rows={priceRows} />
+    </section>
+
+    <section id="difference" class="section-block">
+      <h2>一度集中して整理するか、継続して確認するか。</h2>
+      <div class="difference-cards">
+        <article class="difference-card">
+          <h3>1日WEB担当者</h3>
+          <p>一つの課題を単発で集中して整理します。料金は55,000円(税込)です。</p>
+          <a class="btn-ghost" href={urls.oneDayWebManager}>1日WEB担当者を見る</a>
+        </article>
+        <article class="difference-card">
+          <h3>月額Web担当サポート</h3>
+          <p>月2回に分けて、月ごとに変わる課題や進行を継続的に確認します。料金は月額55,000円(税込)です。</p>
+        </article>
+      </div>
+      <p>
+        どちらも同じ金額ですが、上位・下位の関係ではありません。一つの課題を一度に整理したいか、継続して状況を確認してほしいかによって選び方が変わります。どちらが合うか分からない場合は、現在の状況を確認したうえでご案内します。
+      </p>
+    </section>
+
+    <div id="contact-cta">
+      <CtaBlock
+        heading="継続して確認してほしいことがある方へ。"
+        body="継続して確認してほしいことがある方は、現在困っていること、使用中のCMSやECサービス、制作会社の有無、継続して確認してほしい内容をお送りください。内容を確認したうえで、進め方をご案内します。"
+        buttonLabel="月額サポートについて相談する"
+        url={urls.contact}
+        variant="primary"
+        headingLevel="h2"
+      />
+    </div>
   </div>
 </BaseLayout>
+
+<style>
+  .section-block {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section-block h2 {
+    margin-top: 0;
+  }
+
+  .plain-list {
+    padding-left: 1.25em;
+  }
+
+  .plain-list li {
+    margin-bottom: 0.5em;
+  }
+
+  .cycle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-s);
+    list-style: none;
+    padding: 0;
+    margin: var(--space-m) 0 0;
+  }
+
+  .cycle-grid__item {
+    border: 1px solid var(--color-border);
+    padding: var(--space-s);
+  }
+
+  .cycle-grid__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-right: 0.5em;
+    font-size: 0.875rem;
+  }
+
+  .note-box {
+    background: var(--color-bg-alt);
+    padding: var(--space-s);
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+
+  .compare-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-m);
+    margin-top: var(--space-m);
+  }
+
+  .compare-columns__col {
+    border: 1px solid var(--color-border);
+    padding: var(--space-s);
+  }
+
+  .compare-columns__heading {
+    font-weight: 700;
+    margin-top: 0;
+  }
+
+  .difference-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-m);
+    margin: var(--space-m) 0;
+  }
+
+  .difference-card {
+    border: 1px solid var(--color-border);
+    padding: var(--space-s);
+  }
+
+  .difference-card h3 {
+    margin-top: 0;
+  }
+
+  @media (max-width: 760px) {
+    .cycle-grid,
+    .compare-columns,
+    .difference-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

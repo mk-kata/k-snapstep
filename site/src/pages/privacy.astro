@@ -1,29 +1,181 @@
 ---
-// K-SNAPSTEP プライバシーポリシー(仮ページ)
+// K-SNAPSTEP プライバシーポリシー
 //
-// 初回公開では既存URL /privacy.html を維持する方針(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 18番)。
-// astro.config.mjs の build.format: "preserve" により、
-// このファイル名(privacy.astro → 出力時 privacy.html)がそのままURLになる。
-// 実際の条文(既存privacy.htmlの内容)はまだ移植していない。
-// 既存ルートの privacy.html(正式実装元)は変更していない。
+// 出典: リポジトリルートの既存 privacy.html (正式実装元、変更していない) を移植した。
+// 参照元: docs/KSNAPSTEP_SITE_SPEC.md 18番・docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 18番の方針
+// (formrunの利用・個人情報の取り扱いに関する事実関係は引き継ぎ、事業者名義のみK-SNAPSTEPへ変更)。
+//
+// 変更した箇所は事業者名義のみ(「本来面目らぼ（k-snapstep / 片山まゆみ）」→「K-SNAPSTEP（片山まゆみ）」)。
+// 条文9項目の法的内容(個人情報の管理・利用目的・第三者提供の禁止・安全対策・formrunの利用・
+// アクセス解析ツール・Cookie・法令遵守・お問い合わせ)は書き換えていない。
+// 制定日(2025年)は既存記載のまま維持し、改定日は既存に記載がないため追加していない。
+// お問い合わせ先は、既存の/labo/#contact-formから、K-SNAPSTEPの新しい/contact/へ変更した
+// (URL構成の変更に伴う最小限の調整)。
+//
+// 出力URLは /privacy.html (astro.config.mjs の build.format: "preserve" による)。
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/navigation/Breadcrumbs.astro";
+import { urls } from "../config/site";
+
+const sections = [
+  {
+    title: "個人情報の管理",
+    body: "当方は、お客さまの個人情報を正確かつ最新の状態に保ち、個人情報への不正アクセス・紛失・破損・改ざん・漏洩などを防止するため、セキュリティシステムの維持・管理体制の整備・社員教育の徹底等の必要な措置を講じ、安全対策を実施し個人情報の厳重な管理を行います。",
+  },
+  {
+    title: "個人情報の利用目的",
+    body: "お客さまからお預かりした個人情報は、当方からのご連絡や業務のご案内、ご質問に対する回答として、電子メールの送付その他の連絡手段により利用いたします。利用目的の範囲を超えて個人情報を利用することはありません。",
+  },
+  {
+    title: "個人情報の第三者への開示・提供の禁止",
+    body: "当方は、お客さまよりお預かりした個人情報を適切に管理し、次のいずれかに該当する場合を除き、個人情報を第三者に開示いたしません。",
+    list: [
+      "お客さまの同意がある場合",
+      "お客さまが希望されるサービスを行うために当方が業務を委託する業者に対して開示する場合",
+      "法令に基づき開示することが必要である場合",
+    ],
+  },
+  {
+    title: "個人情報の安全対策",
+    body: "当方は、個人情報の正確性および安全性確保のため、セキュリティに万全の対策を講じています。",
+  },
+  {
+    title: "お問い合わせフォームの運用について",
+    body: "当サイトのお問い合わせフォームは、株式会社ベーシックが提供する「formrun（フォームラン）」を利用しております。フォームから送信された個人情報は、formrunのサーバーを経由して当方に通知されます。formrunの個人情報の取り扱いについては、以下のリンクをご確認ください。",
+    link: { href: "https://form.run/home/policies/privacy", label: "formrun プライバシーポリシー（外部サイト）" },
+  },
+  {
+    title: "アクセス解析ツールについて",
+    body: "当サイトでは、サイト利用状況の把握とサービス向上を目的として、Google社の提供する「Google Analytics」および「Google Tag Manager」を利用する予定です。これらのツールは、Cookieを利用してお客さまの情報を収集しますが、個人を特定する情報は収集しておりません。収集される情報は、Google社のプライバシーポリシーに基づいて管理されます。お客さまはブラウザの設定により、Cookieの収集を拒否することができます。詳細は以下をご参照ください。",
+    link: { href: "https://policies.google.com/privacy", label: "Google プライバシーポリシー（外部サイト）" },
+  },
+  {
+    title: "Cookieの使用について",
+    body: "当サイトでは、上記のアクセス解析および一部の機能の提供のために、Cookieを使用する場合があります。Cookieの使用を希望されない場合は、お客さまご自身のブラウザの設定により、Cookieの受け入れを拒否することができます。ただし、その場合、当サイトの一部機能が正常に動作しない可能性があります。",
+  },
+  {
+    title: "法令、規範の遵守と見直し",
+    body: "当方は、保有する個人情報に関して適用される日本の法令、その他規範を遵守するとともに、本ポリシーの内容を適宜見直し、その改善に努めます。",
+  },
+];
 ---
 
 <BaseLayout
-  title="プライバシーポリシー（仮）"
-  description="Astro基盤で /privacy.html というURLのまま出力できるかを確認するための仮ページです。"
+  title="プライバシーポリシー"
+  description="K-SNAPSTEPのプライバシーポリシー。個人情報の取り扱いについて。"
+  canonical={urls.privacy}
   layoutType="page"
+  showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "プライバシーポリシー（仮）" }]} />
+    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "プライバシーポリシー" }]} />
 
-    <h1>プライバシーポリシー（仮ページ）</h1>
-    <p>
-      このページは、共通レイアウト(ヘッダー・フッター含む)を使用しつつ、
-      <code>/privacy.html</code> というURLのまま出力できることを確認するための仮ページです。
-      実際の条文（既存<code>privacy.html</code>の内容)はまだ移植していません。
+    <h1>プライバシーポリシー</h1>
+    <p class="privacy-intro">
+      K-SNAPSTEP（片山まゆみ。以下「当方」といいます）は、以下のとおり個人情報保護方針を定め、個人情報保護の仕組みを構築し、個人情報の保護を推進いたします。
     </p>
-    <p>既存の正式実装元にある<code>privacy.html</code>は、このAstro環境作成にあたって変更していません。</p>
+
+    <ol class="privacy-list">
+      {
+        sections.map((section, index) => (
+          <li class="privacy-item">
+            <span class="privacy-num" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div class="privacy-body">
+              <h2>{section.title}</h2>
+              <p>{section.body}</p>
+              {section.list && (
+                <ul>
+                  {section.list.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
+              {section.link && (
+                <p>
+                  <a href={section.link.href} target="_blank" rel="noopener">
+                    {section.link.label}
+                    <span class="external-link-indicator" aria-hidden="true">↗</span>
+                  </a>
+                </p>
+              )}
+            </div>
+          </li>
+        ))
+      }
+
+      <li class="privacy-item">
+        <span class="privacy-num" aria-hidden="true">09</span>
+        <div class="privacy-body">
+          <h2>お問い合わせ</h2>
+          <p>当方の個人情報の取扱に関するお問い合せは、お問い合わせフォームよりご連絡ください。</p>
+          <dl class="privacy-contact">
+            <dt>事業者</dt>
+            <dd>K-SNAPSTEP</dd>
+            <dt>代表者</dt>
+            <dd>片山 まゆみ</dd>
+            <dt>お問い合わせ</dt>
+            <dd><a href={urls.contact}>お問い合わせフォームへ →</a></dd>
+          </dl>
+        </div>
+      </li>
+    </ol>
+
+    <p class="privacy-date">制定日：2025年</p>
   </div>
 </BaseLayout>
+
+<style>
+  .privacy-intro {
+    max-width: var(--content-width);
+  }
+
+  .privacy-list {
+    list-style: none;
+    margin: var(--space-m) 0;
+    padding: 0;
+  }
+
+  .privacy-item {
+    display: flex;
+    gap: var(--space-s);
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .privacy-item:last-child {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .privacy-num {
+    flex-shrink: 0;
+    font-weight: 700;
+    color: var(--color-accent);
+    font-size: 0.875rem;
+  }
+
+  .privacy-body h2 {
+    margin-top: 0;
+    font-size: 1.0625rem;
+  }
+
+  .privacy-contact {
+    margin: var(--space-s) 0 0;
+  }
+
+  .privacy-contact dt {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5em;
+  }
+
+  .privacy-contact dd {
+    margin: 0.15em 0 0;
+  }
+
+  .privacy-date {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+</style>

@@ -1,25 +1,146 @@
 ---
-// 対応できること(ルート骨格のみ。確定10セクション本文の実装は次工程。docs/KSNAPSTEP_SITE_SPEC.md 13番)
-// 料金は表示しない(docs/KSNAPSTEP_WIREFRAME.md 12番)。
+// 対応できること
+//
+// 出典: docs/KSNAPSTEP_SITE_SPEC.md 13番のとおり、docs/MARORIRI_SITE_SPEC.md 15-6
+// (1477〜1670行目、全10セクション)を確認した。セクション1のみ「MARORIRIが対応すること」を
+// 「K-SNAPSTEPが対応すること」へ変更(SITE_SPEC 13番の確定変更)。他セクションはブランド名の
+// 言及がないため無変更で使用している。
+//
+// ページ内目次は原則設けない(docs/KSNAPSTEP_WIREFRAME.md 8番)。料金バッジも置かない(同12番)。
+// 対応領域はカード化せず、罫線区切りの可変高さ「カテゴリブロック」で実装する(CategoryBlock)。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
+import CategoryBlock from "../../components/services/CategoryBlock.astro";
+import CtaBlock from "../../components/common/CtaBlock.astro";
+import { urls } from "../../config/site";
+
+const firstSteps = [
+  "現在の契約や管理状況を確認する",
+  "起きている問題を分ける",
+  "優先順位を決める",
+  "誰が対応するかを整理する",
+  "必要な依頼内容を具体化する",
+];
 ---
 
 <BaseLayout
-  title="対応できること（仮）"
-  description="Webの困りごとを、どこへ頼むかまで整理する対応範囲の仮ページです。本文は次工程で実装します。"
+  title="対応できること"
+  description="Webの困りごとを、どこへ頼むかまで整理します。Webサイト・CMS・制作会社とのやり取り・サーバー・SEOまで、確認できる範囲をご案内します。"
   layoutType="page"
+  showBuildNotice={false}
 >
   <div class="container content-width">
     <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "対応できること" }]} />
 
     <PageHeader
       pageName="対応できること"
-      heading="対応できること（仮見出し）"
-      intro="Webの困りごとを、どこへ頼むかまで整理します。確定本文は次工程で実装します。"
+      heading="Webの困りごとを、どこへ頼むかまで整理します。"
+      intro="Webサイトだけでなく、CMS、サーバー、ドメイン、SEO、ECまで、Webに関わる領域を確認します。現在の状況に応じて、自社で行うこと、K-SNAPSTEPが対応すること、制作会社や専門家に依頼することを整理します。実作業が必要な場合は、内容により個別にお見積もりします。"
+      ctaLabel="今の状況を相談する"
+      ctaHref={urls.contact}
     />
 
-    <p>本文は次工程で実装する予定です（確定10セクション。docs/KSNAPSTEP_SITE_SPEC.md 13番)。</p>
+    <section class="section-block">
+      <h2>まず行うのは、状況の確認と整理です。</h2>
+      <ul class="plain-list">
+        {firstSteps.map((step) => <li>{step}</li>)}
+      </ul>
+    </section>
+
+    <CategoryBlock
+      heading="サイトの現状と、CMSの運用状況を確認します。"
+      paragraphs={[
+        "現在のサイトの問題点、更新されていない情報、スマートフォンでの表示や基本的な使いやすさを確認します。改修と作り直し、どちらが合うかの判断材料を整理し、公開前後の確認にも対応します。",
+        "CMSは、WordPressやMovable Typeを中心に、管理画面や更新方法を確認し、残すか、改修するか、移行するかを整理します。操作マニュアルの作成や、担当者への説明にも対応します。実際の修正作業は、内容により個別にお見積もりします。",
+      ]}
+    />
+
+    <CategoryBlock
+      heading="制作会社とのやり取りを整理します。"
+      paragraphs={[
+        "制作会社の選定や、相見積もりの比較、提案内容や見積もりの確認を行います。発注前に決めることを整理し、制作会社へ渡す指示をまとめます。",
+        "制作が始まったあとは、進行状況や修正内容を確認し、依頼した内容が意図どおりに反映されているかを確認します。制作会社を変更する場合は、引き継ぎに必要な内容も整理します。",
+      ]}
+    />
+
+    <CategoryBlock
+      heading="サーバーやドメインの管理状況も確認します。"
+      paragraphs={[
+        "「サーバーの契約がどうなっているか分からない」「ドメインの更新時期が分からない」「メールが急に届かなくなった」。こうした状況を確認し、DNSやSSL、メール設定の状態を整理します。",
+        "サーバーの移転やドメインの移管、不具合の切り分けが必要な場合は、内容を確認したうえで対応します。制作会社やサーバー会社へ確認すべき内容も整理します。緊急性の高い内容は、状況と対応可能な時間を確認したうえで、対応可否をご案内します。",
+      ]}
+    />
+
+    <CategoryBlock
+      heading="検索、アクセスデータ、販売環境も確認します。"
+      paragraphs={[
+        "ページタイトルや説明文(title・description)、見出し構造などの基本的なSEO設定と、検索されている内容とページ内容にずれがないかを確認します。GA4やSearch Consoleのデータを確認し、改善の優先順位を整理します。Googleタグマネージャーなど、計測に必要な設定状況も確認します。",
+        "ECサイトは、現在の運用状況や複数の販売環境を確認し、環境を残すか変更するかの判断材料を整理します。楽天市場やMakeShopなど、複数のEC環境に関わってきました。日々の商品登録や受注管理は、社内の担当者や運用会社にお任せする範囲です。",
+      ]}
+    />
+
+    <CategoryBlock
+      heading="必要に応じて対応する実作業。"
+      paragraphs={[
+        "CMSの修正、サーバーやドメインの設定、不具合対応、データや設定の移行、マニュアル作成、担当者への説明など、状況に応じて実作業にも対応します。",
+        "内容、難易度、納期、予算を確認したうえで、個別にお見積もりします。急ぎの対応や、専門的な判断が必要な作業は、対応可否を含めて確認します。",
+        "プログラムやデータベースを含む小規模な仕組みについては、AIを活用する場合も含めて、保守性、安全性、納期を確認し、対応可否を個別に判断します。緊急性の高い開発や、短納期・低価格の開発はお受けせず、内容によっては専門の開発者への依頼をご案内します。",
+      ]}
+    />
+
+    <CategoryBlock
+      heading="対応できる範囲と、専門会社にお任せする範囲。"
+      paragraphs={[
+        "SNSは、発信内容やWebサイトとの導線について助言します。投稿作成や日常運用、コメント対応は行いません。",
+        "Web広告は、配信を始める前のサイトやLPの確認、計測環境の確認、広告会社へ渡す情報の整理までを行います。配信設定や入札調整、広告の運用そのものは、広告会社にお任せする範囲です。",
+        "印刷物やAdobeデータについては、Webサイトとの情報の整合確認や、既存データの確認・修正に対応します。オリジナルデザイン、ロゴ、イラスト、動画の新規制作は、専門の制作者にお任せする範囲です。",
+      ]}
+    />
+
+    <section class="section-block">
+      <h2>幅広い範囲を確認できる背景。</h2>
+      <p>
+        銀行勤務と、印刷会社での営業事務・DTP業務を経て、Web制作の仕事に入りました。以来、制作だけでなく発注や進行管理、確認までを担い、CMS・EC・サーバー・SEO・アクセス解析など、Webに関わる領域を横断して経験してきました。
+      </p>
+      <p>
+        これまでの経験をもとに、複数の領域が関係する問題でも、現在の状況を確認し、自社で対応することと、制作会社や専門家に任せることを分けます。
+      </p>
+      <p class="quiet-link"><a href={urls.profile}>片山まゆみについて見る</a></p>
+    </section>
+
+    <div id="contact-cta">
+      <CtaBlock
+        heading="どこへ頼めばよいか分からないことも、ご相談ください。"
+        body="今困っていること、対象となるサイトやサービス、使用中のCMSやECサービス、制作会社の有無、希望する対応時期をお送りください。内容を確認したうえで、進め方をご案内します。"
+        buttonLabel="今の状況を相談する"
+        url={urls.contact}
+        variant="primary"
+        headingLevel="h2"
+      />
+    </div>
   </div>
 </BaseLayout>
+
+<style>
+  .section-block {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section-block h2 {
+    margin-top: 0;
+  }
+
+  .plain-list {
+    padding-left: 1.25em;
+  }
+
+  .plain-list li {
+    margin-bottom: 0.5em;
+  }
+
+  .quiet-link {
+    font-size: 0.9375rem;
+  }
+</style>

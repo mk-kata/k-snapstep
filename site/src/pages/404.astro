@@ -1,24 +1,61 @@
 ---
-// K-SNAPSTEP 404ページ(共通レイアウト使用。本文の本実装はdocs/KSNAPSTEP_WIREFRAME.md 19番参照、次工程)
+// K-SNAPSTEP 404ページ
+//
+// 参照元: docs/KSNAPSTEP_WIREFRAME.md 19番。強い問い合わせCTAは置かない構成とした。
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { urls } from "../config/site";
 ---
 
 <BaseLayout
-  title="ページが見つかりません（仮）"
-  description="Astro基盤の404出力方法を確認するための仮ページです。"
+  title="ページが見つかりません"
+  description="お探しのページが見つかりませんでした。"
+  canonical="/404.html"
   noindex={true}
   layoutType="error"
+  showBuildNotice={false}
 >
-  <div class="container content-width">
-    <h1>404</h1>
-    <p>ページが見つかりませんでした。</p>
-    <p><a href="/">トップページへ</a></p>
-    <ul>
-      <li><a href={urls.oneDayWebManager}>1日WEB担当者</a></li>
-      <li><a href={urls.monthlySupport}>月額Web担当サポート</a></li>
-      <li><a href={urls.services}>対応できること</a></li>
-      <li><a href={urls.reading}>読みもの</a></li>
-    </ul>
+  <div class="container content-width not-found">
+    <p class="not-found__eyebrow">404</p>
+    <h1>ページが見つかりませんでした。</h1>
+    <p>URLが変更されたか、削除された可能性があります。</p>
+    <p><a class="btn-ghost" href="/">トップページへ戻る</a></p>
+
+    <nav class="not-found__links" aria-label="主要ページ">
+      <ul>
+        <li><a href={urls.oneDayWebManager}>1日WEB担当者</a></li>
+        <li><a href={urls.monthlySupport}>月額Web担当サポート</a></li>
+        <li><a href={urls.services}>対応できること</a></li>
+        <li><a href={urls.reading}>読みもの</a></li>
+      </ul>
+    </nav>
   </div>
 </BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: var(--space-l);
+  }
+
+  .not-found__eyebrow {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin: 0;
+  }
+
+  .not-found__links {
+    margin-top: var(--space-m);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-m);
+  }
+
+  .not-found__links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .not-found__links li {
+    margin-bottom: 0.5em;
+  }
+</style>

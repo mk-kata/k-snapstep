@@ -1,0 +1,62 @@
+---
+// K-SNAPSTEP 共通FAQアコーディオン
+//
+// 参照元: docs/KSNAPSTEP_WIREFRAME.md 10・20番(FAQはアコーディオン形式を推奨案として記録)。
+// ネイティブの<details>/<summary>要素で実装し、キーボード操作・スクリーンリーダーとも
+// 追加のJavaScriptなしで開閉できるようにした(docs/KSNAPSTEP_DESIGN_GUIDE.md 25番
+// 「アコーディオンはキーボード操作でも開閉できるようにする」に対応)。
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq-accordion">
+  {
+    items.map((item) => (
+      <details class="faq-accordion__item">
+        <summary class="faq-accordion__question">{item.question}</summary>
+        <p class="faq-accordion__answer">{item.answer}</p>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq-accordion {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .faq-accordion__item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .faq-accordion__question {
+    padding: var(--space-s) 0;
+    font-weight: 700;
+    cursor: pointer;
+    min-height: var(--tap-target-min);
+    display: flex;
+    align-items: center;
+  }
+
+  .faq-accordion__question::marker {
+    color: var(--color-accent);
+  }
+
+  .faq-accordion__answer {
+    margin: 0 0 var(--space-s);
+    color: var(--color-text);
+  }
+
+  .faq-accordion__item[open] .faq-accordion__question {
+    color: var(--color-accent);
+  }
+</style>

@@ -1,0 +1,71 @@
+---
+// 読みもの 共通｜記事カード
+//
+// 参照元: docs/MARORIRI_CONTENT_WIREFRAME.md 7番(記事カードの共通ルール)。
+// 最小構成: シリーズ名(ラベル)+記事タイトル+概要文+公開日。サムネイルは扱わない
+// (docs/KSNAPSTEP_SITE_SPEC.md「初期必須にしない項目」)。
+// 丸みの強い装飾カードにせず、罫線区切りのみで区切る。
+
+interface Props {
+  href: string;
+  title: string;
+  description: string;
+  publishedDate: Date;
+  seriesLabel?: string;
+}
+
+const { href, title, description, publishedDate, seriesLabel } = Astro.props;
+const formattedDate = publishedDate.toLocaleDateString("ja-JP", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<article class="article-card">
+  {seriesLabel && <p class="article-card__series">{seriesLabel}</p>}
+  <h3 class="article-card__title">
+    <a href={href}>{title}</a>
+  </h3>
+  <p class="article-card__description">{description}</p>
+  <p class="article-card__date">
+    <time datetime={publishedDate.toISOString().slice(0, 10)}>{formattedDate}</time>
+  </p>
+</article>
+
+<style>
+  .article-card {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .article-card__series {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin: 0 0 0.4em;
+  }
+
+  .article-card__title {
+    margin: 0 0 0.4em;
+    font-size: 1.125rem;
+  }
+
+  .article-card__title a {
+    text-decoration: none;
+  }
+
+  .article-card__title a:hover {
+    text-decoration: underline;
+  }
+
+  .article-card__description {
+    margin: 0 0 0.4em;
+    color: var(--color-text);
+  }
+
+  .article-card__date {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+</style>

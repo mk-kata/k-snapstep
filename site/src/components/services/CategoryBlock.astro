@@ -1,0 +1,40 @@
+---
+// 対応できることページ 専用｜カテゴリブロック
+//
+// 参照元: docs/KSNAPSTEP_WIREFRAME.md 12番(対応領域は均一サイズのカードグリッドにせず、
+// 高さが揃わなくてよい「カテゴリブロック」形式)、docs/KSNAPSTEP_DESIGN_GUIDE.md 18番
+// (対応領域はカード化しない。可変高さの「カテゴリブロック」)。
+// 罫線区切りの可変高さブロックとして実装し、カード化・角丸・影は使用しない。
+
+interface Props {
+  heading: string;
+  paragraphs: string[];
+}
+
+const { heading, paragraphs } = Astro.props;
+---
+
+<section class="category-block">
+  <h2 class="category-block__heading">{heading}</h2>
+  {paragraphs.map((paragraph) => <p class="category-block__body">{paragraph}</p>)}
+</section>
+
+<style>
+  .category-block {
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .category-block__heading {
+    margin: 0 0 0.75em;
+  }
+
+  .category-block__body {
+    margin: 0 0 0.75em;
+    max-width: var(--content-width);
+  }
+
+  .category-block__body:last-child {
+    margin-bottom: 0;
+  }
+</style>

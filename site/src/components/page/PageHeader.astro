@@ -19,9 +19,23 @@ interface Props {
   note?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** 副導線(任意)。主CTAの隣に控えめなテキストリンクとして表示する */
+  secondaryLabel?: string;
+  secondaryHref?: string;
 }
 
-const { pageName, heading, intro, badges = [], price, note, ctaLabel, ctaHref } = Astro.props;
+const {
+  pageName,
+  heading,
+  intro,
+  badges = [],
+  price,
+  note,
+  ctaLabel,
+  ctaHref,
+  secondaryLabel,
+  secondaryHref,
+} = Astro.props;
 ---
 
 <div class="page-header">
@@ -52,10 +66,19 @@ const { pageName, heading, intro, badges = [], price, note, ctaLabel, ctaHref } 
   {note && <p class="page-header__note">{note}</p>}
 
   {
-    ctaLabel && ctaHref && (
-      <a class="btn-primary page-header__cta" href={ctaHref}>
-        {ctaLabel}
-      </a>
-    )
+    (ctaLabel && ctaHref) || (secondaryLabel && secondaryHref) ? (
+      <div class="page-header__cta-group">
+        {ctaLabel && ctaHref && (
+          <a class="btn-primary page-header__cta" href={ctaHref}>
+            {ctaLabel}
+          </a>
+        )}
+        {secondaryLabel && secondaryHref && (
+          <a class="btn-ghost page-header__cta" href={secondaryHref}>
+            {secondaryLabel}
+          </a>
+        )}
+      </div>
+    ) : null
   }
 </div>
