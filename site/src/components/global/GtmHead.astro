@@ -1,0 +1,29 @@
+---
+// GTM(Googleタグマネージャー) head内スクリプト
+//
+// 参照元: 既存静的サイト index.html / privacy.html のGTM実装(labo/index.htmlには未設置だった。
+// docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 9番参照)。スニペットの構造はそのまま踏襲し、
+// コンテナIDのみ site/src/config/site.ts の `gtm.id` から取得する。
+//
+// `gtm.enabled`がtrueの場合のみ出力する(既定は無効。PUBLIC_ENABLE_GTM=trueで有効化、
+// docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 22番の環境変数一覧参照)。
+// BaseLayoutから1回だけ読み込まれるため、全ページで二重設置は発生しない。
+import { gtm } from "../../config/site";
+---
+
+{
+  gtm.enabled && (
+    <script define:vars={{ gtmId: gtm.id }} is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", gtmId);
+    </script>
+  )
+}

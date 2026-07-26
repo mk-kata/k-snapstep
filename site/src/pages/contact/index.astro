@@ -7,14 +7,29 @@
 // 制作会社とのやり取りを2項目に分割した版)へ差し替え、他セクションは
 // 「MARORIRIが」→「K-SNAPSTEPが」等のブランド名変更のみで使用している。
 //
-// formrunの本番埋め込みは今回まだ行わない(docs/KSNAPSTEP_SITE_SPEC.md 18番・今回の作業範囲外)。
-// フィールド一覧は表示するが、送信は機能しない。formrun設置予定位置はHTMLコメントで示し、
-// 一般利用者向けには「未完成」「構築中」等の表示をしていない。
+// formrunを実装した(docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 6・7番)。
+// - フォーム識別情報(data-formrun-form)・送信先は、既存の正式実装元(labo/index.html)から
+//   確認した値をそのまま使用し、変更していない(site/src/config/site.tsの`formrun`定数に集約)。
+// - 新しいフォームは作成していない。既存のformrun管理画面上の1つのフォームをそのまま利用する。
+// - 埋め込みスクリプト(https://sdk.form.run/js/v2/embed.js)は、このページでのみ1回だけ読み込む
+//   (BaseLayoutなど共通レイアウトには含めていないため、他ページでの重複読込は発生しない)。
+// - 実際にformrun側で現在設定されている項目(お問い合わせの種類の選択肢等)は、ローカルの
+//   コードからは確認できない(embedスクリプトが実行時にformrunのサーバーから取得して描画するため)。
+//   このページの本文(6番セクション「フォームに入力していただく内容」等)で説明している内容と、
+//   formrun管理画面側の実際の設定が一致しているかは未確認。矛盾の可能性は
+//   docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 6・8番に記録している。
+// - PUBLIC_ENABLE_FORM=false の場合のみ、実際の埋め込みを行わず代替文言を表示する
+//   (ステージング等で誤って実際の問い合わせを送信させないための切り替え)。
+// - スクリプト読み込み失敗時・JavaScript無効時の案内をそれぞれ用意した。
+// - 一般利用者向けには「未完成」「構築中」等の表示をしていない。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
 import StepList from "../../components/common/StepList.astro";
-import { urls } from "../../config/site";
+import { urls, formrun } from "../../config/site";
+
+const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "お問い合わせ" }];
 
 const consultItems = [
   "サイトを直すか作り直すか迷っている",
@@ -31,17 +46,6 @@ const afterSteps = [
   { title: "追加確認(必要な場合)", body: "必要に応じて、追加の情報を確認します。" },
   { title: "ご案内", body: "適した相談方法や、進め方をご案内します。" },
 ];
-
-const inquiryTypes = [
-  "1日WEB担当者について",
-  "月額Web担当サポートについて",
-  "Webサイト・CMSについて",
-  "制作会社とのやり取りについて",
-  "サーバー・ドメイン・メールについて",
-  "必要な実作業について",
-  "どれを選べばよいか分からない",
-  "その他",
-];
 ---
 
 <BaseLayout
@@ -51,7 +55,8 @@ const inquiryTypes = [
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "お問い合わせ" }]} />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
     <PageHeader
       pageName="お問い合わせ"
@@ -59,6 +64,7 @@ const inquiryTypes = [
       intro="サービスを決めていなくても構いません。今のWebに関する状況や、困っていることを分かる範囲でお送りください。内容を確認し、K-SNAPSTEPから適した進め方をご案内します。お問い合わせのみで契約が成立することはありません。"
       ctaLabel="お問い合わせ内容を入力する"
       ctaHref="#form"
+      ctaId="contact-page-jump-to-form"
     />
 
     <section class="section-block">
@@ -111,90 +117,47 @@ const inquiryTypes = [
         すべてを整理して書く必要はありません。現在困っていることを、分かる範囲でご記入ください。サイトのURLや使用中のCMSなど、任意の項目は、分からなければ空欄で構いません。内容を確認したうえで、進め方をご案内します。
       </p>
 
-      <!-- formrun埋め込み予定位置。本番接続時は下記フィールドをformrunの埋め込みスクリプト(data-formrun-form属性)へ置き換える。今回は本番接続を行わない。 -->
-      <form class="contact-form" data-formrun-pending="true">
-        <div class="contact-form__field">
-          <label for="name">お名前<span class="required-badge">必須</span></label>
-          <input type="text" id="name" name="name" />
-        </div>
+      <p class="privacy-note">
+        送信いただく内容は、<a href={urls.privacy}>プライバシーポリシー</a>に基づき取り扱います。
+      </p>
 
-        <div class="contact-form__field">
-          <label for="company">会社名・屋号<span class="optional-badge">任意</span></label>
-          <input type="text" id="company" name="company" />
-        </div>
-
-        <div class="contact-form__field">
-          <label for="email">メールアドレス<span class="required-badge">必須</span></label>
-          <input type="email" id="email" name="email" />
-        </div>
-
-        <div class="contact-form__field">
-          <label for="inquiry-type">お問い合わせの種類<span class="required-badge">必須</span></label>
-          <select id="inquiry-type" name="inquiry-type">
-            {inquiryTypes.map((type) => <option>{type}</option>)}
-          </select>
-        </div>
-
-        <div class="contact-form__field">
-          <label for="site-url">対象サイトのURL<span class="optional-badge">任意</span></label>
-          <input type="text" id="site-url" name="site-url" />
-        </div>
-
-        <div class="contact-form__field">
-          <label for="cms">使用中のCMS・ECサービス<span class="optional-badge">任意</span></label>
-          <input type="text" id="cms" name="cms" />
-        </div>
-
-        <div class="contact-form__field">
-          <label for="production-partner">制作会社の有無<span class="optional-badge">任意</span></label>
-          <select id="production-partner" name="production-partner">
-            <option>依頼中の制作会社がある</option>
-            <option>現在はない</option>
-            <option>分からない</option>
-          </select>
-        </div>
-
-        <div class="contact-form__field">
-          <label for="timing">希望する対応時期<span class="optional-badge">任意</span></label>
-          <input
-            type="text"
-            id="timing"
-            name="timing"
-            placeholder="例：〇月ごろまでに相談したい／時期は決まっていない"
-          />
-        </div>
-
-        <div class="contact-form__field">
-          <label for="visit">オンライン・訪問の希望<span class="optional-badge">任意</span></label>
-          <select id="visit" name="visit">
-            <option>オンラインを希望</option>
-            <option>訪問を希望</option>
-            <option>相談して決めたい</option>
-          </select>
-          <p class="contact-form__hint">訪問は内容や地域により対応可否を確認します。</p>
-        </div>
-
-        <div class="contact-form__field">
-          <label for="details">現在困っていること<span class="required-badge">必須</span></label>
-          <textarea id="details" name="details" rows="6"></textarea>
-        </div>
-
-        <div class="contact-form__field contact-form__field--checkbox">
-          <label>
-            <input type="checkbox" id="privacy-agree" name="privacy-agree" />
-            <a href={urls.privacy}>個人情報の取り扱いについて</a>確認し、同意します<span class="required-badge">必須</span>
-          </label>
-        </div>
-
-        <p class="contact-form__note">
-          お問い合わせのみで契約が成立することはありません。営業・勧誘を目的としたご連絡には、返信できない場合があります。個人情報の取り扱いについて確認し、同意のうえ送信してください。
-        </p>
-
-        <button type="submit" class="btn-primary">この内容で送信する</button>
-      </form>
+      {
+        formrun.enabled ? (
+          <div class="formrun-wrap" data-form-area="formrun">
+            <p id="formrun-load-error" class="formrun-fallback" hidden>
+              フォームの読み込みに問題が発生しました。時間をおいてページを再読み込みしていただくか、解決しない場合はお手数ですが後ほど改めてお試しください。
+            </p>
+            <noscript>
+              <p class="formrun-fallback">
+                お使いのブラウザでJavaScriptが無効になっているため、フォームを表示できません。JavaScriptを有効にしてページを再読み込みしてください。
+              </p>
+            </noscript>
+            <div
+              class="formrun-embed"
+              data-cta="formrun-embed"
+              data-formrun-form={formrun.formId}
+              data-formrun-redirect={String(formrun.redirect)}
+            />
+          </div>
+        ) : (
+          <p class="formrun-fallback">
+            現在、このフォームは表示していません。時間をおいて再度お試しください。
+          </p>
+        )
+      }
     </section>
   </div>
 </BaseLayout>
+
+{
+  formrun.enabled && (
+    <script
+      is:inline
+      src={formrun.embedScriptUrl}
+      onerror="document.getElementById('formrun-load-error').hidden = false;"
+    />
+  )
+}
 
 <style>
   .section-block {
@@ -218,73 +181,22 @@ const inquiryTypes = [
     font-size: 0.9375rem;
   }
 
-  .contact-form {
+  .privacy-note {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-top: var(--space-s);
+  }
+
+  .formrun-wrap {
     max-width: var(--content-width);
     margin-top: var(--space-m);
   }
 
-  .contact-form__field {
-    margin-bottom: var(--space-m);
-  }
-
-  .contact-form__field label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 0.4em;
-  }
-
-  .contact-form__field input[type="text"],
-  .contact-form__field input[type="email"],
-  .contact-form__field select,
-  .contact-form__field textarea {
-    width: 100%;
-    padding: 0.6em;
+  .formrun-fallback {
+    background: var(--color-bg-alt);
     border: 1px solid var(--color-border);
-    font: inherit;
-    background: var(--color-bg);
-    color: var(--color-text);
-  }
-
-  .contact-form__field--checkbox label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5em;
-    font-weight: 400;
-  }
-
-  .contact-form__field--checkbox input {
-    margin-top: 0.3em;
-    min-width: var(--tap-target-min);
-    min-height: 1.25em;
-  }
-
-  .contact-form__hint {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-    margin: 0.4em 0 0;
-  }
-
-  .contact-form__note {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-s);
-  }
-
-  .required-badge,
-  .optional-badge {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    margin-inline-start: 0.5em;
-    padding: 0.1em 0.5em;
-    border: 1px solid var(--color-border);
-  }
-
-  .required-badge {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-
-  .optional-badge {
-    color: var(--color-text-muted);
+    padding: var(--space-s);
+    max-width: var(--content-width);
+    margin-top: var(--space-m);
   }
 </style>

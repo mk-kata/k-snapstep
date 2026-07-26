@@ -7,9 +7,16 @@
 // 見出し・導入文は確定資料に本文が見当たらなかったため、今回新規作成した(新規本文案)。
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../../../components/seo/BreadcrumbJsonLd.astro";
 import ArticleCard from "../../../components/reading/ArticleCard.astro";
 import { getCollection } from "astro:content";
 import { urls } from "../../../config/site";
+
+const breadcrumbItems = [
+  { label: "トップ", href: "/" },
+  { label: "読みもの", href: urls.reading },
+  { label: "小さな会社のホームページ見直しノート" },
+];
 
 const articles = (await getCollection("articles", ({ data }) => !data.draft && data.series === "website-review")).sort(
   (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
@@ -23,13 +30,8 @@ const articles = (await getCollection("articles", ({ data }) => !data.draft && d
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs
-      items={[
-        { label: "トップ", href: "/" },
-        { label: "読みもの", href: urls.reading },
-        { label: "小さな会社のホームページ見直しノート" },
-      ]}
-    />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
     <header class="page-header">
       <p class="page-header__eyebrow">読みもの</p>

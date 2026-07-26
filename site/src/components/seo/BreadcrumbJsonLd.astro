@@ -1,0 +1,36 @@
+---
+// パンくずJSON-LD(BreadcrumbList)
+//
+// 参照元: docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 12番。固定下層ページ・記事詳細に設置する。
+// 画面上の<Breadcrumbs>コンポーネントと同じitems配列をそのまま渡して使う想定
+// (表示内容と構造化データの不一致を避けるため、別データを持たせない)。
+// 現在ページ(hrefを持たない項目)は、呼び出し側のAstro.url.pathnameを絶対URLとして使用する。
+import { site } from "../../config/site";
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  currentPath: string;
+}
+
+const { items, currentPath } = Astro.props;
+
+const listItems = items.map((item, index) => ({
+  "@type": "ListItem",
+  position: index + 1,
+  name: item.label,
+  item: new URL(item.href ?? currentPath, site.url).toString(),
+}));
+
+const breadcrumbList = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: listItems,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbList)} is:inline />

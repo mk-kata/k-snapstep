@@ -13,9 +13,12 @@
 // プロフィール写真は今回まだ使用しない。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
 import CtaBlock from "../../components/common/CtaBlock.astro";
 import { urls, maroriri } from "../../config/site";
+
+const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "片山まゆみについて" }];
 
 const roles = ["要望整理", "指示変換", "修正確認", "進行順の決定", "担当整理", "認識のずれの確認"];
 const judgments = [
@@ -34,7 +37,8 @@ const judgments = [
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "片山まゆみについて" }]} />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
     <PageHeader
       pageName="片山まゆみについて"
@@ -141,6 +145,7 @@ const judgments = [
         url={urls.contact}
         variant="primary"
         headingLevel="h2"
+        ctaId="profile-contact-cta"
       />
     </div>
   </div>

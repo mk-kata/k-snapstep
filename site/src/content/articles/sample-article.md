@@ -5,6 +5,7 @@ series: "website-review"
 introduction: "本番記事ではありません。draft: true の記事が一覧・詳細に表示されないことを確認するためのサンプルです。"
 publishedDate: 2026-01-01
 draft: true
+sample: true
 relatedArticles: []
 serviceLink: "/"
 serviceLinkText: "（仮）トップページへ"

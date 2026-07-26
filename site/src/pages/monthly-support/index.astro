@@ -10,11 +10,15 @@
 // (docs/KSNAPSTEP_WIREFRAME.md 11番の「循環配置イメージ」に対応)。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
+import ServiceJsonLd from "../../components/seo/ServiceJsonLd.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
 import TableOfContents from "../../components/common/TableOfContents.astro";
 import PriceTable from "../../components/common/PriceTable.astro";
 import CtaBlock from "../../components/common/CtaBlock.astro";
 import { urls } from "../../config/site";
+
+const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "月額Web担当サポート" }];
 
 const tocItems = [
   { href: "#who", label: "このような方へ" },
@@ -69,7 +73,15 @@ const priceRows = [
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "月額Web担当サポート" }]} />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
+    <ServiceJsonLd
+      name="月額Web担当サポート"
+      description="専任のWeb担当者がいない会社・事業者のために、月2回のオンライン面談でWebの判断と進行を継続的に確認するサービス。"
+      url={urls.monthlySupport}
+      price="55000"
+      unitText="1か月あたり"
+    />
 
     <PageHeader
       pageName="月額Web担当サポート"
@@ -184,6 +196,7 @@ const priceRows = [
         url={urls.contact}
         variant="primary"
         headingLevel="h2"
+        ctaId="monthly-support-contact-cta"
       />
     </div>
   </div>

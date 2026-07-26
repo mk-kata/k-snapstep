@@ -14,6 +14,8 @@ interface Props {
   variant?: "primary" | "quiet" | "reading";
   secondaryLinkLabel?: string;
   secondaryLinkUrl?: string;
+  /** 主ボタンへ付与する data-cta 属性値(任意。計測用の安定した識別子、docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 10番) */
+  ctaId?: string;
   /**
    * 見出しのタグ名。ページ内の独立したセクション見出しとして使う場合は"h2"を指定する
    * (docs/KSNAPSTEP_HOME_IMPLEMENTATION.md セクション9で使用)。
@@ -32,6 +34,7 @@ const {
   secondaryLinkLabel,
   secondaryLinkUrl,
   headingLevel = "p",
+  ctaId,
 } = Astro.props;
 
 const HeadingTag = headingLevel;
@@ -41,7 +44,7 @@ const HeadingTag = headingLevel;
   {label && <p class="cta-block__label">{label}</p>}
   <HeadingTag class="cta-block__heading">{heading}</HeadingTag>
   {body && <p class="cta-block__body">{body}</p>}
-  <a class={variant === "quiet" ? "btn-ghost" : "btn-primary"} href={url}>
+  <a class={variant === "quiet" ? "btn-ghost" : "btn-primary"} href={url} data-cta={ctaId}>
     {buttonLabel}
   </a>
   {

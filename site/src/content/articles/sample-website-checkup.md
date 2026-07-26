@@ -6,6 +6,7 @@ introduction: "この記事は、読みもの機能の表示確認用に作成�
 publishedDate: 2026-07-01
 updatedDate: 2026-07-20
 draft: false
+sample: true
 relatedArticles: []
 serviceLink: "/one-day-web-manager/"
 serviceLinkText: "1日WEB担当者を見る"

@@ -1,10 +1,17 @@
-# K-SNAPSTEP Astroサイト(新環境・構築中)
+# K-SNAPSTEP Astroサイト(構築中・本番未公開)
 
 このディレクトリ(`site/`)は、新しいK-SNAPSTEPサイト用のAstroプロジェクトです。
 
 **リポジトリルートにある既存の静的サイト(`index.html`・`labo/index.html`・`privacy.html`・`css/`・`js/`・`images/`・`sitemap.xml`等)は、現在の本番サイトの参照用としてそのまま残しています。** このAstro環境の作成にあたって、既存ルートファイルは一切変更・移動・削除していません。公開方法(自動デプロイか手動アップロードか)が未確認のため、当面はルートの既存ファイルを直接編集しません。
 
-現時点では、共通レイアウト・共通ヘッダー・共通フッター・基本ナビゲーション・固定ページのルート骨格・CSSトークンに加え、**トップページの確定9セクションを実装済み**です。下層ページ(1日WEB担当者・月額Web担当サポート・対応できること・プロフィール・お問い合わせ・読みもの・プライバシーポリシー)は、引き続き仮本文のままです。**GTM、formrun、JSON-LD、リダイレクト、本番公開はまだ行っていません。**次工程は、まず1日WEB担当者ページの確定本文実装です。
+## 現在の実装状況(2026年7月27日時点)
+
+- 固定ページ(トップ・1日WEB担当者・月額Web担当サポート・対応できること・プロフィール・お問い合わせ・プライバシーポリシー・404)、読みもの基盤(一覧・シリーズ一覧・記事詳細)を実装済み(詳細は`/Users/macbook/Desktop/本来面目/docs/KSNAPSTEP_PAGES_IMPLEMENTATION.md`)
+- formrun・GTM・JSON-LD・sitemap・robots.txt・環境変数によるステージング切り替え・リダイレクト準備を実装済み(詳細は`/Users/macbook/Desktop/本来面目/docs/KSNAPSTEP_LAUNCH_FOUNDATION.md`)
+- **正式OGP画像は未作成。** トップページデザイン確認後に、K-SNAPSTEP専用のOGP画像を作成する予定
+- **本番公開方法(ホスティング・デプロイ経路)は未確定。**
+- **本番公開は今回も行っていない。** `dist/`の内容を本番サーバーへアップロードすることは、公開方法が確認できるまで禁止する
+- 次工程: 画面確認(実機・複数ブラウザ)、デザイン調整(配色・フォント・ロゴの最終確定)、公開方法の確認(`site/docs/PRE_LAUNCH_CHECKLIST.md`参照)
 
 ---
 
@@ -38,11 +45,11 @@ npm run preview
 
 `site/src/content/articles/`(Markdown、`.md`)。読み込み定義は `site/src/content.config.ts`(Astroの現在の推奨方法であるContent Layer API・`glob`ローダーを使用)。
 
-初期スキーマ項目: `title`・`description`・`publishedDate`・`updatedDate`・`draft`・`relatedArticles`・`serviceLink`・`serviceLinkText`。
+初期スキーマ項目: `title`・`description`・`publishedDate`・`updatedDate`・`draft`・`relatedArticles`・`serviceLink`・`serviceLinkText`。読みもの基盤の実装にあわせ`series`・`slug`・`introduction`・`sample`を追加した。
 
 `thumbnail`・`category`・`tag`・読了時間・複雑な著者情報は、今回は初期必須にしていない(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 14番の方針どおり)。
 
-現在、動作確認用のサンプル記事(`sample-article.md`、`draft: true`)が1件だけ存在する。本番記事ではない。
+現在、動作確認用のサンプル記事が2件存在する。本番記事ではない。`sample-article.md`(`draft: true`)は非公開のまま、`sample-website-checkup.md`(`draft: false`・`sample: true`)は表示確認用として公開しているが、タイトル・本文に「サンプル」と明記し、noindex・Article構造化データ対象外にしている。
 
 ## 画像の置き場所
 
@@ -50,24 +57,59 @@ npm run preview
 
 ---
 
-## SEO・計測に関する現状(未実装のもの)
+## GTM(Googleタグマネージャー)
 
-- **GTM(`GTM-TXFRNQ3`)は、今回はまだAstro側へ設置していない。** 既存ルート実装では継続利用の方針(docs/KSNAPSTEP_SITE_SPEC.md 23番)だが、設置は次工程で行う
-- **formrunは、今回はまだ設置していない**
-- **JSON-LDは本実装していない。** 既存ルートの`index.html`にあるJSON-LD(「本来面目らぼ」名義、`LocalBusiness`型)は新事業内容と一致しないため移植せず、固定ページ実装時に新規作成する(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 16番)
-- 共通レイアウト(`src/layouts/BaseLayout.astro`)には、title・meta description・canonical・OGP(最小限)・Twitter Card・lang="ja"・favicon参照の「型」だけを用意した。値の多くは仮設定であり、正式なドメイン運用・ロゴ確定後に差し替える
+- 既存コンテナ`GTM-TXFRNQ3`を、共通レイアウト(`src/layouts/BaseLayout.astro`)経由で全ページに1回だけ出力する構成にした(`src/components/global/GtmHead.astro`・`GtmBody.astro`)
+- **既定では無効。** `PUBLIC_ENABLE_GTM=true`を明示した場合のみ出力する(開発環境・ステージングでの誤計測を防止するため)
+- コンテナIDは`PUBLIC_GTM_ID`で上書き可能(未設定時は`GTM-TXFRNQ3`)
+- 既存静的サイトでは`index.html`・`privacy.html`にのみGTMが設置されており、`labo/index.html`には設置されていない不整合があったが、Astro版では共通レイアウト経由のため全ページで一貫して設置される
 
-## sitemap・robotsの扱い
+## formrun(お問い合わせフォーム)
 
-- 既存ルートの`sitemap.xml`は、このAstro環境作成にあたって変更していない
-- Astro側のsitemap自動生成(`@astrojs/sitemap`等の連携)は、**今回はまだ追加していない**。次工程で、既存ルートの`sitemap.xml`との重複が起きない運用方法(本番切り替え時にどちらか一方のみ設置する等)を決めたうえで追加する
-- `robots.txt`は、ステージング環境と本番環境で扱いを変える必要があるため(検索エンジンにステージングを登録させない等)、今回の仮ページの段階では作成・確定していない
+- `site/src/pages/contact/index.astro`に実装済み。既存の正式実装元(`labo/index.html`)で確認したフォーム識別情報(`data-formrun-form`)・埋め込みスクリプト(`https://sdk.form.run/js/v2/embed.js`)・`data-formrun-redirect`をそのまま使用し、値は変更していない(`src/config/site.ts`の`formrun`定数に集約)
+- 新しいフォームは作成していない。既存のformrun管理画面上の1つのフォームをそのまま利用する
+- **既定では有効。** `PUBLIC_ENABLE_FORM=false`の場合のみ実際の埋め込みを無効化し、代替文言を表示する(ステージング等で誤って実際の問い合わせを送信させないための切り替え)
+- スクリプト読み込み失敗時・JavaScript無効時の案内をそれぞれ用意した
+- **formrun側で現在設定されている項目(お問い合わせの種類の選択肢等)はローカルのコードからは確認できない。** `docs/KSNAPSTEP_SITE_SPEC.md`15番の確定8択と一致しているかは、formrun管理画面での確認・更新が必要(詳細は`/Users/macbook/Desktop/本来面目/docs/KSNAPSTEP_LAUNCH_FOUNDATION.md`参照)
 
----
+## JSON-LD
 
-## `/labo/`の301転送
+- サイト共通(`ProfessionalService`+`WebSite`、`src/components/seo/OrganizationJsonLd.astro`)を全ページで1回出力する。K-SNAPSTEPは法人組織ではなく屋号のため、`Organization`ではなく`ProfessionalService`を採用した
+- 固定下層ページ・読みものページに`BreadcrumbList`(`BreadcrumbJsonLd.astro`)を追加した
+- 1日WEB担当者・月額Web担当サポートページに`Service`(`ServiceJsonLd.astro`、確定料金のみ使用)を追加した
+- 記事詳細に`BlogPosting`(`ArticleJsonLd.astro`)を追加した。**表示確認用のサンプル記事(`sample: true`)は対象外**とし、あわせてnoindexにしている
+- 既存ルート`index.html`のJSON-LD(「本来面目らぼ」名義、`LocalBusiness`型、旧料金)は移植していない
 
-新サイト公開時は`/`へ301転送する方向(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 18番の初期推奨案)。**今回はリダイレクト設定を作成していない。**
+## sitemap・robots.txt
+
+- `src/pages/sitemap.xml.ts`で新サイト用のsitemapを生成する(固定ページ・読みもの一覧・シリーズ一覧・公開記事のみ、404・draft記事は含まない)
+- 当初`@astrojs/sitemap`公式連携を試したが、`build.format: "preserve"`による混在ルーティング(ディレクトリ形式+`/privacy.html`)を正しく認識できず、末尾スラッシュ・拡張子が欠落したURLを出力したため採用しなかった。実際の出力ページに完全一致するURLを手動で列挙する方式にした
+- 既存ルートの`sitemap.xml`は、このAstro環境作成にあたって変更していない(別ファイルであり重複しない)
+- `src/pages/robots.txt.ts`で、`PUBLIC_SITE_ENV=production`のときのみ`Allow: /`+sitemap案内、それ以外は`Disallow: /`を出力する
+
+## 環境変数
+
+`.env.example`参照(実際の秘密情報は含まない)。
+
+| 変数 | 既定値 | 役割 |
+|---|---|---|
+| `PUBLIC_SITE_URL` | `https://k-snapstep.com` | canonical・OGP・sitemap・robotsの基準URL |
+| `PUBLIC_SITE_ENV` | 未設定(development扱い) | `production`以外は常にnoindex・robots全体拒否 |
+| `PUBLIC_GTM_ID` | `GTM-TXFRNQ3` | GTMコンテナID |
+| `PUBLIC_ENABLE_GTM` | `false`扱い | `true`のときのみGTM出力 |
+| `PUBLIC_ENABLE_FORM` | 有効 | `false`のときのみformrun埋め込みを無効化 |
+
+## ステージング構成
+
+- production以外(staging・development)は、ページ個別のnoindex指定に関わらず常にnoindexになる(`src/layouts/BaseLayout.astro`)
+- `robots.txt`もproduction以外は全体クロール拒否になる
+- GTMは明示的に有効化しない限り出力されない
+- formrunは`PUBLIC_ENABLE_FORM=false`で実埋め込みを止められる
+- 本番URLは`PUBLIC_SITE_URL`で切り替えるため、ステージングURLをそのままcanonical・sitemap・robotsへ反映できる
+
+## `/labo/`の301転送(準備のみ・未適用)
+
+新サイト公開時は`/`へ301転送する方針(docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 18番の初期推奨案)。`site/deploy/apache/.htaccess.example`に転送案を用意したが、**今回は本番・ステージングいずれにも適用していない**(`public/`配下にも配置していないため、ビルド出力には含まれない)。ホスティング環境(Apacheかどうか含む)を確認したうえで、公開作業時に手動で適用する想定。
 
 ## `/privacy.html`の対応方針(更新)
 

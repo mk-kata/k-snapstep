@@ -10,6 +10,8 @@
 // FAQはネイティブ<details>によるアコーディオン(FaqAccordion)。JavaScriptは使用していない。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
+import ServiceJsonLd from "../../components/seo/ServiceJsonLd.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
 import TableOfContents from "../../components/common/TableOfContents.astro";
 import StepList from "../../components/common/StepList.astro";
@@ -17,6 +19,8 @@ import PriceTable from "../../components/common/PriceTable.astro";
 import FaqAccordion from "../../components/common/FaqAccordion.astro";
 import CtaBlock from "../../components/common/CtaBlock.astro";
 import { urls } from "../../config/site";
+
+const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "1日WEB担当者" }];
 
 const tocItems = [
   { href: "#about", label: "1日WEB担当者とは" },
@@ -164,7 +168,15 @@ const faqItems = [
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "1日WEB担当者" }]} />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
+    <ServiceJsonLd
+      name="1日WEB担当者"
+      description="ひとつのWeb課題について状況を確認し、次に誰が何をするかを決める、単発の外部Web担当者サービス。"
+      url={urls.oneDayWebManager}
+      price="55000"
+      unitText="1回あたり"
+    />
 
     <PageHeader
       pageName="1日WEB担当者"
@@ -282,7 +294,7 @@ const faqItems = [
     <section id="pricing" class="section-block">
       <h2>料金と、実施の概要。</h2>
       <PriceTable rows={priceRows} />
-      <a class="btn-primary" href={urls.contact}>お問い合わせへ</a>
+      <a class="btn-primary" href={urls.contact} data-cta="one-day-web-manager-pricing">お問い合わせへ</a>
     </section>
 
     <section id="upsell" class="section-block">
@@ -310,6 +322,7 @@ const faqItems = [
         url={urls.contact}
         variant="primary"
         headingLevel="h2"
+        ctaId="one-day-web-manager-contact-cta"
       />
     </div>
   </div>

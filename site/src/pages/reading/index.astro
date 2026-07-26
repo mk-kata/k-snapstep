@@ -10,9 +10,12 @@
 // 見出し・導入文は確定資料に本文が見当たらなかったため、今回新規作成した(新規本文案)。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
 import ArticleCard from "../../components/reading/ArticleCard.astro";
 import { getCollection } from "astro:content";
 import { urls } from "../../config/site";
+
+const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "読みもの" }];
 
 const allArticles = await getCollection("articles", ({ data }) => !data.draft);
 const websiteReviewArticles = allArticles
@@ -28,7 +31,8 @@ const latestArticles = websiteReviewArticles.slice(0, 3);
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "読みもの" }]} />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
     <header class="page-header">
       <p class="page-header__eyebrow">読みもの</p>

@@ -1,0 +1,43 @@
+---
+// サービスJSON-LD(Service)
+//
+// 参照元: docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 12番。1日WEB担当者・月額Web担当サポートページに設置する。
+// 料金は docs/KSNAPSTEP_SITE_SPEC.md 7番の確定料金のみを使用し、未確定の数値は含めない。
+import { site } from "../../config/site";
+
+interface Props {
+  name: string;
+  description: string;
+  url: string;
+  price: string;
+  priceCurrency?: string;
+  /** 例: "1回あたり" / "1か月あたり" */
+  unitText?: string;
+}
+
+const { name, description, url, price, priceCurrency = "JPY", unitText } = Astro.props;
+
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name,
+  description,
+  url: new URL(url, site.url).toString(),
+  provider: {
+    "@type": "ProfessionalService",
+    "@id": `${site.url}/#business`,
+    name: site.name,
+  },
+  areaServed: "JP",
+  offers: {
+    "@type": "Offer",
+    price,
+    priceCurrency,
+    ...(unitText
+      ? { priceSpecification: { "@type": "UnitPriceSpecification", price, priceCurrency, unitText } }
+      : {}),
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} is:inline />

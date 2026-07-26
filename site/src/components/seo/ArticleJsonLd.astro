@@ -1,0 +1,47 @@
+---
+// 記事詳細JSON-LD(BlogPosting)
+//
+// 参照元: docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 12番。表示される記事データ(title・description・
+// publishedDate・updatedDate)とそのまま一致させ、別の文言を作らない。
+// サンプル記事(article.data.sample === true)は呼び出し側で描画自体をスキップする設計とし、
+// このコンポーネント自体はサンプルかどうかを判定しない。
+import { site } from "../../config/site";
+
+interface Props {
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: Date;
+  dateModified?: Date;
+  articleSection?: string;
+}
+
+const { headline, description, url, datePublished, dateModified, articleSection } = Astro.props;
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline,
+  description,
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": new URL(url, site.url).toString(),
+  },
+  datePublished: datePublished.toISOString(),
+  ...(dateModified ? { dateModified: dateModified.toISOString() } : {}),
+  ...(articleSection ? { articleSection } : {}),
+  author: {
+    "@type": "Person",
+    "@id": `${site.url}/#person`,
+    name: site.owner,
+  },
+  publisher: {
+    "@type": "Organization",
+    "@id": `${site.url}/#business`,
+    name: site.name,
+    url: site.url,
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} is:inline />

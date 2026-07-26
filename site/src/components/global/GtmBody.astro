@@ -1,0 +1,20 @@
+---
+// GTM(Googleタグマネージャー) body直後のnoscript
+//
+// 参照元・有効条件は GtmHead.astro と同じ(docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 9番参照)。
+import { gtm } from "../../config/site";
+---
+
+{
+  gtm.enabled && (
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${gtm.id}`}
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+        title="Google Tag Manager"
+      />
+    </noscript>
+  )
+}

@@ -19,6 +19,8 @@ interface Props {
   note?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** 主CTAへ付与する data-cta 属性値(任意。計測用の安定した識別子、docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 10番) */
+  ctaId?: string;
   /** 副導線(任意)。主CTAの隣に控えめなテキストリンクとして表示する */
   secondaryLabel?: string;
   secondaryHref?: string;
@@ -33,6 +35,7 @@ const {
   note,
   ctaLabel,
   ctaHref,
+  ctaId,
   secondaryLabel,
   secondaryHref,
 } = Astro.props;
@@ -69,7 +72,7 @@ const {
     (ctaLabel && ctaHref) || (secondaryLabel && secondaryHref) ? (
       <div class="page-header__cta-group">
         {ctaLabel && ctaHref && (
-          <a class="btn-primary page-header__cta" href={ctaHref}>
+          <a class="btn-primary page-header__cta" href={ctaHref} data-cta={ctaId}>
             {ctaLabel}
           </a>
         )}

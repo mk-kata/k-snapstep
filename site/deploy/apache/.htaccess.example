@@ -1,0 +1,27 @@
+# K-SNAPSTEP 本番公開時の .htaccess 転送案(サンプル、未適用)
+#
+# 参照元: docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 19番・docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 18番。
+# 本番のホスティングが Apache(ロリポップ！レンタルサーバーの可能性が高いという手掛かりあり、
+# docs/KSNAPSTEP_IMPLEMENTATION_GAP.md 5-3番)であることを踏まえた転送案。
+#
+# 【重要】このファイルは公開準備用のサンプルであり、今回は次のいずれの場所にも配置していない。
+# - site/public/ 配下(ビルド時にdistへそのままコピーされ、本番へ誤って適用される可能性があるため)
+# - リポジトリルートの既存 .htaccess(そもそも存在しない。今回も新規作成していない)
+#
+# 実際に有効化するのは、ホスティング環境(Apacheかどうか含む)を確認したうえで、
+# 公開作業時に手動で本番のドキュメントルートへ配置する運用を想定する。
+#
+# 確定している転送方針(docs/KSNAPSTEP_PAGES_IMPLEMENTATION.mdおよび今回の指示より):
+# - /labo/ および /labo/index.html は、新トップページ(/)へ301転送する
+# - /privacy.html は転送しない(新サイトでも同じURLをそのまま使用する)
+# - 存在しないURLをすべてトップへ転送はしない(404は404として正しく返す)
+# - Astroの静的ファイル配信(CSS・JS・画像等)を妨げない
+
+# /labo/ 配下(index.htmlを含む)を新トップページへ301転送
+RewriteEngine On
+RewriteRule ^labo/?$ /? [R=301,L]
+RewriteRule ^labo/index\.html$ /? [R=301,L]
+
+# 上記以外のURLは通常どおり静的ファイル配信に任せる(トップへの一括転送は行わない)。
+# 存在しないURLは、Astroが生成する 404.html がそのまま返る想定(ErrorDocumentの設定は
+# ホスティング側の挙動を確認したうえで、公開作業時に別途検討する)。

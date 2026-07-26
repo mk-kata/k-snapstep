@@ -13,7 +13,10 @@
 
 import SiteHeader from "../components/global/SiteHeader.astro";
 import SiteFooter from "../components/global/SiteFooter.astro";
-import { site } from "../config/site";
+import GtmHead from "../components/global/GtmHead.astro";
+import GtmBody from "../components/global/GtmBody.astro";
+import OrganizationJsonLd from "../components/seo/OrganizationJsonLd.astro";
+import { site, shouldIndex } from "../config/site";
 // src/styles/ 配下のCSSはViteのimportで読み込む(public/配下に置いて直接<link>する方式は取らない)。
 // これにより、Astroが自動でハッシュ付きファイル名を発行し、正しくdistへ出力・参照される。
 import "../styles/tokens.css";
@@ -51,19 +54,23 @@ const {
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site.url).toString();
 const pageTitle = title === site.name ? site.defaultTitle : `${title} ｜ ${site.name}`;
 const bodyClasses = [`layout-${layoutType}`, bodyClass].filter(Boolean).join(" ");
+// production以外(staging・development)は、ページ個別のnoindex指定に関わらず常にnoindexにする
+// (docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 16・20番、公開事故防止のための既定値)。
+const effectiveNoindex = noindex || !shouldIndex;
 ---
 
 <!doctype html>
 <html lang={site.lang}>
   <head>
     <meta charset="utf-8" />
+    <GtmHead />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {effectiveNoindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <!-- OGP(値は仮。KSNAPSTEP_DESIGN_GUIDE.md確定後に本番用へ差し替え) -->
+    <!-- OGP(OGP画像は正式なもの未作成のため今回は出力しない。KSNAPSTEP_LAUNCH_FOUNDATION.md 13番参照) -->
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
@@ -81,10 +88,11 @@ const bodyClasses = [`layout-${layoutType}`, bodyClass].filter(Boolean).join(" "
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
 
-    <!-- JSON-LDは今回未実装。固定ページ・記事実装時に新規作成する -->
-    <!-- GTMは今回未設置 -->
+    <!-- サイト共通JSON-LD(ProfessionalService+WebSite)。ページ固有のJSON-LDは各ページで追加する -->
+    <OrganizationJsonLd />
   </head>
   <body class={bodyClasses}>
+    <GtmBody />
     <a class="skip-link" href="#main-content">本文へ移動</a>
 
     {

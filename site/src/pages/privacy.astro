@@ -15,7 +15,10 @@
 // 出力URLは /privacy.html (astro.config.mjs の build.format: "preserve" による)。
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Breadcrumbs from "../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../components/seo/BreadcrumbJsonLd.astro";
 import { urls } from "../config/site";
+
+const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "プライバシーポリシー" }];
 
 const sections = [
   {
@@ -68,7 +71,8 @@ const sections = [
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs items={[{ label: "トップ", href: "/" }, { label: "プライバシーポリシー" }]} />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
     <h1>プライバシーポリシー</h1>
     <p class="privacy-intro">

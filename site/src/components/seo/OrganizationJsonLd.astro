@@ -1,0 +1,48 @@
+---
+// サイト共通JSON-LD(ProfessionalService + WebSite)
+//
+// 参照元: docs/KSNAPSTEP_LAUNCH_FOUNDATION.md 12番。
+// K-SNAPSTEPは法人組織ではなく屋号・事業名であるため、Organization(会社組織)としては表現せず、
+// 個人事業主による専門サービスを表す ProfessionalService(LocalBusinessのサブタイプ)を採用した。
+// 電話番号・住所・価格帯など確定していない情報は含めていない。
+// 旧静的サイトのJSON-LD(index.html・labo/index.htmlの「本来面目らぼ」名義・旧料金)は移植していない。
+//
+// BaseLayoutから全ページで1回だけ出力する(重複設置なし)。
+import { site } from "../../config/site";
+
+const businessId = `${site.url}/#business`;
+const personId = `${site.url}/#person`;
+const websiteId = `${site.url}/#website`;
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: site.owner,
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": businessId,
+      name: site.name,
+      alternateName: site.tagline,
+      url: site.url,
+      description: site.defaultDescription,
+      founder: { "@id": personId },
+      areaServed: "JP",
+      serviceType: ["1日WEB担当者", "月額Web担当サポート"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      name: site.name,
+      url: site.url,
+      inLanguage: site.lang,
+      publisher: { "@id": businessId },
+    },
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} is:inline />

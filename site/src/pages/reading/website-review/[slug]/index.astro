@@ -9,6 +9,8 @@
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../../../components/navigation/Breadcrumbs.astro";
+import BreadcrumbJsonLd from "../../../../components/seo/BreadcrumbJsonLd.astro";
+import ArticleJsonLd from "../../../../components/seo/ArticleJsonLd.astro";
 import TableOfContents from "../../../../components/common/TableOfContents.astro";
 import RelatedArticles from "../../../../components/reading/RelatedArticles.astro";
 import { urls } from "../../../../config/site";
@@ -35,23 +37,38 @@ const tocItems = headings
 
 const formatDate = (date: Date) =>
   date.toLocaleDateString("ja-JP", { year: "numeric", month: "long", day: "numeric" });
+
+const breadcrumbItems = [
+  { label: "トップ", href: "/" },
+  { label: "読みもの", href: urls.reading },
+  { label: "小さな会社のホームページ見直しノート", href: `${urls.reading}website-review/` },
+  { label: article.data.title },
+];
+const articlePath = `${urls.reading}website-review/${article.data.slug ?? article.id}/`;
 ---
 
 <BaseLayout
   title={article.data.title}
   description={article.data.description}
   layoutType="article"
+  noindex={article.data.sample}
   showBuildNotice={false}
 >
   <div class="container content-width">
-    <Breadcrumbs
-      items={[
-        { label: "トップ", href: "/" },
-        { label: "読みもの", href: urls.reading },
-        { label: "小さな会社のホームページ見直しノート", href: `${urls.reading}website-review/` },
-        { label: article.data.title },
-      ]}
-    />
+    <Breadcrumbs items={breadcrumbItems} />
+    <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
+    {
+      !article.data.sample && (
+        <ArticleJsonLd
+          headline={article.data.title}
+          description={article.data.description}
+          url={articlePath}
+          datePublished={article.data.publishedDate}
+          dateModified={article.data.updatedDate}
+          articleSection="小さな会社のホームページ見直しノート"
+        />
+      )
+    }
 
     <article>
       <header class="article-header">
