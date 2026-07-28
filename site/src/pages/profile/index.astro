@@ -11,6 +11,15 @@
 // - 「対応できることを見る」への導線は、確定9セクションに含まれていなかったため、
 //   今回のページ実装指示に基づき、末尾の控えめなリンクとして新規に1行追加した(新規作成箇所)
 // プロフィール写真は今回まだ使用しない。
+//
+// 【文章リズム調整】
+// - セクション3(経歴): 「〜ました。」の連続、および見出しと経歴ラベルの重複を解消するため、
+//   見出し・本文を書き直した。銀行勤務→印刷会社→Web制作→現在という事実関係は変えていない。
+//   末尾のラベルは、本文と重複する文章ではなく「銀行勤務／印刷・DTP／Web制作・運用／現在のK-SNAPSTEP」
+//   という短い語のみへ整理した。
+// - セクション7(1日WEB担当者が生まれた理由): 発注する側に残る判断の内容を、地の文の羅列ではなく
+//   箇条書きで示すよう整理した。
+// - セクション5(制作だけでなく、間に立つ仕事も): 「〜こと。」が5つ連続していた箇所を箇条書きへ変更した。
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
 import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
@@ -57,15 +66,24 @@ const judgments = [
     </section>
 
     <section class="section-block">
-      <h2>銀行、印刷会社を経て、Web制作の仕事へ。</h2>
-      <p>最初は銀行に勤務していました。</p>
+      <h2>制作と発注、両方の立場を経験してきました</h2>
+      <p>銀行勤務を経て、印刷会社では営業事務とDTPを担当しました。</p>
       <p>
-        その後、印刷会社で営業事務やDTPに携わりました。営業事務と制作の両方に関わり、依頼された内容が制作物になるまでの流れを経験しました。
+        依頼内容が整理され、制作担当者へ渡り、実際の制作物になるまでの流れを、事務と制作の両方の立場から経験しています。この経験が、現在の仕事の土台になりました。
       </p>
-      <p>その後、Web制作の仕事に入りました。以来35年以上、Web制作の現場に関わり続けています。</p>
-      <p class="career-chain">
-        <span class="visually-hidden">経歴の流れ：</span>銀行勤務<span aria-hidden="true"> → </span>印刷会社(営業事務・DTP)<span aria-hidden="true"> → </span>Web制作<span aria-hidden="true"> → </span>現在(K-SNAPSTEP)
+      <p>その後はWeb制作へ仕事の領域を広げ、35年以上にわたり、Webサイトの制作・更新・運用・進行管理に携わってきました。</p>
+      <p>
+        現在はK-SNAPSTEPとして、制作そのものだけでなく、制作に入る前の状況整理や判断、制作会社への指示、進行確認までを支援しています。
       </p>
+      <ul class="career-chain" aria-label="経歴の流れ">
+        <li>銀行勤務</li>
+        <li aria-hidden="true">→</li>
+        <li>印刷・DTP</li>
+        <li aria-hidden="true">→</li>
+        <li>Web制作・運用</li>
+        <li aria-hidden="true">→</li>
+        <li>現在のK-SNAPSTEP</li>
+      </ul>
     </section>
 
     <section class="section-block">
@@ -82,12 +100,13 @@ const judgments = [
     <section class="section-block">
       <h2>制作だけでなく、間に立つ仕事も。</h2>
       <p>制作の現場では、作ることだけでなく、次のような役割を担ってきました。</p>
-      <p>
-        クライアントの要望を聞き、整理すること。それを、制作側に伝わる指示に変えること。修正後の内容を確認し、意図通りに反映されているかを見ること。
-      </p>
-      <p>
-        制作の順番を決め、誰が何をするかを整理すること。クライアントと制作側、それぞれの認識にずれがないかを確認すること。
-      </p>
+      <ul class="plain-list">
+        <li>クライアントの要望を聞き、整理すること</li>
+        <li>それを、制作側に伝わる指示に変えること</li>
+        <li>修正後の内容を確認し、意図通りに反映されているかを見ること</li>
+        <li>制作の順番を決め、誰が何をするかを整理すること</li>
+        <li>クライアントと制作側、それぞれの認識にずれがないかを確認すること</li>
+      </ul>
       <p>
         何を作るかがまだ明確になっていない段階から、制作されたものが意図通りになっているかを確認するところまで、発注と制作の両方に関わってきました。
       </p>
@@ -106,12 +125,20 @@ const judgments = [
 
     <section class="section-block">
       <h2>1日WEB担当者が生まれた理由。</h2>
+      <p>小さな会社では、Webについて専門的に判断する人が社内にいないことも少なくありません。</p>
+      <p>制作会社に依頼する場合でも、</p>
+      <ul class="plain-list">
+        <li>何を頼むのか</li>
+        <li>どこまで直すのか</li>
+        <li>提案された内容で進めてよいのか</li>
+        <li>誰にどの作業を任せるのか</li>
+      </ul>
+      <p>といった判断は、発注する側に残ります。</p>
       <p>
-        小さな会社では、専任のWeb担当者を置くことが難しい場合があります。それでも、制作会社へ依頼する前後には、発注する側で判断する人が必要になります。
+        その判断をする人がいないために、制作会社へ相談する前の段階で話が止まったり、提案を受けても決められなかったりする場面を、これまで多く見てきました。
       </p>
-      <p>これまで、制作に入る前の「何を頼み、何を決めるか」という段階で、話が止まっている場面を多く見てきました。</p>
       <p>
-        そこで、常駐や専任という形ではなく、必要なときだけ発注する側に入るサービスとして、「1日WEB担当者」を形にしました。
+        そこで、常駐のWeb担当者を置くのではなく、必要なときだけ発注する側に入り、状況の整理と判断を支えるサービスとして「1日WEB担当者」をつくりました。
       </p>
     </section>
 
@@ -157,10 +184,21 @@ const judgments = [
   }
 
   .career-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0;
+    padding: 0;
+    padding-top: var(--space-s);
+    border-top: 1px dashed var(--color-border);
+    list-style: none;
     font-size: 0.9375rem;
     color: var(--color-text-muted);
-    border-top: 1px dashed var(--color-border);
-    padding-top: var(--space-s);
+  }
+
+  .career-chain li[aria-hidden="true"] {
+    color: var(--color-border);
   }
 
   .role-tags {
