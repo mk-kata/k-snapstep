@@ -4,8 +4,9 @@
 // 参照元: docs/KSNAPSTEP_WIREFRAME.md 8番(1日WEB担当者・月額Web担当サポート・長い記事詳細で
 // 目次を設ける候補)、docs/MARORIRI_CONTENT_WIREFRAME.md 17番(記事詳細は「見出し数による自動表示」)。
 // JavaScriptを使わず、ページ内アンカーリンクのみで実装する(本文が読める設計を優先)。
-// スマートフォンでは<details>で開閉式にし、ページ上部を圧迫しない
-// (docs/KSNAPSTEP_DESIGN_GUIDE.md 24番)。
+// 既定で閉じた状態の<details>にし、スマートフォンだけでなくデスクトップでもページ上部を
+// 圧迫しないようにする(docs/KSNAPSTEP_DESIGN_GUIDE.md 24番。以前はopen属性が常時付与されており、
+// 「開閉式にする」という設計意図に反して常に展開されたままになっていた不具合を修正した)。
 
 interface TocItem {
   href: string;
@@ -19,14 +20,17 @@ interface Props {
   label?: string;
 }
 
-const { items, minItems = 3, label = "この記事の目次" } = Astro.props;
+const { items, minItems = 3, label = "目次" } = Astro.props;
 const shouldRender = items.length >= minItems;
 ---
 
 {
   shouldRender && (
-    <details class="toc" open>
-      <summary class="toc__summary">{label}</summary>
+    <details class="toc">
+      <summary class="toc__summary">
+        <span>{label}</span>
+        <span class="toc__icon" aria-hidden="true"></span>
+      </summary>
       <nav aria-label={label}>
         <ol class="toc__list">
           {items.map((item) => (
@@ -49,11 +53,49 @@ const shouldRender = items.length >= minItems;
   }
 
   .toc__summary {
+    list-style: none;
     font-weight: 700;
     cursor: pointer;
     min-height: var(--tap-target-min);
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .toc__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc__icon {
+    flex-shrink: 0;
+    position: relative;
+    width: 1em;
+    height: 1em;
+  }
+
+  .toc__icon::before,
+  .toc__icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--color-accent);
+    transform: translate(-50%, -50%);
+  }
+
+  .toc__icon::before {
+    width: 0.75em;
+    height: 2px;
+  }
+
+  .toc__icon::after {
+    width: 2px;
+    height: 0.75em;
+  }
+
+  .toc[open] .toc__icon::after {
+    height: 0;
   }
 
   .toc__list {

@@ -22,7 +22,10 @@ const { items } = Astro.props;
   {
     items.map((item) => (
       <details class="faq-accordion__item">
-        <summary class="faq-accordion__question">{item.question}</summary>
+        <summary class="faq-accordion__question">
+          <span class="faq-accordion__question-text">{item.question}</span>
+          <span class="faq-accordion__icon" aria-hidden="true"></span>
+        </summary>
         <p class="faq-accordion__answer">{item.answer}</p>
       </details>
     ))
@@ -38,17 +41,56 @@ const { items } = Astro.props;
     border-bottom: 1px solid var(--color-border);
   }
 
+  /*
+   * summaryをdisplay:flexにすると、ブラウザ標準の開閉三角(マーカー)が消えてしまうため、
+   * 独自のプラス/マイナス表示(faq-accordion__icon)で開閉状態を示す
+   * (色だけに頼らない、docs/KSNAPSTEP_DESIGN_GUIDE.md 25番)。
+   */
   .faq-accordion__question {
+    list-style: none;
     padding: var(--space-s) 0;
     font-weight: 700;
     cursor: pointer;
     min-height: var(--tap-target-min);
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
   }
 
-  .faq-accordion__question::marker {
-    color: var(--color-accent);
+  .faq-accordion__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-accordion__icon {
+    flex-shrink: 0;
+    position: relative;
+    width: 1em;
+    height: 1em;
+  }
+
+  .faq-accordion__icon::before,
+  .faq-accordion__icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--color-accent);
+    transform: translate(-50%, -50%);
+  }
+
+  .faq-accordion__icon::before {
+    width: 0.75em;
+    height: 2px;
+  }
+
+  .faq-accordion__icon::after {
+    width: 2px;
+    height: 0.75em;
+  }
+
+  .faq-accordion__item[open] .faq-accordion__icon::after {
+    height: 0;
   }
 
   .faq-accordion__answer {

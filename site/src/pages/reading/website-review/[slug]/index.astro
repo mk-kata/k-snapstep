@@ -89,7 +89,7 @@ const articlePath = `${urls.reading}website-review/${article.data.slug ?? articl
         <p class="article-header__intro">{article.data.introduction ?? article.data.description}</p>
       </header>
 
-      <TableOfContents items={tocItems} />
+      <TableOfContents items={tocItems} label="この記事の目次" />
 
       <div class="article-body">
         <Content />

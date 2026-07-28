@@ -241,18 +241,20 @@ main a {
   top: 6px;
 }
 
-/* デスクトップナビ(通常時) */
+/* デスクトップナビ(通常時)
+   ナビ項目とCTAの間隔は space-m(2rem)のままだと、ノートPCでよく使われる
+   1024px前後の幅で1行に収まらず折り返しやすいため、項目間だけやや詰めている。 */
 .site-nav {
   display: flex;
   align-items: center;
-  gap: var(--space-m);
+  gap: 1.5rem;
   flex-wrap: wrap;
 }
 
 .site-nav__list {
   display: flex;
   list-style: none;
-  gap: var(--space-m);
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
   flex-wrap: wrap;
@@ -271,8 +273,13 @@ main a {
   white-space: nowrap;
 }
 
-/* モバイル: 幅が狭い場合のみメニューボタンを表示し、JS有効時のみナビを折りたたむ */
-@media (max-width: 760px) {
+/*
+ * ヘッダーのナビのみ、他の要素より広い900pxを折りたたみの基準にする。
+ * 通常ナビ5項目(日本語ラベル)+お問い合わせCTAは、タブレット幅(768px前後)では
+ * 1行に収まらず2〜3行に折り返って窮屈に見えるため、900px未満ではハンバーガー化する。
+ * 他のセクション(困りごと・カテゴリブロック等)の1カラム化は引き続き760pxを基準にする。
+ */
+@media (max-width: 900px) {
   .site-header__menu-toggle {
     display: inline-flex;
   }
@@ -359,11 +366,28 @@ main a {
   margin-bottom: 0.4em;
 }
 
+/*
+ * フッターは<main>の外側にあるため、本文用の`main a`ルールが適用されない。
+ * 指定がないとブラウザ既定の青色・下線のリンク表示になってしまうため、
+ * サイトの配色に合わせて明示的に指定する(発見・修正した表示崩れ)。
+ */
+.site-footer__nav a {
+  color: var(--color-text);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
 .site-footer__maroriri {
   font-size: 0.875rem;
   color: var(--color-text-muted);
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-s);
+}
+
+.site-footer__maroriri a {
+  color: var(--color-text-muted);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
 }
 
 .site-footer__copyright {
@@ -507,4 +531,29 @@ main a {
 .cta-block__secondary-link {
   display: inline-block;
   margin-inline-start: var(--space-s);
+}
+
+/* ============ 固定下層ページ共通｜セクションブロック ============ */
+
+/*
+ * 1日WEB担当者・月額Web担当サポート・対応できること・プロフィール・お問い合わせ・読みもの一覧の
+ * 各ページで、罫線区切りの本文セクションとして共通利用する(各ページの<style>にあった重複定義を
+ * ここへ統合し、あわせて偶数番目のセクションにごく淡い背景色を付けた)。
+ * 長いページで同じ白背景・同じ余白が延々と続いて単調に見えるのを避けるための、
+ * 控えめな背景色切り替え(KSNAPSTEP_DESIGN_GUIDE.mdの「背景色の切り替え」に対応)。
+ * カード化・角丸・影は使用していない。
+ */
+.section-block {
+  padding-block: var(--space-m);
+  border-top: 1px solid var(--color-border);
+}
+
+.section-block h2 {
+  margin-top: 0;
+}
+
+.section-block:nth-of-type(even) {
+  background: var(--color-bg-alt);
+  margin-inline: calc(var(--space-s) * -1);
+  padding-inline: var(--space-s);
 }

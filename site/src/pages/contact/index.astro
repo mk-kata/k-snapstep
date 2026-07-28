@@ -160,15 +160,6 @@ const afterSteps = [
 }
 
 <style>
-  .section-block {
-    padding-block: var(--space-m);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .section-block h2 {
-    margin-top: 0;
-  }
-
   .plain-list {
     padding-left: 1.25em;
   }
@@ -190,6 +181,19 @@ const afterSteps = [
   .formrun-wrap {
     max-width: var(--content-width);
     margin-top: var(--space-m);
+  }
+
+  /*
+   * formrunのscriptは非同期に読み込まれ、実際のフォーム(iframe)は少し遅れて挿入される。
+   * 高さの指定がないと、読み込み中(あるいは読み込みに失敗した場合)にこの領域が
+   * 0pxに潰れ、フォームがない・壊れているように見えてしまうため、
+   * 最低限の高さと枠を仮の器として用意しておく(発見・修正した表示崩れ)。
+   * formrunがiframeを挿入した後は、その高さがこのmin-heightを上回っても問題ない。
+   */
+  .formrun-embed {
+    min-height: 420px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-alt);
   }
 
   .formrun-fallback {
