@@ -46,6 +46,19 @@ section {
   margin-bottom: var(--space-m);
 }
 
+/* 英字の小さなアイキャッチラベル(見出しの上に添える。2026年8月5日追加) */
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--home-accent);
+  margin: 0 0 0.5em;
+}
+
+.section-eyebrow--center {
+  text-align: center;
+}
+
 /* 背景の淡い丸み装飾。コンテンツより背面に置き、読み上げ・操作の対象にしない */
 .section--decorated {
   position: relative;
@@ -152,36 +165,7 @@ section {
 .hero__visual {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
   overflow: visible;
-}
-
-.hero__aside-list {
-  margin: 0;
-  display: flex;
-  gap: 0.625rem;
-  flex-wrap: wrap;
-}
-
-.hero__aside-list > div {
-  flex: 1;
-  min-width: 7.5rem;
-  border: 1px solid var(--home-line);
-  border-radius: var(--home-radius-s);
-  padding: 0.5rem 0.75rem;
-  background: #fff;
-}
-
-.hero__aside-list dt {
-  font-size: 0.6875rem;
-  color: var(--home-text-subtle);
-  margin: 0 0 0.15em;
-}
-
-.hero__aside-list dd {
-  margin: 0;
-  font-weight: 700;
-  font-size: 0.875rem;
 }
 
 @media (max-width: 900px) {
@@ -231,8 +215,8 @@ section {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 4.75rem;
+  height: 4.75rem;
 }
 
 .concerns__icon img {
@@ -315,56 +299,48 @@ section {
   z-index: 1;
 }
 
+/*
+ * 【2026年8月5日】単語ラベルのみのグリッドから、番号(01〜06)・見出し・説明文を
+ * 持つカードのグリッドへ変更した。カード化に伴い、旧デザインのアイコン下線・
+ * カード間の点線区切りは廃止した(番号バッジ自体が順序を示すため)。
+ */
 .role__grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem 1.5rem;
+  gap: 1.5rem;
   position: relative;
   z-index: 1;
 }
 
-.role__item {
+.role__card {
+  background: #fff;
+  border: 1px solid var(--home-line);
+  border-radius: var(--home-radius);
+  box-shadow: var(--home-shadow);
+  padding: 1.75rem 1.5rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   position: relative;
 }
 
-.role__item::before {
-  content: "";
-  width: 2rem;
-  height: 3px;
-  background: var(--home-accent);
-  border-radius: 2px;
-}
-
-/*
- * PC幅(3列グリッド)のみ、隣り合う項目の間を控えめな点線でつなぎ、
- * 「6項目の流れ」を感じられるようにする。業務フロー図のように強く
- * つなげないよう、矢印は使わずアイコンより目立たない細い点線のみとした。
- */
-@media (min-width: 900px) {
-  .role__item:not(:nth-child(3n + 1))::after {
-    content: "";
-    position: absolute;
-    left: -1.6rem;
-    top: 2.25rem;
-    width: 1.6rem;
-    border-top: 2px dotted var(--home-line);
-  }
+.role__number {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--home-accent);
 }
 
 .role__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  margin-block: 0.15rem 0.4rem;
 }
 
 .role__icon img {
@@ -373,20 +349,20 @@ section {
   object-fit: contain;
 }
 
-.role__label {
-  font-weight: 700;
+.role__title {
+  margin: 0;
+  font-size: 1.0625rem;
+}
+
+.role__text {
+  margin: 0;
+  color: var(--home-text-subtle);
+  line-height: 1.75;
 }
 
 @media (max-width: 900px) {
   .role__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .role__grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1.75rem 1rem;
+    grid-template-columns: 1fr;
   }
 }
 
@@ -514,6 +490,13 @@ section {
 }
 
 /* ============ セクション5: 相談テーマ例 ============ */
+
+.topics__intro {
+  text-align: center;
+  max-width: 34em;
+  margin: calc(var(--space-s) * -0.5) auto var(--space-m);
+  color: var(--home-text-subtle);
+}
 
 .topics__grid {
   list-style: none;

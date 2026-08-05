@@ -8,10 +8,14 @@
 //
 // 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、アイコン付きの薄枠ボックス6件へ変更した。
 // 項目文・CTA文言・リンク先は変更していない。
-// 【2026年7月29日】ユーザーから提供されたイラスト調アイコン画像(site/public/images/home/icons/)
+// 【2026年7月29日】ユーザーから提供されたイラスト調アイコン画像
 // へ差し替えた。公式ブランドロゴ画像(WordPress社等の商標)は使用しておらず、
 // 移行イメージを表す一般的な線画イラスト(topic-migrate)を使用している。
 // 【2026年7月31日】画像を正規化済みアイコン(normalized/)へ切り替えた。
+// 【2026年8月5日(1)】本番公開準備として、未使用の元画像(normalized化前の18個)を
+// docs/home-icons-source/ へ移動した(publicから外し、本番ビルドに含めないため)。
+// 【2026年8月5日(2)】ユーザー指示により、見出し・英字アイキャッチ・導入文を追加した
+// (項目文・CTA文言・リンク先・アイコンは変更していない)。
 import { urls } from "../../config/site";
 
 const topics = [
@@ -26,7 +30,11 @@ const topics = [
 
 <section class="topics section--decorated">
   <div class="container">
-    <h2 class="section-heading section-heading--center">このようなテーマを扱います。</h2>
+    <p class="section-eyebrow section-eyebrow--center">CONSULTATION</p>
+    <h2 class="section-heading section-heading--center">こんなWebの悩みを一緒に整理します</h2>
+    <p class="topics__intro">
+      サイト改善、制作会社とのやり取り、CMSやサーバーの管理など、社内だけでは判断しにくい内容をご相談いただけます。
+    </p>
 
     <ul class="topics__grid">
       {

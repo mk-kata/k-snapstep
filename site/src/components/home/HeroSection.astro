@@ -7,6 +7,8 @@
 //
 // 【2026年7月28日 デザイン実装】承認デザイン画像(docs/KSNAPSTEP_TOP_DESIGN_REFERENCE.png)に
 // 合わせ、左に文章・右にイラストの2カラム構成へ変更した。文章・CTA文言・URLは変更していない。
+// 【2026年8月5日】ユーザー指示により、イラスト下にあった「単発/1日WEB担当者」「継続/月額Web担当
+// サポート」の2カード(hero__aside-list)を削除し、右カラムはイラストのみにした。
 import { urls } from "../../config/site";
 import Icon from "../icons/Icon.astro";
 import HeroIllustration from "./HeroIllustration.astro";
@@ -33,16 +35,6 @@ import HeroIllustration from "./HeroIllustration.astro";
 
     <div class="hero__visual">
       <HeroIllustration />
-      <dl class="hero__aside-list">
-        <div>
-          <dt>単発</dt>
-          <dd>1日WEB担当者</dd>
-        </div>
-        <div>
-          <dt>継続</dt>
-          <dd>月額Web担当サポート</dd>
-        </div>
-      </dl>
     </div>
   </div>
 </section>

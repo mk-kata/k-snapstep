@@ -1,42 +1,73 @@
 ---
 // トップページ セクション3｜K-SNAPSTEPが行うこと
 //
-// 出典: docs/KSNAPSTEP_SITE_SPEC.md 10番セクション3(見出し・導入文は確定本文)。
-// 6つの短いラベルは docs/KSNAPSTEP_WIREFRAME.md 9番セクション3の
-// 「番号なし2×3グリッド」の確定ラベルをそのまま使用(一本道の工程に見せない構成)。
-//
-// 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、アイコン付きの帯セクションへ変更した。
-// ラベルの語自体(確定文言)は変更していない。新しい説明文は追加していない。
-// 【2026年7月29日】ユーザーから提供されたイラスト調アイコン画像(site/public/images/home/icons/)
-// へ差し替えた。円形の色付き背景は、アイコン自体がフルカラーになったため外している。
-// 【2026年7月31日】画像を正規化済みアイコン(normalized/)へ切り替え、背景にごく薄いドット装飾と
-// PC幅限定の点線区切りを追加した(業務フロー図のように強くつなげない、控えめな一体感の演出)。
-const labels = [
-  { icon: "role-current-check", text: "現状確認" },
-  { icon: "role-target-growth", text: "問題を分ける" },
-  { icon: "role-contact-improve", text: "情報確認" },
-  { icon: "role-support-chat", text: "今/今しない" },
-  { icon: "role-improve-tools", text: "担当整理" },
-  { icon: "role-next-flag", text: "次を決める" },
+// 【2026年8月5日】ユーザー指示により、見出し・導入文・6項目とも書き直した
+// (旧文言はdocs/KSNAPSTEP_SITE_SPEC.md 10番セクション3・docs/KSNAPSTEP_WIREFRAME.md 9番の
+// 確定本文だったが、今回の指示でこのセクションに限り更新している)。
+// 単語ラベルのみだった6項目を、番号(01〜06)・見出し・説明文を持つカードへ変更した。
+// アイコン画像は既存の6点(site/public/images/home/icons/normalized/)をそのまま流用し、
+// 意味が近い新しい見出しへ再対応させている(例: role-next-flag→「次の一歩を決める」)。
+// PC幅では3列×2段、900px未満は番号順の縦一列に変更した(以前の900〜1199px時の2列表示は廃止)。
+const steps = [
+  {
+    icon: "role-current-check",
+    number: "01",
+    title: "現状を確認する",
+    text: "サイトや運用体制、契約状況など、今どうなっているのかを把握します。",
+  },
+  {
+    icon: "role-target-growth",
+    number: "02",
+    title: "問題を分ける",
+    text: "困っていることを一つずつ分解し、原因と影響を整理します。",
+  },
+  {
+    icon: "role-contact-improve",
+    number: "03",
+    title: "必要な情報をそろえる",
+    text: "サーバー、ドメイン、CMS、制作会社とのやり取りなどを確認します。",
+  },
+  {
+    icon: "role-support-chat",
+    number: "04",
+    title: "優先順位を決める",
+    text: "今すぐ対応することと、後でよいことを分けます。",
+  },
+  {
+    icon: "role-improve-tools",
+    number: "05",
+    title: "担当を整理する",
+    text: "社内、制作会社、専門業者の誰が行うのかを明確にします。",
+  },
+  {
+    icon: "role-next-flag",
+    number: "06",
+    title: "次の一歩を決める",
+    text: "具体的な依頼内容と、次に進める手順をまとめます。",
+  },
 ];
 ---
 
 <section class="role">
   <div class="container">
-    <h2 class="section-heading section-heading--center">状況を確認し、次にすることを整理します。</h2>
-    <p class="role__intro">K-SNAPSTEPが行うのは、次の整理です。</p>
+    <h2 class="section-heading section-heading--center">Webの状況を整理し、次に進む道筋をつくります。</h2>
+    <p class="role__intro">問題を見つけるだけではなく、何を・誰が・どの順番で進めるのかまで整理します。</p>
 
-    <ul class="role__grid">
+    <ol class="role__grid">
       {
-        labels.map((item) => (
-          <li class="role__item">
-            <span class="role__icon" aria-hidden="true">
-              <img src={`/images/home/icons/normalized/${item.icon}.webp`} alt="" loading="lazy" decoding="async" />
+        steps.map((step) => (
+          <li class="role__card">
+            <span class="role__number" aria-hidden="true">
+              {step.number}
             </span>
-            <span class="role__label">{item.text}</span>
+            <span class="role__icon" aria-hidden="true">
+              <img src={`/images/home/icons/normalized/${step.icon}.webp`} alt="" loading="lazy" decoding="async" />
+            </span>
+            <h3 class="role__title">{step.title}</h3>
+            <p class="role__text">{step.text}</p>
           </li>
         ))
       }
-    </ul>
+    </ol>
   </div>
 </section>
