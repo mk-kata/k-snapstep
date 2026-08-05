@@ -1,47 +1,140 @@
 /*
- * K-SNAPSTEP トップページ専用CSS(暫定)
+ * K-SNAPSTEP トップページ専用CSS(正式デザイン)
  *
- * 参照元: docs/KSNAPSTEP_DESIGN_GUIDE.md(方向案B「外部Web担当者の実務ノート」)
- * 【重要】ここに定義する数値・余白・配色もすべて暫定値であり、最終デザインではない。
- * 装飾カード・影・大きな角丸を多用しない、赤いボタンを繰り返さない、という方針に沿う。
- * ファーストビューは画面いっぱいの高さに固定していない。
+ * 出典: docs/KSNAPSTEP_TOP_DESIGN_REFERENCE.png(2026年7月28日承認のデザイン画像)。
+ * 通常のサービスサイト型。白基調+深いえんじ色のアクセント、十分な余白、
+ * アイコン・淡い背景装飾で視線を切り替える構成。情報整理ボード風・レポート風にはしていない。
+ *
+ * このファイルは index.astro からのみ import される(トップページ専用)。
+ * ここで新規に定義する --home-* トークンは、他ページが使う src/styles/tokens.css の
+ * --color-* 変数には一切触れておらず、下層ページの見た目に影響しない。
+ * 既存の --color-accent(#8f2c22)はヘッダー・フッターと共通のため、--home-accent は
+ * そのままエイリアスして色の一貫性を保っている。
  */
 
-section {
-  padding-block: var(--space-l);
-  border-bottom: 1px solid var(--color-border);
+:root {
+  --home-accent: var(--color-accent);
+  --home-accent-dark: #692018;
+  --home-text: var(--color-text);
+  --home-text-subtle: var(--color-text-muted);
+  --home-line: var(--color-border);
+  --home-bg-soft: #faf7f4;
+  --home-bg-warm: #f5ece6;
+  --home-radius: 14px;
+  --home-radius-s: 8px;
+  --home-shadow: 0 10px 24px rgba(36, 26, 22, 0.06);
 }
 
-section:nth-child(even) {
-  background: var(--color-bg-alt);
+/* ============ セクション共通 ============ */
+
+section {
+  padding-block: clamp(3rem, 2.2rem + 3vw, 5rem);
 }
 
 .section-heading {
-  font-size: 1.375rem;
+  font-size: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.5;
   margin: 0 0 var(--space-s);
+  letter-spacing: 0.01em;
+}
+
+.section-heading--center {
+  text-align: center;
+  max-width: 34em;
+  margin-inline: auto;
+  margin-bottom: var(--space-m);
+}
+
+/* 背景の淡い丸み装飾。コンテンツより背面に置き、読み上げ・操作の対象にしない */
+.section--decorated {
+  position: relative;
+  overflow: hidden;
+}
+
+.section--decorated::before,
+.section--decorated::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  background: var(--home-bg-warm);
+  opacity: 0.7;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section--decorated::before {
+  width: 22rem;
+  height: 22rem;
+  top: -9rem;
+  right: -8rem;
+}
+
+.section--decorated::after {
+  width: 15rem;
+  height: 15rem;
+  bottom: -7rem;
+  left: -6rem;
+}
+
+.section--decorated > .container {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .section--decorated::before,
+  .section--decorated::after {
+    opacity: 0.45;
+  }
 }
 
 /* ============ セクション1: ファーストビュー ============ */
 
 .hero {
-  padding-block: var(--space-l);
+  padding-block: clamp(2.75rem, 2rem + 3vw, 4.5rem);
 }
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 3fr 2fr;
-  gap: var(--space-l);
+  grid-template-columns: 0.98fr 1.12fr;
+  gap: clamp(1.75rem, 1rem + 3vw, 3.5rem);
   align-items: start;
 }
 
+/*
+ * 【2026年8月5日】PC幅では、右カラム(イラスト)により多くの幅を割り当て、
+ * イラストが主役として見える大きさにする。.hero単体でコンテナ幅を広げているため、
+ * 他セクション(--container-width: 1100px)には影響しない。
+ * 列の比率を変えて実際のグリッド幅でイラストを拡大する方式にし、
+ * (2026年7月31日時点のようにimg単体をトラック幅より広げるbleed方式は
+ * やめた。コンテナを広げた状態でbleedを重ねると、幅によっては
+ * ビューポート外へはみ出し横スクロールが発生していたため)。
+ */
+@media (min-width: 900px) {
+  .hero__inner {
+    grid-template-columns: 0.76fr 1.24fr;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero .container {
+    max-width: 1360px;
+  }
+}
+
 .hero__heading {
-  font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem);
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+  font-weight: 700;
   margin: 0 0 var(--space-s);
-  line-height: 1.4;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
 }
 
 .hero__body {
   margin: 0 0 var(--space-m);
+  max-width: 34em;
+  color: var(--home-text);
 }
 
 .hero__cta {
@@ -50,82 +143,176 @@ section:nth-child(even) {
   gap: var(--space-s);
 }
 
-.hero__aside {
-  border: 1px solid var(--color-border);
-  padding: var(--space-m);
+.hero__cta .btn-primary,
+.hero__cta .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+}
+
+.hero__visual {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  overflow: visible;
 }
 
 .hero__aside-list {
   margin: 0;
-  display: grid;
-  gap: var(--space-s);
+  display: flex;
+  gap: 0.625rem;
+  flex-wrap: wrap;
 }
 
 .hero__aside-list > div {
-  border-top: 1px solid var(--color-border);
-  padding-top: var(--space-s);
-}
-
-.hero__aside-list > div:first-child {
-  border-top: none;
-  padding-top: 0;
+  flex: 1;
+  min-width: 7.5rem;
+  border: 1px solid var(--home-line);
+  border-radius: var(--home-radius-s);
+  padding: 0.5rem 0.75rem;
+  background: #fff;
 }
 
 .hero__aside-list dt {
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  color: var(--home-text-subtle);
+  margin: 0 0 0.15em;
 }
 
 .hero__aside-list dd {
   margin: 0;
   font-weight: 700;
+  font-size: 0.875rem;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .hero__inner {
     grid-template-columns: 1fr;
   }
 
-  .hero__aside {
-    order: 2;
+  .hero__visual {
+    width: 100%;
+    max-width: 28rem;
+    margin-inline: auto;
   }
 }
 
-/* ============ セクション2: 困りごと(チェックリスト) ============ */
+/* ============ セクション2: 困りごと ============ */
 
-.concerns__list {
+.concerns {
+  border-top: 1px solid var(--home-line);
+}
+
+.concerns__grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  border-top: 1px solid var(--color-border);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
 }
 
-.concerns__item {
-  padding: 0.75em 0.5em 0.75em 1.75em;
-  border-bottom: 1px solid var(--color-border);
-  position: relative;
+.concerns__card {
+  background: #fff;
+  border: 1px solid var(--home-line);
+  border-radius: var(--home-radius);
+  box-shadow: var(--home-shadow);
+  padding: 1.5rem 1.375rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-.concerns__item::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: var(--color-accent);
+.concerns__card p {
+  margin: 0;
+  line-height: 1.75;
 }
 
-@media (max-width: 760px) {
-  .concerns__list {
+.concerns__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.concerns__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .concerns__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .concerns__grid {
     grid-template-columns: 1fr;
   }
 }
 
 /* ============ セクション3: K-SNAPSTEPが行うこと ============ */
 
+.role {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 105%, rgba(143, 44, 34, 0.05) 0%, transparent 70%),
+    var(--home-bg-soft);
+  border-top: 1px solid var(--home-line);
+  border-bottom: 1px solid var(--home-line);
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+ * 「K-SNAPSTEPが行うこと」専用の背景装飾(2026年7月31日追加)。
+ * 単色背景+アイコン+文字だけで単調に見えていたため、ごく薄いドットパターンと
+ * 曲線を背景へ追加した。困りごと・サービス比較等の暖色円の繰り返しにはせず、
+ * このセクションだけの表現にしている。アイコン・文字の視認性を優先し、
+ * 不透明度は低く抑えた。
+ */
+.role::before {
+  content: "";
+  position: absolute;
+  top: -3rem;
+  left: -3rem;
+  width: 13rem;
+  height: 13rem;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.role::after {
+  content: "";
+  position: absolute;
+  bottom: 1rem;
+  right: 2.5rem;
+  width: 9rem;
+  height: 9rem;
+  background-image: radial-gradient(var(--home-accent) 1.4px, transparent 1.6px);
+  background-size: 16px 16px;
+  opacity: 0.14;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .role::before,
+  .role::after {
+    opacity: 0.3;
+  }
+}
+
 .role__intro {
+  text-align: center;
   margin: 0 0 var(--space-m);
+  color: var(--home-text-subtle);
+  position: relative;
+  z-index: 1;
 }
 
 .role__grid {
@@ -134,75 +321,190 @@ section:nth-child(even) {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--color-border);
-  border-left: 1px solid var(--color-border);
+  gap: 2rem 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.role__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.role__item::before {
+  content: "";
+  width: 2rem;
+  height: 3px;
+  background: var(--home-accent);
+  border-radius: 2px;
+}
+
+/*
+ * PC幅(3列グリッド)のみ、隣り合う項目の間を控えめな点線でつなぎ、
+ * 「6項目の流れ」を感じられるようにする。業務フロー図のように強く
+ * つなげないよう、矢印は使わずアイコンより目立たない細い点線のみとした。
+ */
+@media (min-width: 900px) {
+  .role__item:not(:nth-child(3n + 1))::after {
+    content: "";
+    position: absolute;
+    left: -1.6rem;
+    top: 2.25rem;
+    width: 1.6rem;
+    border-top: 2px dotted var(--home-line);
+  }
+}
+
+.role__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.role__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .role__label {
-  padding: var(--space-s);
-  border-right: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
   font-weight: 700;
-  text-align: center;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .role__grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .role__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.75rem 1rem;
   }
 }
 
 /* ============ セクション4: サービス比較 ============ */
 
 .service-comparison__note {
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
-  margin: 0 0 var(--space-m);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--home-text-subtle);
+  margin: calc(var(--space-s) * -0.5) 0 var(--space-m);
 }
 
 .service-comparison__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-m);
+  gap: 1.75rem;
+  align-items: stretch;
 }
 
 .service-comparison__card {
-  border: 1px solid var(--color-border);
-  padding: var(--space-m);
+  background: #fff;
+  border: 1px solid var(--home-line);
+  border-radius: var(--home-radius);
+  box-shadow: var(--home-shadow);
+  padding: 2rem 1.75rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-comparison__card--alt {
+  background: var(--home-bg-soft);
+}
+
+.service-comparison__badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--home-accent-dark);
+  background: var(--home-bg-warm);
+  border-radius: 999px;
+  padding: 0.3em 0.9em;
+  margin: 0 0 1rem;
+}
+
+.service-comparison__badge--alt {
+  color: var(--home-text-subtle);
+  background: #fff;
+  border: 1px solid var(--home-line);
+}
+
+.service-comparison__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--home-accent);
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.service-comparison__icon .icon {
+  width: 1.4rem;
+  height: 1.4rem;
 }
 
 .service-comparison__label {
   font-size: 0.8125rem;
-  color: var(--color-text-muted);
+  color: var(--home-text-subtle);
   margin: 0;
 }
 
 .service-comparison__title {
-  margin: 0.25em 0 var(--space-s);
+  margin: 0.2em 0 0.9rem;
+  font-size: 1.25rem;
 }
 
 .service-comparison__price {
-  margin: 0 0 var(--space-s);
+  margin: 0 0 1.1rem;
 }
 
 .service-comparison__price-amount {
-  font-size: 1.375rem;
+  font-size: 1.4375rem;
   font-weight: 700;
 }
 
 .service-comparison__price-unit {
   font-size: 0.8125rem;
-  color: var(--color-text-muted);
+  color: var(--home-text-subtle);
   margin-inline-start: 0.25em;
 }
 
 .service-comparison__facts {
-  margin: 0 0 var(--space-m);
-  padding-left: 1.1em;
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  flex-grow: 1;
 }
 
 .service-comparison__facts li {
-  margin-bottom: 0.35em;
+  position: relative;
+  padding-left: 1.5em;
+  margin-bottom: 0.55em;
+  line-height: 1.6;
+}
+
+.service-comparison__facts li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--home-accent);
+  font-weight: 700;
+}
+
+.service-comparison__cta {
+  align-self: flex-start;
 }
 
 @media (max-width: 760px) {
@@ -219,19 +521,56 @@ section:nth-child(even) {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  gap: 1.1rem;
 }
 
 .topics__item {
-  padding: 0.6em 0.75em;
-  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  border: 1px solid var(--home-line);
+  border-radius: var(--home-radius-s);
+  background: var(--home-bg-soft);
+  padding: 1.1rem 1.1rem;
+}
+
+.topics__item p {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.topics__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+}
+
+.topics__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .topics__link a {
   font-size: 0.9375rem;
+  font-weight: 700;
 }
 
-@media (max-width: 760px) {
+.topics__link a::after {
+  content: "→";
+  margin-inline-start: 0.4em;
+}
+
+@media (max-width: 900px) {
+  .topics__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
   .topics__grid {
     grid-template-columns: 1fr;
   }
@@ -239,27 +578,280 @@ section:nth-child(even) {
 
 /* ============ セクション6: Webサイトだけでなく、その周辺まで確認します ============ */
 
+.experience {
+  border-top: 1px solid var(--home-line);
+}
+
+.experience__inner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+  align-items: start;
+}
+
 .experience__body {
-  max-width: var(--content-width);
+  max-width: 34em;
   margin: 0 0 var(--space-s);
 }
 
-.experience__examples {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-  margin: 0 0 var(--space-m);
+.experience__aside {
+  border: 1px solid var(--home-line);
+  border-radius: var(--home-radius);
+  padding: 1.5rem;
+  background: var(--home-bg-soft);
+}
+
+.experience__aside-heading {
+  font-size: 0.8125rem;
+  color: var(--home-text-subtle);
+  margin: 0 0 0.9rem;
+}
+
+.experience__tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.experience__tags li {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  padding-block: 0.5rem;
+  border-bottom: 1px solid var(--home-line);
+  font-size: 0.9375rem;
+}
+
+.experience__tags li:last-child {
+  border-bottom: none;
+}
+
+.experience__tag-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  color: var(--home-accent-dark);
+}
+
+@media (max-width: 900px) {
+  .experience__inner {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============ セクション7: 必要な実作業について ============ */
 
+.work-support {
+  background: var(--home-bg-soft);
+  border-top: 1px solid var(--home-line);
+  border-bottom: 1px solid var(--home-line);
+}
+
+.work-support__inner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+  align-items: center;
+}
+
 .work-support__body {
-  max-width: var(--content-width);
+  max-width: 34em;
   margin: 0 0 var(--space-m);
+}
+
+.work-support__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-support__icon {
+  width: clamp(6rem, 4rem + 8vw, 9rem);
+  height: clamp(6rem, 4rem + 8vw, 9rem);
+  color: var(--home-accent);
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 50%;
+  border: 1px solid var(--home-line);
+}
+
+@media (max-width: 900px) {
+  .work-support__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .work-support__visual {
+    order: -1;
+  }
 }
 
 /* ============ セクション8: プロフィール概要 ============ */
 
+.profile-summary {
+  background: var(--home-bg-warm);
+  border-bottom: 1px solid var(--home-line);
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+ * プロフィール専用の背景装飾(2026年7月31日追加)。
+ * 他セクションの.section--decorated(暖色円を右上・左下)とは配置・色味を変え、
+ * 白い円を右下、ごく薄いドットパターンを左上に置いている。背景がすでに暖色
+ * (--home-bg-warm)のため、同系色の円だと視認できず、白系にして輪郭を出した。
+ * 人物紹介(経歴パネル・本文)より目立たないよう、不透明度を低く抑えている。
+ */
+.profile-summary::before {
+  content: "";
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0.45;
+  bottom: -9rem;
+  right: -7rem;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.profile-summary::after {
+  content: "";
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 7rem;
+  height: 7rem;
+  background-image: radial-gradient(var(--home-accent) 1.4px, transparent 1.6px);
+  background-size: 15px 15px;
+  opacity: 0.16;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .profile-summary::before,
+  .profile-summary::after {
+    opacity: 0.3;
+  }
+}
+
+.profile-summary__inner {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(2rem, 1.2rem + 3vw, 3.5rem);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-summary__visual {
+  order: 1;
+}
+
+.profile-summary__text {
+  order: 2;
+}
+
+.profile-summary__career {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  border: 1px solid var(--home-line);
+  border-radius: var(--home-radius);
+  box-shadow: var(--home-shadow);
+  padding: 1.75rem 1.75rem 1.75rem 2.25rem;
+}
+
+.profile-summary__career li {
+  position: relative;
+  padding-block: 0.65rem;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--home-line);
+  font-weight: 700;
+  color: var(--home-text);
+}
+
+.profile-summary__career li::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 1.05rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--home-accent);
+}
+
+.profile-summary__career li:last-child {
+  color: var(--home-accent-dark);
+}
+
 .profile-summary__body {
-  max-width: var(--content-width);
+  max-width: 34em;
   margin: 0 0 var(--space-m);
+}
+
+@media (max-width: 900px) {
+  .profile-summary__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-summary__text {
+    order: 1;
+  }
+
+  .profile-summary__visual {
+    order: 2;
+    max-width: 24rem;
+    margin-inline: auto;
+  }
+}
+
+/* ============ セクション9: お問い合わせ(えんじ色CTA帯) ============ */
+
+.home-final-cta {
+  background: linear-gradient(135deg, var(--home-accent) 0%, var(--home-accent-dark) 100%);
+  padding-block: clamp(2.75rem, 2rem + 3vw, 4rem);
+}
+
+.home-final-cta.section--decorated::before,
+.home-final-cta.section--decorated::after {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.home-final-cta .cta-block {
+  border: none;
+  padding: 0;
+  margin: 0;
+  max-width: 40em;
+}
+
+.home-final-cta .cta-block__heading {
+  color: #fff;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+}
+
+.home-final-cta .cta-block__body {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.home-final-cta .btn-primary {
+  background: #fff;
+  color: var(--home-accent-dark);
+  border-color: #fff;
+}
+
+.home-final-cta .btn-primary:focus-visible {
+  outline-color: #fff;
+}
+
+@media (max-width: 640px) {
+  .home-final-cta .cta-block {
+    max-width: none;
+  }
 }

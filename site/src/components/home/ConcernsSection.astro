@@ -6,23 +6,36 @@
 // 本文自体は記載していなかったため、参照元である旧MARORIRI_SITE_SPEC.mdを確認して採用した。
 // MARORIRIというブランド名の言及はなく、変更せずそのまま使用している。
 // 詳細な出典・分類は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 3番を参照。
+//
+// 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、6項目をアイコン付きカードの
+// 3列×2段グリッドへ変更した。項目文は変更していない。
+// 【2026年7月29日】ユーザーから提供されたイラスト調アイコン画像(site/public/images/home/icons/)
+// へ差し替えた。線画SVG(Icon.astro)から、フルカラーのイラスト調PNGアイコンへ変更している。
+// 【2026年7月31日】アイコンごとに実寸の縦横比が異なり、表示枠(CSS)を揃えただけでは
+// 見た目の大きさが不揃いだったため、画像自体を同一の正方形キャンバスに正規化した
+// (site/public/images/home/icons/normalized/、元画像は上書きせず保持)。
 const items = [
-  "制作会社に何を頼めばよいか、提案や見積もりが妥当かどうか、判断できない",
-  "サイトを直したいが、どこから手をつけるか決められない",
-  "古いCMSやECサイトを、このまま使うか移行するか迷っている",
-  "サーバー、ドメイン、メールの管理状況が分からない",
-  "修正を依頼したが、意図どおりになっているか確認できない",
-  "経営者や担当者が、Webの判断まで一人で抱えている",
+  { icon: "concern-judge", text: "制作会社に何を頼めばよいか、提案や見積もりが妥当かどうか、判断できない" },
+  { icon: "concern-check-report", text: "サイトを直したいが、どこから手をつけるか決められない" },
+  { icon: "concern-cms", text: "古いCMSやECサイトを、このまま使うか移行するか迷っている" },
+  { icon: "concern-server-mail", text: "サーバー、ドメイン、メールの管理状況が分からない" },
+  { icon: "concern-mail-manage", text: "修正を依頼したが、意図どおりになっているか確認できない" },
+  { icon: "concern-ec-manage", text: "経営者や担当者が、Webの判断まで一人で抱えている" },
 ];
 ---
 
-<section class="concerns">
+<section class="concerns section--decorated">
   <div class="container">
-    <h2 class="section-heading">このような状態になっていませんか。</h2>
-    <ul class="concerns__list">
+    <h2 class="section-heading section-heading--center">このような状態になっていませんか。</h2>
+    <ul class="concerns__grid">
       {
         items.map((item) => (
-          <li class="concerns__item">{item}</li>
+          <li class="concerns__card">
+            <span class="concerns__icon" aria-hidden="true">
+              <img src={`/images/home/icons/normalized/${item.icon}.webp`} alt="" loading="lazy" decoding="async" />
+            </span>
+            <p>{item.text}</p>
+          </li>
         ))
       }
     </ul>

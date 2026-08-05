@@ -1,0 +1,60 @@
+---
+// トップページ デザイン比較用｜一時ページ(案A・案B)
+//
+// 目的: docs/KSNAPSTEP_HOME_DESIGN_OPTIONS.md の作業に基づき、既存トップページ(`/`)を一切変更せず、
+// `/__review/home-design-a/` `/__review/home-design-b/` の2URLで見た目だけ異なる比較用ページを提供する。
+//
+// なぜ src/pages/__review/ ディレクトリを使わないか:
+// Astroは `src/pages/` 配下で `_` から始まるファイル・フォルダ(`__review` を含む)を
+// 自動的にルーティング対象から除外する。そのため、動的ルート(`[...reviewSlug].astro`)の
+// `getStaticPaths()` で `params` に直接 "__review/..." という文字列を与えることで、
+// 出力パスとしてのみ `__review/` プレフィックスを持たせている(検証済み)。
+//
+// 本番運用ページではないため、案A・案Bどちらも noindex 固定・サイトマップ未掲載・
+// ヘッダー/フッターのナビゲーションからリンクしない。デザイン決定後、このファイルと
+// src/components/review/ 配下・src/data/homeContent.ts は削除する想定の一時実装。
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeDesignA from "../components/review/HomeDesignA.astro";
+import HomeDesignB from "../components/review/HomeDesignB.astro";
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { reviewSlug: "__review/home-design-a/index" },
+      props: {
+        design: "a",
+        title: "トップページ デザイン案A(実務ノート・エディトリアル)",
+        description: "K-SNAPSTEPトップページの見た目比較用の一時ページです。文章・構成は既存トップページと同一です。",
+      },
+    },
+    {
+      params: { reviewSlug: "__review/home-design-b/index" },
+      props: {
+        design: "b",
+        title: "トップページ デザイン案B(外部Web担当者・進行ボード)",
+        description: "K-SNAPSTEPトップページの見た目比較用の一時ページです。文章・構成は既存トップページと同一です。",
+      },
+    },
+  ];
+}
+
+const { design, title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex={true} layoutType="review" showBuildNotice={false}>
+  <p class="review-banner" role="note">
+    これは社内確認用のデザイン比較ページです。検索エンジンには登録されません。文章・構成は既存トップページと同一です。
+  </p>
+  {design === "a" ? <HomeDesignA /> : <HomeDesignB />}
+</BaseLayout>
+
+<style>
+  .review-banner {
+    margin: 0;
+    padding: 0.6rem 1rem;
+    background: #242424;
+    color: #fff;
+    font-size: 0.8125rem;
+    text-align: center;
+  }
+</style>

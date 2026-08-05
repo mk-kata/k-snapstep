@@ -5,26 +5,38 @@
 // CTA文言・リンク先も同424行目の確定内容(「1日WEB担当者で相談できることを見る」)をそのまま使用。
 // MARORIRIというブランド名の言及はなく、変更せずそのまま使用している。
 // 詳細な出典・分類は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 4番を参照。
+//
+// 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、アイコン付きの薄枠ボックス6件へ変更した。
+// 項目文・CTA文言・リンク先は変更していない。
+// 【2026年7月29日】ユーザーから提供されたイラスト調アイコン画像(site/public/images/home/icons/)
+// へ差し替えた。公式ブランドロゴ画像(WordPress社等の商標)は使用しておらず、
+// 移行イメージを表す一般的な線画イラスト(topic-migrate)を使用している。
+// 【2026年7月31日】画像を正規化済みアイコン(normalized/)へ切り替えた。
 import { urls } from "../../config/site";
 
 const topics = [
-  "サイトの問題点と、改修する順番",
-  "制作会社の選定、相見積もりや提案内容の比較",
-  "WordPressやMovable Typeをそのまま使い続けるのか、改修するのか、別の仕組みへ移行するのか",
-  "ECサイトや複数の販売環境の整理",
-  "サーバー、ドメイン、メールの管理状況確認",
-  "SEOやアクセス解析をもとにした改善箇所の整理",
+  { icon: "topic-site-issue", text: "サイトの問題点と、改修する順番" },
+  { icon: "topic-shop-mail", text: "制作会社の選定、相見積もりや提案内容の比較" },
+  { icon: "topic-migrate", text: "WordPressやMovable Typeをそのまま使い続けるのか、改修するのか、別の仕組みへ移行するのか" },
+  { icon: "topic-ec", text: "ECサイトや複数の販売環境の整理" },
+  { icon: "topic-server-domain", text: "サーバー、ドメイン、メールの管理状況確認" },
+  { icon: "topic-seo-analytics", text: "SEOやアクセス解析をもとにした改善箇所の整理" },
 ];
 ---
 
-<section class="topics">
+<section class="topics section--decorated">
   <div class="container">
-    <h2 class="section-heading">このようなテーマを扱います。</h2>
+    <h2 class="section-heading section-heading--center">このようなテーマを扱います。</h2>
 
     <ul class="topics__grid">
       {
         topics.map((topic) => (
-          <li class="topics__item">{topic}</li>
+          <li class="topics__item">
+            <span class="topics__icon" aria-hidden="true">
+              <img src={`/images/home/icons/normalized/${topic.icon}.webp`} alt="" loading="lazy" decoding="async" />
+            </span>
+            <p>{topic.text}</p>
+          </li>
         ))
       }
     </ul>

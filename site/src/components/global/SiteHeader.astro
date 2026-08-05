@@ -11,6 +11,7 @@
 //   (下部の<script>参照。JS失敗時は常時展開表示のまま)。
 
 import { site, mainNav, contactCta } from "../../config/site";
+import Icon from "../icons/Icon.astro";
 ---
 
 <header class="site-header" data-site-header>
@@ -47,6 +48,7 @@ import { site, mainNav, contactCta } from "../../config/site";
         }
       </ul>
       <a class="btn-primary site-nav__cta" href={contactCta.href} data-cta="nav-contact">
+        <Icon name="mail" class="btn-icon" />
         {contactCta.label}
       </a>
     </nav>

@@ -38,23 +38,30 @@ import { site, urls } from "../config/site";
   <WorkSupportSection />
   <ProfileSummary />
 
-  <div class="container">
-    <!--
-      セクション9｜お問い合わせ(旧セクション10)
-      出典: docs/MARORIRI_SITE_SPEC.md 499〜513行目(15-1 セクション10、確定本文)。
-      docs/KSNAPSTEP_HOME_COPY_AUDIT.mdの調査範囲(セクション2・5・6・7・8)外だが、
-      同一資料を確認する過程で本セクションの確定本文も発見したため、あわせて差し替えた
-      (docs/KSNAPSTEP_HOME_COPY_AUDIT.md 8・13番参照)。MARORIRIの言及なし。
-      見出し・CTAは docs/KSNAPSTEP_WIREFRAME.md 9番セクション9とも一致。
-    -->
-    <CtaBlock
-      heading="何を頼めばよいか分からない段階でも、ご相談ください。"
-      body="まだ依頼する内容が決まっていなくても構いません。今困っていることをお送りください。内容を確認したうえで、1日WEB担当者と月額サポート、どちらが合うかも含めてご案内します。基本はオンラインでの相談です。内容や地域によっては、訪問での対応も可能です。"
-      buttonLabel="今の状況を相談する"
-      url={urls.contact}
-      variant="primary"
-      headingLevel="h2"
-      ctaId="home-contact-cta"
-    />
+  <div class="home-final-cta section--decorated">
+    <div class="container">
+      <!--
+        セクション9｜お問い合わせ(旧セクション10)
+        出典: docs/MARORIRI_SITE_SPEC.md 499〜513行目(15-1 セクション10、確定本文)。
+        docs/KSNAPSTEP_HOME_COPY_AUDIT.mdの調査範囲(セクション2・5・6・7・8)外だが、
+        同一資料を確認する過程で本セクションの確定本文も発見したため、あわせて差し替えた
+        (docs/KSNAPSTEP_HOME_COPY_AUDIT.md 8・13番参照)。MARORIRIの言及なし。
+        見出し・CTAは docs/KSNAPSTEP_WIREFRAME.md 9番セクション9とも一致。
+
+        【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、えんじ色の横長CTA帯として
+        表示するため .home-final-cta でラップし、home.css側でこの範囲だけ配色を上書きしている。
+        共通コンポーネント CtaBlock 自体・他ページでの見た目は変更していない。
+        見出し・本文・ボタン文言・リンク先は変更していない。
+      -->
+      <CtaBlock
+        heading="何を頼めばよいか分からない段階でも、ご相談ください。"
+        body="まだ依頼する内容が決まっていなくても構いません。今困っていることをお送りください。内容を確認したうえで、1日WEB担当者と月額サポート、どちらが合うかも含めてご案内します。基本はオンラインでの相談です。内容や地域によっては、訪問での対応も可能です。"
+        buttonLabel="今の状況を相談する"
+        url={urls.contact}
+        variant="primary"
+        headingLevel="h2"
+        ctaId="home-contact-cta"
+      />
+    </div>
   </div>
 </BaseLayout>

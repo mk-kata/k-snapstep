@@ -168,6 +168,17 @@ CSSはすべて`src/styles/tokens.css`に追加した(header/nav/footer/breadcru
 
 ---
 
+## トップページ デザイン比較用の一時ページ(`/__review/`、削除予定)
+
+`docs/KSNAPSTEP_HOME_DESIGN_OPTIONS.md`の作業で、既存トップページ(`/`)の文章・構成を一切変更せず、見た目のみ異なる2つのデザイン案を比較できるようにした一時ページ。
+
+- URL: `/__review/home-design-a/`(実務ノート・エディトリアル案)・`/__review/home-design-b/`(外部Web担当者・進行ボード案)
+- 実装: `src/pages/[...reviewSlug].astro`(動的ルート。Astroは`src/pages/`配下の`_`始まりのファイル/フォルダを自動的にルーティング対象から除外するため、`__review/`という出力パスにするには`getStaticPaths()`の`params`で直接指定する方式を取った)、表示コンポーネントは`src/components/review/HomeDesignA.astro`・`HomeDesignB.astro`、本文データは`src/data/homeContent.ts`(既存トップページの確定本文を一字一句そのまま書き写した、比較専用の読み取り元)
+- 常にnoindex固定。`src/pages/sitemap.xml.ts`は出力ページを自動探索せず手動列挙のため、この2ページは追加していない限りsitemapに含まれない
+- ヘッダー・フッターのナビゲーションからはリンクしていない
+- スクリーンショット(`review/home-design-options/`)は容量が大きいため`.gitignore`でGit管理対象外にしている
+- **デザイン決定後に削除する想定の一時実装。** 本番採用するデザインが決まったら、採用しない側のコンポーネント・このルートファイル・`src/data/homeContent.ts`・比較用スクリーンショットを削除し、採用したデザインを`src/pages/index.astro`・`src/components/home/`側へ反映する
+
 ## 本番公開に関する注意
 
 **このAstro環境は、まだ本番公開しない。** ビルド確認・ローカルプレビューのみを目的とする。本番公開方法(ホスティング・デプロイ経路)は`docs/KSNAPSTEP_IMPLEMENTATION_GAP.md`のとおり未確定であり、確認が取れるまで`dist/`の内容を本番へアップロードしない。

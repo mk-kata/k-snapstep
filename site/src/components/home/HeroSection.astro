@@ -4,7 +4,12 @@
 // 出典: docs/KSNAPSTEP_SITE_SPEC.md 10番セクション1(確定本文をそのまま使用)。
 // 見出し・本文・CTAとも確定文であり、要約・言い換えは行っていない。
 // 「MARORIRIは」→「K-SNAPSTEPは」の変更点(仕様書に明記済み)のみ反映。
+//
+// 【2026年7月28日 デザイン実装】承認デザイン画像(docs/KSNAPSTEP_TOP_DESIGN_REFERENCE.png)に
+// 合わせ、左に文章・右にイラストの2カラム構成へ変更した。文章・CTA文言・URLは変更していない。
 import { urls } from "../../config/site";
+import Icon from "../icons/Icon.astro";
+import HeroIllustration from "./HeroIllustration.astro";
 ---
 
 <section class="hero">
@@ -15,12 +20,19 @@ import { urls } from "../../config/site";
         K-SNAPSTEPは、専任のWeb担当者がいない会社や事業者のための、外部Web担当者です。制作会社に何を頼めばよいか分からない、今のサイトをどうするか決められない。そんなとき、発注する側に立って状況を確認し、次に誰が何をするかを整理します。単発の「1日WEB担当者」と、継続して確認する「月額Web担当サポート」があります。
       </p>
       <div class="hero__cta">
-        <a class="btn-primary" href={urls.contact} data-cta="home-hero-primary">今の状況を相談する</a>
-        <a class="btn-ghost" href={urls.oneDayWebManager} data-cta="home-hero-secondary">1日WEB担当者を見る</a>
+        <a class="btn-primary" href={urls.contact} data-cta="home-hero-primary">
+          <Icon name="chat" class="btn-icon" />
+          今の状況を相談する
+        </a>
+        <a class="btn-ghost" href={urls.oneDayWebManager} data-cta="home-hero-secondary">
+          <Icon name="calendar" class="btn-icon" />
+          1日WEB担当者を見る
+        </a>
       </div>
     </div>
 
-    <div class="hero__aside" aria-hidden="false">
+    <div class="hero__visual">
+      <HeroIllustration />
       <dl class="hero__aside-list">
         <div>
           <dt>単発</dt>

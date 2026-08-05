@@ -4,18 +4,37 @@
 // 出典: docs/KSNAPSTEP_SITE_SPEC.md 10番セクション3(見出し・導入文は確定本文)。
 // 6つの短いラベルは docs/KSNAPSTEP_WIREFRAME.md 9番セクション3の
 // 「番号なし2×3グリッド」の確定ラベルをそのまま使用(一本道の工程に見せない構成)。
-const labels = ["現状確認", "問題を分ける", "情報確認", "今/今しない", "担当整理", "次を決める"];
+//
+// 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、アイコン付きの帯セクションへ変更した。
+// ラベルの語自体(確定文言)は変更していない。新しい説明文は追加していない。
+// 【2026年7月29日】ユーザーから提供されたイラスト調アイコン画像(site/public/images/home/icons/)
+// へ差し替えた。円形の色付き背景は、アイコン自体がフルカラーになったため外している。
+// 【2026年7月31日】画像を正規化済みアイコン(normalized/)へ切り替え、背景にごく薄いドット装飾と
+// PC幅限定の点線区切りを追加した(業務フロー図のように強くつなげない、控えめな一体感の演出)。
+const labels = [
+  { icon: "role-current-check", text: "現状確認" },
+  { icon: "role-target-growth", text: "問題を分ける" },
+  { icon: "role-contact-improve", text: "情報確認" },
+  { icon: "role-support-chat", text: "今/今しない" },
+  { icon: "role-improve-tools", text: "担当整理" },
+  { icon: "role-next-flag", text: "次を決める" },
+];
 ---
 
 <section class="role">
   <div class="container">
-    <h2 class="section-heading">状況を確認し、次にすることを整理します。</h2>
+    <h2 class="section-heading section-heading--center">状況を確認し、次にすることを整理します。</h2>
     <p class="role__intro">K-SNAPSTEPが行うのは、次の整理です。</p>
 
     <ul class="role__grid">
       {
-        labels.map((label) => (
-          <li class="role__label">{label}</li>
+        labels.map((item) => (
+          <li class="role__item">
+            <span class="role__icon" aria-hidden="true">
+              <img src={`/images/home/icons/normalized/${item.icon}.webp`} alt="" loading="lazy" decoding="async" />
+            </span>
+            <span class="role__label">{item.text}</span>
+          </li>
         ))
       }
     </ul>

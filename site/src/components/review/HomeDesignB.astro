@@ -1,0 +1,654 @@
+---
+// トップページ デザイン案B｜「外部Web担当者・進行ボード」
+//
+// 参照元: docs/KSNAPSTEP_HOME_DESIGN_OPTIONS.md 6番。
+// 文章・URL・CTA文言はすべて src/data/homeContent.ts(既存トップページの確定本文の書き写し)を
+// そのまま使用し、このファイルでは変更していない。装飾語(ラベル・番号・確認フロー等)のみ
+// デザイン比較用の視覚要素として追加している。
+//
+// コンセプト: Web案件の状況を確認し、判断し、次の担当者へつなぐ「進行ボード」を表現する。
+// 情報のグループ分け・ラベル・番号・背景の切り替え・罫線を明確にし、SaaS管理画面のような
+// システム的な見た目にはしない(角丸・影は使用しない)。
+import {
+  hero,
+  concerns,
+  role,
+  serviceComparison,
+  topics,
+  experience,
+  workSupport,
+  profileSummary,
+  contactCta,
+} from "../../data/homeContent";
+
+const flowSteps = ["現在の状況", "確認・整理", "判断材料", "次に行うこと"];
+const pad2 = (n: number) => String(n).padStart(2, "0");
+const [cardOneDay, cardMonthly] = serviceComparison.cards;
+const compareRows = [
+  { label: "区分", oneDay: cardOneDay.label, monthly: cardMonthly.label },
+  {
+    label: "料金",
+    oneDay: `${cardOneDay.priceAmount}${cardOneDay.priceUnit}`,
+    monthly: `${cardMonthly.priceAmount}${cardMonthly.priceUnit}`,
+  },
+];
+---
+
+<div class="db">
+  <section class="db-hero">
+    <div class="container db-hero__grid">
+      <div class="db-hero__main">
+        <p class="db-hero__tag">EXTERNAL WEB MANAGER</p>
+        <h1 class="db-hero__heading">{hero.heading}</h1>
+        <p class="db-hero__body">{hero.body}</p>
+        <div class="db-hero__cta">
+          <a class="btn-primary" href={hero.ctaHref}>{hero.ctaLabel}</a>
+          <a class="btn-ghost" href={hero.secondaryHref}>{hero.secondaryLabel}</a>
+        </div>
+      </div>
+      <div class="db-hero__side" aria-hidden="true">
+        <p class="db-hero__side-title">かかわり方</p>
+        {
+          hero.aside.map((item) => (
+            <div class="db-status-row">
+              <span class="db-status-chip">{item.label}</span>
+              <span class="db-status-value">{item.value}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="container">
+      <ol class="db-flow-rail" aria-hidden="true">
+        {
+          flowSteps.map((step, i) => (
+            <li>
+              <span class="db-flow-rail__num">{i + 1}</span>
+              <span class="db-flow-rail__label">{step}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="db-section db-band-alt">
+    <div class="container">
+      <p class="db-section__label">CHECK</p>
+      <h2 class="db-section__heading">{concerns.heading}</h2>
+      <ul class="db-checklist">
+        {
+          concerns.items.map((item, i) => (
+            <li>
+              <span class="db-checklist__num" aria-hidden="true">
+                {pad2(i + 1)}
+              </span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="db-section">
+    <div class="container">
+      <p class="db-section__label">ROLE</p>
+      <h2 class="db-section__heading">{role.heading}</h2>
+      <p class="db-section__intro">{role.intro}</p>
+      <ul class="db-board">
+        {
+          role.labels.map((label, i) => (
+            <li class="db-board__tile">
+              <span class="db-board__num" aria-hidden="true">
+                {pad2(i + 1)}
+              </span>
+              <span>{label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="db-section db-band-alt">
+    <div class="container">
+      <p class="db-section__label">COMPARE</p>
+      <h2 class="db-section__heading">{serviceComparison.heading}</h2>
+      <p class="db-note">{serviceComparison.note}</p>
+      <div class="db-table-wrap">
+        <table class="db-compare-table">
+          <thead>
+            <tr>
+              <th scope="col"><span class="visually-hidden">項目</span></th>
+              <th scope="col">{cardOneDay.title}</th>
+              <th scope="col">{cardMonthly.title}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              compareRows.map((row) => (
+                <tr>
+                  <th scope="row">{row.label}</th>
+                  <td>{row.oneDay}</td>
+                  <td>{row.monthly}</td>
+                </tr>
+              ))
+            }
+            <tr>
+              <th scope="row">含まれる内容</th>
+              <td>
+                <ul>
+                  {cardOneDay.facts.map((fact) => (
+                    <li>{fact}</li>
+                  ))}
+                </ul>
+              </td>
+              <td>
+                <ul>
+                  {cardMonthly.facts.map((fact) => (
+                    <li>{fact}</li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="visually-hidden">詳細ページ</span></th>
+              <td>
+                <a class="db-textlink" href={cardOneDay.linkHref}>
+                  {cardOneDay.linkLabel}
+                </a>
+              </td>
+              <td>
+                <a class="db-textlink" href={cardMonthly.linkHref}>
+                  {cardMonthly.linkLabel}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="db-section">
+    <div class="container">
+      <p class="db-section__label">TOPICS</p>
+      <h2 class="db-section__heading">{topics.heading}</h2>
+      <ul class="db-tag-grid">
+        {
+          topics.items.map((item, i) => (
+            <li>
+              <span class="db-tag-grid__code" aria-hidden="true">
+                {`T-${pad2(i + 1)}`}
+              </span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="db-textlink" href={topics.linkHref}>{topics.linkLabel}</a>
+    </div>
+  </section>
+
+  <section class="db-section db-band-alt">
+    <div class="container">
+      <p class="db-section__label">EXPERIENCE</p>
+      <h2 class="db-section__heading">{experience.heading}</h2>
+      {experience.body.map((paragraph) => <p>{paragraph}</p>)}
+      <ul class="db-band-tags">
+        {experience.examples.map((example) => <li>{example}</li>)}
+      </ul>
+      <a class="db-textlink" href={experience.linkHref}>{experience.linkLabel}</a>
+    </div>
+  </section>
+
+  <section class="db-section">
+    <div class="container">
+      <p class="db-section__label">SUPPORT</p>
+      <h2 class="db-section__heading">{workSupport.heading}</h2>
+      <p>{workSupport.body}</p>
+      <a class="db-textlink" href={workSupport.linkHref}>{workSupport.linkLabel}</a>
+    </div>
+  </section>
+
+  <section class="db-section db-band-alt">
+    <div class="container">
+      <p class="db-section__label">PROFILE</p>
+      <h2 class="db-section__heading">{profileSummary.heading}</h2>
+      <p>{profileSummary.body}</p>
+      <a class="db-textlink" href={profileSummary.linkHref}>{profileSummary.linkLabel}</a>
+    </div>
+  </section>
+
+  <section class="db-section db-entry">
+    <div class="container">
+      <div class="db-entry__panel">
+        <p class="db-section__label">START</p>
+        <h2 class="db-section__heading">{contactCta.heading}</h2>
+        <p>{contactCta.body}</p>
+        <a class="btn-primary" href={contactCta.url}>{contactCta.buttonLabel}</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .db {
+    --db-ink: #242424;
+    --db-muted: #666666;
+    --db-line: #d8d3cf;
+    --db-bg-alt: #f5f3f1;
+    --db-accent: #8f2c22;
+    --db-accent-deep: #692018;
+    font-family:
+      "Hiragino Kaku Gothic ProN",
+      "Hiragino Sans",
+      "Yu Gothic",
+      "YuGothic",
+      "Noto Sans JP",
+      sans-serif;
+    color: var(--db-ink);
+  }
+
+  .db .container {
+    max-width: 1100px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .db a {
+    color: var(--db-accent);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ============ ヒーロー ============ */
+
+  .db-hero {
+    padding-block: 3.5rem 0;
+    border-bottom: 1px solid var(--db-line);
+  }
+
+  .db-hero__grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    padding-bottom: 2.5rem;
+  }
+
+  .db-hero__tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--db-accent);
+    margin: 0 0 1rem;
+  }
+
+  .db-hero__heading {
+    font-size: clamp(1.75rem, 1.15rem + 2.2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 1.25rem;
+  }
+
+  .db-hero__body {
+    max-width: 40em;
+    line-height: 1.9;
+    margin: 0 0 1.75rem;
+  }
+
+  .db-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .db-hero__side {
+    border: 1px solid var(--db-line);
+    padding: 1.25rem;
+  }
+
+  .db-hero__side-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--db-muted);
+    margin: 0 0 1rem;
+  }
+
+  .db-status-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75em;
+    padding-block: 0.75em;
+    border-top: 1px solid var(--db-line);
+  }
+
+  .db-status-chip {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--db-accent-deep);
+    background: #fff;
+    border: 1px solid var(--db-accent);
+    padding: 0.15em 0.6em;
+  }
+
+  .db-status-value {
+    font-weight: 700;
+  }
+
+  .db-flow-rail {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 1.25rem 0 1.5rem;
+    border-top: 1px solid var(--db-ink);
+    gap: 0;
+  }
+
+  .db-flow-rail li {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--db-ink);
+  }
+
+  .db-flow-rail li:not(:last-child)::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--db-line);
+    margin-inline: 0.6em;
+  }
+
+  .db-flow-rail__num {
+    flex-shrink: 0;
+    width: 1.75em;
+    height: 1.75em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--db-accent);
+    color: var(--db-accent);
+    font-size: 0.8125rem;
+  }
+
+  /* ============ 共通セクション ============ */
+
+  .db-section {
+    padding-block: 3rem;
+    border-bottom: 1px solid var(--db-line);
+  }
+
+  .db-band-alt {
+    background: var(--db-bg-alt);
+  }
+
+  .db-section__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--db-accent);
+    margin: 0 0 0.75rem;
+  }
+
+  .db-section__heading {
+    font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.625rem);
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0 0 1rem;
+    max-width: 32em;
+  }
+
+  .db-section__intro {
+    color: var(--db-muted);
+    margin: 0 0 1.5rem;
+  }
+
+  .db-note {
+    font-size: 0.8125rem;
+    color: var(--db-muted);
+    margin: 0 0 1.5rem;
+  }
+
+  .db-section p {
+    max-width: 42em;
+    line-height: 1.9;
+  }
+
+  /* ============ 困りごと：チェックリスト ============ */
+
+  .db-checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 46em;
+    border-top: 1px solid var(--db-ink);
+  }
+
+  .db-checklist li {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--db-line);
+    background: #fff;
+    padding-inline: 0.75rem;
+  }
+
+  .db-checklist__num {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--db-accent);
+    border-right: 1px solid var(--db-line);
+    padding-right: 1rem;
+  }
+
+  /* ============ 役割：進行ボード ============ */
+
+  .db-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 46em;
+  }
+
+  .db-board__tile {
+    border: 1px solid var(--db-line);
+    border-top: 3px solid var(--db-accent);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    font-weight: 700;
+  }
+
+  .db-board__num {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--db-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============ サービス比較：実務表 ============ */
+
+  .db-table-wrap {
+    overflow-x: auto;
+  }
+
+  .db-compare-table {
+    width: 100%;
+    max-width: 52em;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .db-compare-table th,
+  .db-compare-table td {
+    text-align: left;
+    padding: 0.75em 1em;
+    border: 1px solid var(--db-line);
+    vertical-align: top;
+  }
+
+  .db-compare-table thead th {
+    background: var(--db-ink);
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .db-compare-table tbody th {
+    background: #fff;
+    font-weight: 700;
+    width: 8em;
+  }
+
+  .db-compare-table td {
+    background: #fff;
+  }
+
+  .db-compare-table ul {
+    margin: 0;
+    padding-left: 1.1em;
+  }
+
+  .db-compare-table li {
+    margin-bottom: 0.3em;
+  }
+
+  .db-textlink {
+    display: inline-block;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .db-textlink:hover {
+    text-decoration: underline;
+  }
+
+  /* ============ 相談テーマ：確認分野インデックス ============ */
+
+  .db-tag-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    max-width: 52em;
+  }
+
+  .db-tag-grid li {
+    display: flex;
+    gap: 0.75em;
+    align-items: baseline;
+    border: 1px solid var(--db-line);
+    background: #fff;
+    padding: 0.75em 1em;
+    font-size: 0.9375rem;
+  }
+
+  .db-tag-grid__code {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--db-accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============ 経験帯 ============ */
+
+  .db-band-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 1rem 0 0;
+    border-top: 1px solid var(--db-line);
+    max-width: 46em;
+  }
+
+  .db-band-tags li {
+    font-size: 0.8125rem;
+    border: 1px solid var(--db-accent);
+    color: var(--db-accent-deep);
+    padding: 0.3em 0.85em;
+  }
+
+  /* ============ お問い合わせ：入口パネル ============ */
+
+  .db-entry {
+    border-bottom: none;
+    padding-block: 0 4rem;
+  }
+
+  .db-entry__panel {
+    border: 1px solid var(--db-ink);
+    border-top: 4px solid var(--db-accent);
+    padding: 2.5rem;
+    max-width: 46em;
+  }
+
+  .db-entry__panel p {
+    max-width: none;
+  }
+
+  @media (max-width: 900px) {
+    .db-hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .db-flow-rail {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .db-flow-rail li:not(:last-child)::after {
+      content: none;
+    }
+
+    .db-board {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .db-tag-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .db-section {
+      padding-block: 2.25rem;
+    }
+
+    .db-board {
+      grid-template-columns: 1fr;
+    }
+
+    .db-entry__panel {
+      padding: 1.5rem;
+    }
+  }
+</style>

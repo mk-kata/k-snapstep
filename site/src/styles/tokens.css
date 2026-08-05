@@ -76,12 +76,17 @@ h3 {
   margin-inline: auto;
 }
 
-/* CTA(主・副の2段構造、DESIGN_GUIDE 17番。既存 .btn-primary/.btn-ghost の考え方を踏襲) */
+/*
+ * CTA(主・副の2段構造、DESIGN_GUIDE 17番。既存 .btn-primary/.btn-ghost の考え方を踏襲)
+ * 【2026年7月28日】承認デザイン画像(docs/KSNAPSTEP_TOP_DESIGN_REFERENCE.png)に合わせ、
+ * 角丸(2px→8px)のみサイト全体で統一した。色・枠線・使用箇所は変更していない。
+ */
 .btn-primary,
 .btn-ghost {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 0.75em 1.5em;
-  border-radius: 2px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: 700;
   border: 1px solid var(--color-accent);
@@ -95,6 +100,18 @@ h3 {
 .btn-ghost {
   background: transparent;
   color: var(--color-accent);
+}
+
+/* ボタン内の装飾アイコン(線画SVG)。ヘッダーCTA・トップページの各CTAで使用 */
+.icon {
+  display: inline-block;
+}
+
+.btn-icon {
+  width: 1.1em;
+  height: 1.1em;
+  margin-inline-end: 0.4em;
+  flex-shrink: 0;
 }
 
 /* キーボードフォーカス(色だけに頼らない。DESIGN_GUIDE 25番) */

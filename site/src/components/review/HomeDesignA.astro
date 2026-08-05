@@ -1,0 +1,633 @@
+---
+// トップページ デザイン案A｜「実務ノート・エディトリアル」
+//
+// 参照元: docs/KSNAPSTEP_HOME_DESIGN_OPTIONS.md 5番。
+// 文章・URL・CTA文言はすべて src/data/homeContent.ts(既存トップページの確定本文の書き写し)を
+// そのまま使用し、このファイルでは変更していない。装飾語(セクション番号・キーワードラベル等)のみ
+// デザイン比較用の視覚要素として追加している。
+//
+// コンセプト: 片山まゆみが実際の案件を確認・整理するときの「実務ノート」を、
+// 上質なエディトリアルレイアウトとして表現する。余白を活かした非対称配置、
+// 小さなセクション番号、細い罫線、左揃え中心の文字組みを基本とする。
+// 装飾カード・写真・イラスト・影・大きな角丸は使用していない。
+import {
+  hero,
+  concerns,
+  role,
+  serviceComparison,
+  topics,
+  experience,
+  workSupport,
+  profileSummary,
+  contactCta,
+} from "../../data/homeContent";
+
+const keywords = ["確認", "整理", "判断", "伝える"];
+const pad2 = (n: number) => String(n).padStart(2, "0");
+---
+
+<div class="da">
+  <section class="da-hero">
+    <div class="container da-hero__inner">
+      <div class="da-hero__main">
+        <p class="da-hero__eyebrow">{hero.eyebrow}<span>小さな会社の外部Web担当者</span></p>
+        <h1 class="da-hero__heading">{hero.heading}</h1>
+        <ul class="da-hero__keywords" aria-hidden="true">
+          {keywords.map((k) => <li>{k}</li>)}
+        </ul>
+        <p class="da-hero__body">{hero.body}</p>
+        <div class="da-hero__cta">
+          <a class="btn-primary" href={hero.ctaHref}>{hero.ctaLabel}</a>
+          <a class="btn-ghost" href={hero.secondaryHref}>{hero.secondaryLabel}</a>
+        </div>
+      </div>
+      <div class="da-hero__index" aria-hidden="true">
+        <p class="da-hero__index-title">かかわり方</p>
+        {
+          hero.aside.map((item, i) => (
+            <div class="da-hero__index-row">
+              <span class="da-hero__index-num">{pad2(i + 1)}</span>
+              <span class="da-hero__index-label">{item.label}</span>
+              <span class="da-hero__index-value">{item.value}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section">
+    <div class="container da-section__grid">
+      <p class="da-section__num" aria-hidden="true">01</p>
+      <div class="da-section__body">
+        <h2 class="da-section__heading">{concerns.heading}</h2>
+        <ol class="da-index-list">
+          {
+            concerns.items.map((item, i) => (
+              <li>
+                <span class="da-index-list__num" aria-hidden="true">
+                  {pad2(i + 1)}
+                </span>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section da-section--alt">
+    <div class="container da-section__grid">
+      <p class="da-section__num" aria-hidden="true">02</p>
+      <div class="da-section__body">
+        <h2 class="da-section__heading">{role.heading}</h2>
+        <p class="da-section__intro">{role.intro}</p>
+        <ul class="da-role-grid">
+          {
+            role.labels.map((label, i) => (
+              <li>
+                <span class="da-role-grid__num" aria-hidden="true">
+                  {pad2(i + 1)}
+                </span>
+                <span>{label}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section">
+    <div class="container da-section__grid">
+      <p class="da-section__num" aria-hidden="true">03</p>
+      <div class="da-section__body">
+        <h2 class="da-section__heading">{serviceComparison.heading}</h2>
+        <p class="da-section__note">{serviceComparison.note}</p>
+        <div class="da-compare">
+          {
+            serviceComparison.cards.map((card, i) => (
+              <article class="da-compare__block">
+                <p class="da-compare__marker" aria-hidden="true">
+                  {String.fromCharCode(65 + i)}
+                </p>
+                <p class="da-compare__label">{card.label}</p>
+                <h3 class="da-compare__title">{card.title}</h3>
+                <p class="da-compare__price">
+                  {card.priceAmount}
+                  <span class="da-compare__price-unit">{card.priceUnit}</span>
+                </p>
+                <ul class="da-compare__facts">
+                  {card.facts.map((fact) => (
+                    <li>{fact}</li>
+                  ))}
+                </ul>
+                <a class="da-textlink" href={card.linkHref}>
+                  {card.linkLabel}
+                  <span aria-hidden="true"> →</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section da-section--alt">
+    <div class="container da-section__grid">
+      <p class="da-section__num" aria-hidden="true">04</p>
+      <div class="da-section__body">
+        <h2 class="da-section__heading">{topics.heading}</h2>
+        <ul class="da-topics-index">
+          {
+            topics.items.map((item, i) => (
+              <li>
+                <span class="da-topics-index__num" aria-hidden="true">
+                  {pad2(i + 1)}
+                </span>
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="da-textlink" href={topics.linkHref}>
+          {topics.linkLabel}
+          <span aria-hidden="true"> →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section">
+    <div class="container da-section__grid">
+      <p class="da-section__num" aria-hidden="true">05</p>
+      <div class="da-section__body da-article">
+        <p class="da-article__eyebrow">確認できる範囲</p>
+        <h2 class="da-section__heading">{experience.heading}</h2>
+        {experience.body.map((paragraph) => <p>{paragraph}</p>)}
+        <p class="da-article__examples">代表例｜{experience.examples.join("／")}</p>
+        <a class="da-textlink" href={experience.linkHref}>
+          {experience.linkLabel}
+          <span aria-hidden="true"> →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section da-section--alt">
+    <div class="container da-section__grid">
+      <p class="da-section__num" aria-hidden="true">06</p>
+      <div class="da-section__body">
+        <h2 class="da-section__heading">{workSupport.heading}</h2>
+        <p>{workSupport.body}</p>
+        <a class="da-textlink" href={workSupport.linkHref}>
+          {workSupport.linkLabel}
+          <span aria-hidden="true"> →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section">
+    <div class="container da-section__grid">
+      <p class="da-section__num" aria-hidden="true">07</p>
+      <div class="da-section__body da-article">
+        <p class="da-article__eyebrow">Profile note</p>
+        <h2 class="da-section__heading">{profileSummary.heading}</h2>
+        <p>{profileSummary.body}</p>
+        <a class="da-textlink" href={profileSummary.linkHref}>
+          {profileSummary.linkLabel}
+          <span aria-hidden="true"> →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="da-section da-contact">
+    <div class="container">
+      <div class="da-contact__box">
+        <p class="da-section__num" aria-hidden="true">08</p>
+        <h2 class="da-section__heading">{contactCta.heading}</h2>
+        <p>{contactCta.body}</p>
+        <a class="btn-primary" href={contactCta.url}>{contactCta.buttonLabel}</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style>
+  .da {
+    --da-ink: #242424;
+    --da-muted: #666666;
+    --da-line: #d8d3cf;
+    --da-bg-alt: #f5f3f1;
+    --da-accent: #8f2c22;
+    --da-accent-deep: #692018;
+    font-family:
+      "Hiragino Kaku Gothic ProN",
+      "Hiragino Sans",
+      "Yu Gothic",
+      "YuGothic",
+      "Noto Sans JP",
+      sans-serif;
+    color: var(--da-ink);
+  }
+
+  .da .container {
+    max-width: 1100px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .da a {
+    color: var(--da-accent);
+  }
+
+  /* ============ ヒーロー ============ */
+
+  .da-hero {
+    padding-block: 4.5rem 3.5rem;
+    border-bottom: 1px solid var(--da-line);
+  }
+
+  .da-hero__inner {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .da-hero__eyebrow {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75em;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--da-accent);
+    margin: 0 0 1.75rem;
+    padding-bottom: 0.6em;
+    border-bottom: 1px solid var(--da-line);
+  }
+
+  .da-hero__eyebrow span {
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--da-muted);
+  }
+
+  .da-hero__heading {
+    font-size: clamp(1.75rem, 1.1rem + 2.4vw, 3.1rem);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.5rem;
+  }
+
+  .da-hero__keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    margin: 0 0 1.75rem;
+    padding: 0;
+  }
+
+  .da-hero__keywords li {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--da-muted);
+    border: 1px solid var(--da-line);
+    padding: 0.3em 0.85em;
+  }
+
+  .da-hero__body {
+    max-width: 42em;
+    font-size: 1.0625rem;
+    line-height: 1.9;
+    margin: 0 0 2rem;
+  }
+
+  .da-hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .da-hero__index {
+    border-top: 1px solid var(--da-ink);
+    padding-top: 1rem;
+  }
+
+  .da-hero__index-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--da-muted);
+    margin: 0 0 1rem;
+  }
+
+  .da-hero__index-row {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 0.75em;
+    align-items: baseline;
+    padding-block: 0.9rem;
+    border-top: 1px dashed var(--da-line);
+  }
+
+  .da-hero__index-num {
+    font-size: 0.75rem;
+    color: var(--da-accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .da-hero__index-label {
+    font-size: 0.8125rem;
+    color: var(--da-muted);
+  }
+
+  .da-hero__index-value {
+    font-weight: 700;
+  }
+
+  /* ============ 共通セクション ============ */
+
+  .da-section {
+    padding-block: 3.5rem;
+    border-bottom: 1px solid var(--da-line);
+  }
+
+  .da-section--alt {
+    background: var(--da-bg-alt);
+  }
+
+  .da-section__grid {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 1.5rem;
+  }
+
+  .da-section__num {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--da-accent);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.3em;
+  }
+
+  .da-section__heading {
+    font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.625rem);
+    font-weight: 700;
+    line-height: 1.5;
+    margin: 0 0 1rem;
+    max-width: 32em;
+  }
+
+  .da-section__intro {
+    margin: 0 0 1.5rem;
+    color: var(--da-muted);
+  }
+
+  .da-section__note {
+    font-size: 0.8125rem;
+    color: var(--da-muted);
+    margin: 0 0 1.75rem;
+  }
+
+  .da-section__body p {
+    max-width: 42em;
+    line-height: 1.9;
+  }
+
+  /* ============ 困りごと：編集索引 ============ */
+
+  .da-index-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 42em;
+  }
+
+  .da-index-list li {
+    display: flex;
+    gap: 1rem;
+    padding-block: 0.9rem;
+    border-top: 1px solid var(--da-line);
+    line-height: 1.7;
+  }
+
+  .da-index-list li:last-child {
+    border-bottom: 1px solid var(--da-line);
+  }
+
+  .da-index-list__num {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--da-accent);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.2em;
+  }
+
+  /* ============ 役割：ラベルグリッド ============ */
+
+  .da-role-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--da-ink);
+    border-left: 1px solid var(--da-line);
+    max-width: 42em;
+  }
+
+  .da-role-grid li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    padding: 1rem;
+    border-right: 1px solid var(--da-line);
+    border-bottom: 1px solid var(--da-line);
+    font-weight: 700;
+  }
+
+  .da-role-grid__num {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--da-accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============ サービス比較：編集ブロック ============ */
+
+  .da-compare {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+    max-width: 52em;
+  }
+
+  .da-compare__block {
+    border-top: 2px solid var(--da-ink);
+    padding-top: 1.25rem;
+  }
+
+  .da-compare__marker {
+    font-size: 0.75rem;
+    color: var(--da-accent);
+    margin: 0 0 0.75em;
+  }
+
+  .da-compare__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--da-muted);
+    margin: 0 0 0.4em;
+  }
+
+  .da-compare__title {
+    font-size: 1.25rem;
+    margin: 0 0 0.75em;
+  }
+
+  .da-compare__price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem;
+  }
+
+  .da-compare__price-unit {
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--da-muted);
+    margin-inline-start: 0.3em;
+  }
+
+  .da-compare__facts {
+    list-style: none;
+    margin: 0 0 1.25rem;
+    padding: 0;
+  }
+
+  .da-compare__facts li {
+    padding-block: 0.5em;
+    border-top: 1px dashed var(--da-line);
+    font-size: 0.9375rem;
+  }
+
+  /* ============ 相談テーマ：索引 ============ */
+
+  .da-topics-index {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem 2.5rem;
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    max-width: 52em;
+  }
+
+  .da-topics-index li {
+    display: flex;
+    gap: 0.75em;
+    padding-block: 0.75em;
+    border-top: 1px solid var(--da-line);
+    line-height: 1.7;
+  }
+
+  .da-topics-index__num {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--da-accent);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.2em;
+  }
+
+  /* ============ 記事調ブロック(経験・プロフィール) ============ */
+
+  .da-article__eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--da-accent);
+    margin: 0 0 0.5em;
+  }
+
+  .da-article__examples {
+    font-size: 0.875rem;
+    color: var(--da-muted);
+    border-top: 1px dashed var(--da-line);
+    padding-top: 0.75em;
+    max-width: 42em;
+  }
+
+  .da-textlink {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .da-textlink:hover {
+    text-decoration: underline;
+  }
+
+  /* ============ お問い合わせ：編集後記 ============ */
+
+  .da-contact {
+    background: var(--da-bg-alt);
+    border-bottom: none;
+  }
+
+  .da-contact__box {
+    max-width: 40em;
+    margin-inline: auto;
+    text-align: center;
+    padding-block: 1rem;
+  }
+
+  .da-contact__box .da-section__num {
+    text-align: center;
+  }
+
+  .da-contact__box p {
+    line-height: 1.9;
+    margin: 0 auto 1.75rem;
+  }
+
+  @media (max-width: 900px) {
+    .da-hero__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .da-compare {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .da-topics-index {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .da-hero {
+      padding-block: 3rem 2.5rem;
+    }
+
+    .da-section {
+      padding-block: 2.5rem;
+    }
+
+    .da-section__grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .da-role-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

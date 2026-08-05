@@ -7,17 +7,27 @@
 // 【訂正】前回実装は、docs/KSNAPSTEP_SITE_SPEC.md 6番の一文のみを抜粋し、
 // 前段(「基本は、状況の確認、判断、制作会社や担当者への指示整理です」)を欠いていた。
 // 今回、確定本文全体へ差し替えた。詳細は docs/KSNAPSTEP_HOME_COPY_AUDIT.md 6・12番を参照。
+//
+// 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、左に文章・右に抽象的な線画装飾を
+// 置く独立セクションへ変更した。本文・CTA文言・リンク先は変更していない。ストック写真は使用せず、
+// アイコン(browser-gear)による装飾のみとした。
 import { urls } from "../../config/site";
+import Icon from "../icons/Icon.astro";
 ---
 
 <section class="work-support">
-  <div class="container">
-    <h2 class="section-heading">必要に応じて、実作業にも対応します。</h2>
-    <p class="work-support__body">
-      基本は、状況の確認、判断、制作会社や担当者への指示整理です。実作業が必要な場合は、内容と予算を確認したうえで、個別にお見積もりします。CMSの修正、サーバーやドメインの設定、不具合対応など、内容により対応します。
-    </p>
-    <p class="topics__link">
-      <a href={urls.services}>対応できることを見る</a>
-    </p>
+  <div class="container work-support__inner">
+    <div class="work-support__text">
+      <h2 class="section-heading">必要に応じて、実作業にも対応します。</h2>
+      <p class="work-support__body">
+        基本は、状況の確認、判断、制作会社や担当者への指示整理です。実作業が必要な場合は、内容と予算を確認したうえで、個別にお見積もりします。CMSの修正、サーバーやドメインの設定、不具合対応など、内容により対応します。
+      </p>
+      <p class="topics__link">
+        <a href={urls.services}>対応できることを見る</a>
+      </p>
+    </div>
+    <div class="work-support__visual" aria-hidden="true">
+      <Icon name="browser-gear" class="work-support__icon" />
+    </div>
   </div>
 </section>

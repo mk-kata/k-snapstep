@@ -4,16 +4,24 @@
 // 出典: docs/KSNAPSTEP_SITE_SPEC.md 10番セクション4の見出し、および同7番「サービス一覧」の確定事実
 // (料金・回数・時間・含まれる内容)をそのまま使用。要約・言い換えは行っていない。
 // 上位/下位プランに見せないよう、2枚を同格のブロックとして扱う。
+//
+// 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、アイコン・小ラベル・チェックリストを
+// 持つ2枚のサービスカードへ変更した。料金・内容・CTA文言・URLは変更していない。
 import { urls } from "../../config/site";
+import Icon from "../icons/Icon.astro";
 ---
 
-<section class="service-comparison">
+<section class="service-comparison section--decorated">
   <div class="container">
-    <h2 class="section-heading">単発と継続、2つの関わり方</h2>
+    <h2 class="section-heading section-heading--center">単発と継続、2つの関わり方</h2>
     <p class="service-comparison__note">上位・下位の関係ではありません</p>
 
     <div class="service-comparison__grid">
       <article class="service-comparison__card">
+        <p class="service-comparison__badge">単発でじっくり相談したい方に</p>
+        <span class="service-comparison__icon" aria-hidden="true">
+          <Icon name="calendar" />
+        </span>
         <p class="service-comparison__label">単発</p>
         <h3 class="service-comparison__title">1日WEB担当者</h3>
         <p class="service-comparison__price">
@@ -26,10 +34,16 @@ import { urls } from "../../config/site";
           <li>WEB担当者メモ + テーマに応じた資料1点</li>
           <li>実施後のフォロー</li>
         </ul>
-        <a class="btn-ghost" href={urls.oneDayWebManager} data-cta="home-compare-oneday">1日WEB担当者を見る</a>
+        <a class="btn-primary service-comparison__cta" href={urls.oneDayWebManager} data-cta="home-compare-oneday">
+          1日WEB担当者を見る
+        </a>
       </article>
 
-      <article class="service-comparison__card">
+      <article class="service-comparison__card service-comparison__card--alt">
+        <p class="service-comparison__badge service-comparison__badge--alt">継続して伴走してほしい方に</p>
+        <span class="service-comparison__icon" aria-hidden="true">
+          <Icon name="repeat" />
+        </span>
         <p class="service-comparison__label">継続</p>
         <h3 class="service-comparison__title">月額Web担当サポート</h3>
         <p class="service-comparison__price">
@@ -41,7 +55,9 @@ import { urls } from "../../config/site";
           <li>判断と進行を継続的に確認</li>
           <li>実作業は別途見積もり</li>
         </ul>
-        <a class="btn-ghost" href={urls.monthlySupport} data-cta="home-compare-monthly">月額サポートを見る</a>
+        <a class="btn-ghost service-comparison__cta" href={urls.monthlySupport} data-cta="home-compare-monthly">
+          月額サポートを見る
+        </a>
       </article>
     </div>
   </div>

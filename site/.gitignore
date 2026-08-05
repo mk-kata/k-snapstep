@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # ビジュアル確認用スクリーンショット(容量が大きいためGit管理対象外。docs/KSNAPSTEP_VISUAL_REVIEW.md参照)
 review/screenshots/
+
+# トップページ デザイン比較用スクリーンショット(容量が大きいためGit管理対象外。docs/KSNAPSTEP_HOME_DESIGN_OPTIONS.md参照)
+review/home-design-options/
+
+# トップページ正式デザインの確認用スクリーンショット(容量が大きいためGit管理対象外。docs/KSNAPSTEP_HOME_DESIGN_FINAL.md参照)
+review/home-design-final/

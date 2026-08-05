@@ -1,0 +1,39 @@
+---
+// トップページ ファーストビュー用イラスト(装飾)
+//
+// 出典: 承認デザイン画像の雰囲気に合わせてユーザーから提供されたイラスト素材
+// (site/public/images/home/hero-web-manager.png)を使用。背景透過のPNGで、
+// ノートPCに向かう人物・観葉植物・マグカップ・メール/円グラフ/棒グラフ/チェックの
+// 浮遊カードを含む。実在の人物を描写したものではない。装飾のため aria-hidden。
+---
+
+<img
+  class="hero-illustration"
+  src="/images/home/hero-web-manager.webp"
+  alt=""
+  aria-hidden="true"
+  width="899"
+  height="680"
+  loading="eager"
+  decoding="async"
+/>
+
+<style>
+  .hero-illustration {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /*
+   * ファーストビューでイラストを主役として見せるため、PC幅では表示枠より
+   * 一回り大きく表示する。
+   * 【2026年8月5日】見出し・本文に対してイラストの存在感が弱いという指摘を受け、
+   * 拡大率を引き上げた。ここではイラスト単体ではなく親の.hero__visual側で
+   * 幅を広げている(2026年7月31日時点はイラストimg単体のみを拡大していたため、
+   * 直下の「単発/継続」カードだけ幅が揃わず、イラストとカードの間が分断して
+   * 見える問題があった。.hero__visual側で幅を広げることで、イラストとカードが
+   * 同じ幅で連動して拡大され、右カラム全体が一体に見えるようにした)。
+   */
+
+</style>
