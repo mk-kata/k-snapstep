@@ -14,26 +14,31 @@
 // 【2026年7月31日】画像を正規化済みアイコン(normalized/)へ切り替えた。
 // 【2026年8月5日(1)】本番公開準備として、未使用の元画像(normalized化前の18個)を
 // docs/home-icons-source/ へ移動した(publicから外し、本番ビルドに含めないため)。
-// 【2026年8月5日(2)】ユーザー指示により、見出し・英字アイキャッチ・導入文を追加した
-// (項目文・CTA文言・リンク先・アイコンは変更していない)。
+// 【2026年8月5日(2)】ユーザー指示により、見出し・英字アイキャッチ・導入文を追加した。
+// 【2026年8月5日(3)】ユーザー指示により、6項目の文言をより簡潔な表現へ整えた
+// (意味は変えず、箇条書きらしい体言止めに統一)。
 import { urls } from "../../config/site";
 
 const topics = [
-  { icon: "topic-site-issue", text: "サイトの問題点と、改修する順番" },
-  { icon: "topic-shop-mail", text: "制作会社の選定、相見積もりや提案内容の比較" },
-  { icon: "topic-migrate", text: "WordPressやMovable Typeをそのまま使い続けるのか、改修するのか、別の仕組みへ移行するのか" },
+  { icon: "topic-site-issue", text: "サイトの問題点と改修の優先順位" },
+  { icon: "topic-shop-mail", text: "制作会社の選定と見積もり・<br />提案内容の比較" },
+  { icon: "topic-migrate", text: "WordPress・Movable Typeの<br />運用方針の整理" },
   { icon: "topic-ec", text: "ECサイトや複数の販売環境の整理" },
-  { icon: "topic-server-domain", text: "サーバー、ドメイン、メールの管理状況確認" },
-  { icon: "topic-seo-analytics", text: "SEOやアクセス解析をもとにした改善箇所の整理" },
+  { icon: "topic-server-domain", text: "サーバー・ドメイン・メールの<br />管理状況確認" },
+  { icon: "topic-seo-analytics", text: "SEO・アクセス解析をもとにした<br />改善点の整理" },
 ];
 ---
 
-<section class="topics section--decorated">
+<section class="topics">
   <div class="container">
     <p class="section-eyebrow section-eyebrow--center">CONSULTATION</p>
-    <h2 class="section-heading section-heading--center">こんなWebの悩みを一緒に整理します</h2>
+    <h2 class="section-heading section-heading--center">
+      こんなWebの悩みを<br class="heading-break" />一緒に整理します
+    </h2>
     <p class="topics__intro">
-      サイト改善、制作会社とのやり取り、CMSやサーバーの管理など、社内だけでは判断しにくい内容をご相談いただけます。
+      サイト改善や制作会社とのやり取り、<br class="heading-break-xs" />
+      CMS・サーバー管理など、<br />
+      社内だけでは判断しにくい内容をご相談いただけます。
     </p>
 
     <ul class="topics__grid">
@@ -43,7 +48,7 @@ const topics = [
             <span class="topics__icon" aria-hidden="true">
               <img src={`/images/home/icons/normalized/${topic.icon}.webp`} alt="" loading="lazy" decoding="async" />
             </span>
-            <p>{topic.text}</p>
+            <p set:html={topic.text} />
           </li>
         ))
       }

@@ -59,48 +59,13 @@ section {
   text-align: center;
 }
 
-/* 背景の淡い丸み装飾。コンテンツより背面に置き、読み上げ・操作の対象にしない */
-.section--decorated {
-  position: relative;
-  overflow: hidden;
-}
-
-.section--decorated::before,
-.section--decorated::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  background: var(--home-bg-warm);
-  opacity: 0.7;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.section--decorated::before {
-  width: 22rem;
-  height: 22rem;
-  top: -9rem;
-  right: -8rem;
-}
-
-.section--decorated::after {
-  width: 15rem;
-  height: 15rem;
-  bottom: -7rem;
-  left: -6rem;
-}
-
-.section--decorated > .container {
-  position: relative;
-  z-index: 1;
-}
-
-@media (max-width: 640px) {
-  .section--decorated::before,
-  .section--decorated::after {
-    opacity: 0.45;
-  }
-}
+/*
+ * 【2026年8月6日】背景の丸み装飾(.section--decorated)は、どのセクションに付けるかの
+ * 基準が文書化されておらず、セクションごとに個別判断で付いていたり付いていなかったりして
+ * 一貫性がなかった(隣接セクション同士でサイズが合わずズレて見える不具合の原因にもなった)。
+ * ルールを作って一部だけに残すより、全セクション一律で無しにする方が壊れにくいため、
+ * トップページ全体から丸み装飾を廃止した(旧.section--decoratedのCSS・使用箇所は削除済み)。
+ */
 
 /* ============ セクション1: ファーストビュー ============ */
 
@@ -137,7 +102,7 @@ section {
 }
 
 .hero__heading {
-  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
   font-weight: 700;
   margin: 0 0 var(--space-s);
   line-height: 1.45;
@@ -215,8 +180,9 @@ section {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 4.75rem;
-  height: 4.75rem;
+  align-self: center;
+  width: 7.125rem;
+  height: 7.125rem;
 }
 
 .concerns__icon img {
@@ -328,19 +294,21 @@ section {
 }
 
 .role__number {
-  font-size: 0.8125rem;
+  font-size: 2rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--home-accent);
+  line-height: 1;
 }
 
 .role__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 5.5rem;
-  height: 5.5rem;
-  margin-block: 0.15rem 0.4rem;
+  align-self: center;
+  width: 7.5rem;
+  height: 7.5rem;
+  margin-block: 0.6rem 0;
 }
 
 .role__icon img {
@@ -390,6 +358,8 @@ section {
   padding: 2rem 1.75rem 1.75rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .service-comparison__card--alt {
@@ -398,8 +368,8 @@ section {
 
 .service-comparison__badge {
   display: inline-block;
-  align-self: flex-start;
-  font-size: 0.75rem;
+  align-self: center;
+  font-size: 0.9375rem;
   font-weight: 700;
   color: var(--home-accent-dark);
   background: var(--home-bg-warm);
@@ -414,32 +384,9 @@ section {
   border: 1px solid var(--home-line);
 }
 
-.service-comparison__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 50%;
-  background: var(--home-accent);
-  color: #fff;
-  margin-bottom: 0.75rem;
-}
-
-.service-comparison__icon .icon {
-  width: 1.4rem;
-  height: 1.4rem;
-}
-
-.service-comparison__label {
-  font-size: 0.8125rem;
-  color: var(--home-text-subtle);
-  margin: 0;
-}
-
 .service-comparison__title {
-  margin: 0.2em 0 0.9rem;
-  font-size: 1.25rem;
+  margin: 0.6rem 0 0.9rem;
+  font-size: 1.625rem;
 }
 
 .service-comparison__price {
@@ -462,6 +409,10 @@ section {
   margin: 0 0 1.5rem;
   padding: 0;
   flex-grow: 1;
+  align-self: center;
+  width: 100%;
+  max-width: 22rem;
+  text-align: left;
 }
 
 .service-comparison__facts li {
@@ -480,7 +431,7 @@ section {
 }
 
 .service-comparison__cta {
-  align-self: flex-start;
+  align-self: center;
 }
 
 @media (max-width: 760px) {
@@ -509,12 +460,14 @@ section {
 
 .topics__item {
   display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
   border: 1px solid var(--home-line);
   border-radius: var(--home-radius-s);
   background: var(--home-bg-soft);
-  padding: 1.1rem 1.1rem;
+  padding: 1.75rem 1.25rem;
 }
 
 .topics__item p {
@@ -527,8 +480,8 @@ section {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: 5.5rem;
+  height: 5.5rem;
 }
 
 .topics__icon img {
@@ -682,25 +635,10 @@ section {
 
 /*
  * プロフィール専用の背景装飾(2026年7月31日追加)。
- * 他セクションの.section--decorated(暖色円を右上・左下)とは配置・色味を変え、
- * 白い円を右下、ごく薄いドットパターンを左上に置いている。背景がすでに暖色
- * (--home-bg-warm)のため、同系色の円だと視認できず、白系にして輪郭を出した。
- * 人物紹介(経歴パネル・本文)より目立たないよう、不透明度を低く抑えている。
+ * 【2026年8月6日】右下の白い円は、他セクションの丸み装飾を全廃したのに合わせて削除した
+ * (整理の経緯はこのファイル冒頭のコメントを参照)。左上のごく薄いドットパターンは
+ * 「円」ではなく質感のための模様のため、今回の整理の対象外として残している。
  */
-.profile-summary::before {
-  content: "";
-  position: absolute;
-  width: 20rem;
-  height: 20rem;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0.45;
-  bottom: -9rem;
-  right: -7rem;
-  z-index: 0;
-  pointer-events: none;
-}
-
 .profile-summary::after {
   content: "";
   position: absolute;
@@ -802,16 +740,21 @@ section {
   padding-block: clamp(2.75rem, 2rem + 3vw, 4rem);
 }
 
-.home-final-cta.section--decorated::before,
-.home-final-cta.section--decorated::after {
-  background: rgba(255, 255, 255, 0.12);
+/*
+ * 赤背景(CTA帯)とフッターの間に白い隙間ができないよう、余白を打ち消す。
+ * .home-final-ctaは<main>の中、.site-footerは<main>と同階層(BaseLayout.astro参照)にあり
+ * 直接の隣接兄弟ではないため、:has()で「.home-final-ctaを含む<main>の直後のフッター」を指定する。
+ */
+main:has(.home-final-cta) + .site-footer {
+  margin-top: 0;
 }
 
 .home-final-cta .cta-block {
   border: none;
   padding: 0;
-  margin: 0;
-  max-width: 40em;
+  margin-inline: auto;
+  max-width: 50em;
+  text-align: center;
 }
 
 .home-final-cta .cta-block__heading {
@@ -821,6 +764,7 @@ section {
 
 .home-final-cta .cta-block__body {
   color: rgba(255, 255, 255, 0.9);
+  text-align: left;
 }
 
 .home-final-cta .btn-primary {

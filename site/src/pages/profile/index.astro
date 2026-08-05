@@ -50,8 +50,7 @@ const judgments = [
     <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
     <PageHeader
-      pageName="片山まゆみについて"
-      heading="Webを作る側と、依頼する側の間で仕事をしてきました。"
+      heading="Webを作る側と、<br class='heading-break' />依頼する側の間で<br class='heading-break-xs' />仕事をしてきました。"
       intro="片山まゆみです。銀行、印刷会社を経て、Web制作には35年以上関わってきました。制作だけでなく、事業者の要望を整理し、制作側へ伝え、進行を確認する仕事も担ってきました。現在は「1日WEB担当者」として、発注する側の判断と進行を支えています。"
     />
 
@@ -61,12 +60,12 @@ const judgments = [
         今は「1日WEB担当者」として、専任のWeb担当者がいない会社や、一人で判断まで担っている方のご相談を受けています。1日だけ発注する側に立ち、ひとつのWeb課題について、何を決め、次に誰が何をするかを明確にする仕事です。
       </p>
       <p>
-        継続的な確認が必要な方には、月額Web担当サポートで、月2回・各60分のオンライン面談を通じてWebの判断と進行を確認し、制作会社への確認事項や改修の優先順位を整理します。料金は月額55,000円(税込)です。
+        継続的な確認が必要な方には、Web担当者サポートで、月2回・各60分のオンライン面談を通じてWebの判断と進行を確認し、制作会社への確認事項や改修の優先順位を整理します。料金は月額55,000円(税込)です。
       </p>
     </section>
 
     <section class="section-block">
-      <h2>制作と発注、両方の立場を経験してきました</h2>
+      <h2>制作と発注、<br class="heading-break" />両方の立場を経験してきました</h2>
       <p>銀行勤務を経て、印刷会社では営業事務とDTPを担当しました。</p>
       <p>
         依頼内容が整理され、制作担当者へ渡り、実際の制作物になるまでの流れを、事務と制作の両方の立場から経験しています。この経験が、現在の仕事の土台になりました。
@@ -87,7 +86,7 @@ const judgments = [
     </section>
 
     <section class="section-block">
-      <h2>道具は変わっても、考えることは変わりません。</h2>
+      <h2>道具は変わっても、<br class="heading-break" />考えることは変わりません。</h2>
       <p>
         HTML、Flash、CSS、CMS、WordPress、AI。Web制作に関わってきた35年余りの間に、使う道具は何度も変わりました。
       </p>
@@ -98,7 +97,7 @@ const judgments = [
     </section>
 
     <section class="section-block">
-      <h2>制作だけでなく、間に立つ仕事も。</h2>
+      <h2>制作だけでなく、<br class="heading-break" />間に立つ仕事も。</h2>
       <p>制作の現場では、作ることだけでなく、次のような役割を担ってきました。</p>
       <ul class="plain-list">
         <li>クライアントの要望を聞き、整理すること</li>
@@ -116,7 +115,7 @@ const judgments = [
     </section>
 
     <section class="section-block">
-      <h2>判断するときに、大切にしていること。</h2>
+      <h2>判断するときに、<br class="heading-break" />大切にしていること。</h2>
       <p>これまでの仕事の中で、次のような判断を大切にしてきました。</p>
       <ul class="plain-list">
         {judgments.map((judgment) => <li>{judgment}</li>)}
@@ -124,7 +123,7 @@ const judgments = [
     </section>
 
     <section class="section-block">
-      <h2>1日WEB担当者が生まれた理由。</h2>
+      <h2>1日WEB担当者が<br class="heading-break" />生まれた理由。</h2>
       <p>小さな会社では、Webについて専門的に判断する人が社内にいないことも少なくありません。</p>
       <p>制作会社に依頼する場合でも、</p>
       <ul class="plain-list">
@@ -142,8 +141,8 @@ const judgments = [
       </p>
     </section>
 
-    <section class="section-block section-block--quiet">
-      <h2>もうひとつの活動、MARORIRIについて。</h2>
+    <section class="section-block">
+      <h2>もうひとつの活動、<br class="heading-break" />MARORIRIについて。</h2>
       <p>
         K-SNAPSTEPで実践しているWebの仕事の考え方を、MARORIRIで次のWeb実務者へ伝えています。コーダーとして現場で考えるための場です。
       </p>
@@ -156,7 +155,7 @@ const judgments = [
     </section>
 
     <section class="section-block">
-      <h2>Webのことで、判断に迷っている方へ。</h2>
+      <h2>Webのことで、<br class="heading-break" />判断に迷っている方へ。</h2>
       <p>ホームページや制作会社とのやり取りなど、Webのことで判断に迷っていることがあれば、今の状況をお聞かせください。1日WEB担当者については、詳細ページでご案内しています。</p>
       <div class="profile-cta-links">
         <a class="btn-ghost" href={urls.oneDayWebManager}>1日WEB担当者について見る</a>
@@ -178,11 +177,6 @@ const judgments = [
 </BaseLayout>
 
 <style>
-  .section-block--quiet {
-    background: var(--color-bg-alt);
-    padding-inline: var(--space-s);
-  }
-
   .career-chain {
     display: flex;
     flex-wrap: wrap;
@@ -215,6 +209,7 @@ const judgments = [
     padding: 0.25em 0.75em;
     font-size: 0.8125rem;
     color: var(--color-text-muted);
+    border-radius: 999px;
   }
 
   .plain-list {

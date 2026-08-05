@@ -8,6 +8,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../../components/navigation/Breadcrumbs.astro";
 import BreadcrumbJsonLd from "../../../components/seo/BreadcrumbJsonLd.astro";
+import PageHeader from "../../../components/page/PageHeader.astro";
 import ArticleCard from "../../../components/reading/ArticleCard.astro";
 import { getCollection } from "astro:content";
 import { urls } from "../../../config/site";
@@ -33,14 +34,11 @@ const articles = (await getCollection("articles", ({ data }) => !data.draft && d
     <Breadcrumbs items={breadcrumbItems} />
     <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
-    <header class="page-header">
-      <p class="page-header__eyebrow">読みもの</p>
-      <h1 class="page-header__heading">小さな会社のホームページ見直しノート</h1>
-      <p class="page-header__intro">
-        専任のWeb担当者がいない小さな会社や事業者が、自社のホームページや制作体制を判断するための読みものです。コードの書き方を教える技術ブログではなく、状況の確認・判断の仕方を扱います。記事は公開日順に並んでいます。
-      </p>
-      <a href={urls.reading}>← 読みもの一覧へ戻る</a>
-    </header>
+    <PageHeader
+      heading="小さな会社の<br class='heading-break' />ホームページ<br class='heading-break-xs' />見直しノート"
+      intro="専任のWeb担当者がいない小さな会社や事業者が、自社のホームページや制作体制を判断するための読みものです。コードの書き方を教える技術ブログではなく、状況の確認・判断の仕方を扱います。記事は公開日順に並んでいます。"
+    />
+    <p class="back-link"><a href={urls.reading}>← 読みもの一覧へ戻る</a></p>
 
     <section class="article-list">
       <h2 class="article-list__heading">記事一覧</h2>
@@ -62,26 +60,15 @@ const articles = (await getCollection("articles", ({ data }) => !data.draft && d
 
     <p class="quiet-links">
       関連するサービス： <a href={urls.oneDayWebManager}>1日WEB担当者</a> ／
-      <a href={urls.monthlySupport}>月額Web担当サポート</a>
+      <a href={urls.monthlySupport}>Web担当者サポート</a>
     </p>
   </div>
 </BaseLayout>
 
 <style>
-  .page-header {
-    padding-block: var(--space-m);
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: var(--space-m);
-  }
-
-  .page-header__eyebrow {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-    margin: 0 0 0.5em;
-  }
-
-  .page-header__heading {
-    margin: 0 0 0.5em;
+  .back-link {
+    font-size: 0.9375rem;
+    margin-top: -0.5em;
   }
 
   .article-list__heading {

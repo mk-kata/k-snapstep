@@ -9,9 +9,10 @@
 // - JavaScriptなしでも通常ナビ・お問い合わせへ到達できるよう、
 //   スマートフォンの折りたたみは「JSが実行できた場合にのみ」CSSで隠す設計にしている
 //   (下部の<script>参照。JS失敗時は常時展開表示のまま)。
+// - 【2026年8月5日】ユーザー提供のレイアウト参考画像に合わせ、CTAボタンのアイコンを外し、
+//   よりコンパクトな見た目にした。
 
 import { site, mainNav, contactCta } from "../../config/site";
-import Icon from "../icons/Icon.astro";
 ---
 
 <header class="site-header" data-site-header>
@@ -47,8 +48,7 @@ import Icon from "../icons/Icon.astro";
           ))
         }
       </ul>
-      <a class="btn-primary site-nav__cta" href={contactCta.href} data-cta="nav-contact">
-        <Icon name="mail" class="btn-icon" />
+      <a class="btn-primary site-nav__cta site-nav__cta--compact" href={contactCta.href} data-cta="nav-contact">
         {contactCta.label}
       </a>
     </nav>

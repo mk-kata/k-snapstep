@@ -50,7 +50,9 @@ const steps = [
 
 <section class="role">
   <div class="container">
-    <h2 class="section-heading section-heading--center">Webの状況を整理し、次に進む道筋をつくります。</h2>
+    <h2 class="section-heading section-heading--center">
+      Webの状況を整理し、<br class="heading-break" />次に進む道筋をつくります。
+    </h2>
     <p class="role__intro">問題を見つけるだけではなく、何を・誰が・どの順番で進めるのかまで整理します。</p>
 
     <ol class="role__grid">
@@ -60,11 +62,11 @@ const steps = [
             <span class="role__number" aria-hidden="true">
               {step.number}
             </span>
+            <h3 class="role__title">{step.title}</h3>
+            <p class="role__text">{step.text}</p>
             <span class="role__icon" aria-hidden="true">
               <img src={`/images/home/icons/normalized/${step.icon}.webp`} alt="" loading="lazy" decoding="async" />
             </span>
-            <h3 class="role__title">{step.title}</h3>
-            <p class="role__text">{step.text}</p>
           </li>
         ))
       }

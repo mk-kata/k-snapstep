@@ -69,7 +69,7 @@ export const urls = {
 /** グローバルナビ通常5項目(docs/KSNAPSTEP_SITE_SPEC.md 9番・docs/KSNAPSTEP_WIREFRAME.md 4番) */
 export const mainNav = [
   { label: "1日WEB担当者", href: urls.oneDayWebManager },
-  { label: "月額Web担当サポート", href: urls.monthlySupport },
+  { label: "Web担当者サポート", href: urls.monthlySupport },
   { label: "対応できること", href: urls.services },
   { label: "読みもの", href: urls.reading },
   { label: "片山まゆみについて", href: urls.profile },

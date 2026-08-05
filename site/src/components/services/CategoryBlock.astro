@@ -5,8 +5,13 @@
 // 高さが揃わなくてよい「カテゴリブロック」形式)、docs/KSNAPSTEP_DESIGN_GUIDE.md 18番
 // (対応領域はカード化しない。可変高さの「カテゴリブロック」)。
 // 罫線区切りの可変高さブロックとして実装し、カード化・角丸・影は使用しない。
+//
+// 【2026年8月5日】狭い幅で見出しが意味の切れ目でない位置に折り返すのを防ぐため、
+// headingをHTML(set:html)として描画するよう変更した。呼び出し側は静的な確定文言のみを
+// 渡しており、外部入力は扱わないためXSSの懸念はない。
 
 interface Props {
+  /** 見出し。静的な確定文言のみを渡すこと(set:htmlで描画するため) */
   heading: string;
   paragraphs: string[];
 }
@@ -15,7 +20,7 @@ const { heading, paragraphs } = Astro.props;
 ---
 
 <section class="category-block">
-  <h2 class="category-block__heading">{heading}</h2>
+  <h2 class="category-block__heading" set:html={heading} />
   {paragraphs.map((paragraph) => <p class="category-block__body">{paragraph}</p>)}
 </section>
 

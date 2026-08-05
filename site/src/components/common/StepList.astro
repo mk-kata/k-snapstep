@@ -36,8 +36,10 @@ const { steps } = Astro.props;
 <style>
   .step-list {
     margin: var(--space-m) 0;
-    padding: 0;
+    padding: var(--space-m);
     list-style: none;
+    background: var(--color-bg-alt);
+    border-radius: 12px;
   }
 
   .step-list__item {
@@ -47,8 +49,13 @@ const { steps } = Astro.props;
     border-top: 1px solid var(--color-border);
   }
 
+  .step-list__item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
   .step-list__item:last-child {
-    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0;
   }
 
   .step-list__num {
@@ -58,8 +65,9 @@ const { steps } = Astro.props;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--color-accent);
-    color: var(--color-accent);
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
     font-weight: 700;
   }
 

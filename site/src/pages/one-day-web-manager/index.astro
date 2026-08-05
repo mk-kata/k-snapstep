@@ -22,6 +22,7 @@ import StepList from "../../components/common/StepList.astro";
 import PriceTable from "../../components/common/PriceTable.astro";
 import FaqAccordion from "../../components/common/FaqAccordion.astro";
 import CtaBlock from "../../components/common/CtaBlock.astro";
+import Icon from "../../components/icons/Icon.astro";
 import { urls } from "../../config/site";
 
 const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "1日WEB担当者" }];
@@ -29,20 +30,33 @@ const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "1日WEB担
 const tocItems = [
   { href: "#about", label: "1日WEB担当者とは" },
   { href: "#situations", label: "こんな状況で、ご相談いただけます" },
-  { href: "#examples", label: "3つのパターンで見る当日の流れ" },
-  { href: "#flow", label: "お問い合わせから実施後までの流れ" },
-  { href: "#included", label: "含まれること・含まれないこと" },
-  { href: "#pricing", label: "料金と実施の概要" },
+  { href: "#examples", label: "3つの相談例から見る、当日の進め方" },
+  { href: "#flow", label: "お問い合わせから、実施後までの流れ" },
+  { href: "#included", label: "1日で行うこと、基本料金に含まれないこと" },
+  { href: "#pricing", label: "料金と、実施の概要" },
   { href: "#faq", label: "よくあるご質問" },
 ];
 
-const themeExamples = [
-  "今のサイトを活かして改善するのか、作り直すのか",
-  "制作会社とのやり取りをどう進めるか",
-  "制作途中で止まっている案件をどう動かすか",
-  "AIで作ったサイトを、このまま公開してよいか",
-  "Web施策の優先順位をどう決めるか",
+// 【2026年8月5日】ユーザー指示により、レイアウト参考画像に合わせてアイコンを追加した。
+// 文言・項目数はいずれも変更していない(アイコンはIcon.astroの既存線画セットから割り当て)。
+const situations = [
+  { icon: "file-check", text: "制作会社から提案や見積もりが来ているが、判断材料がなく返事が止まっている" },
+  { icon: "toggle", text: "今のホームページを直すか、作り直すか迷ったまま時間が過ぎている" },
+  { icon: "users", text: "社内の意見がまとまらず、進めるべきか決められない" },
+  { icon: "user-alone", text: "一人で判断しているため、何を基準に決めればよいか分からない" },
+  { icon: "search-check", text: "AIやノーコードでサイトを作ったが、このまま公開してよいか判断できない" },
+  { icon: "target", text: "Web、SNS、広告など、何から手をつけるべきか優先順位が見えない" },
 ];
+
+const themeExamples = [
+  { icon: "repeat", text: "今のサイトを改善するか、作り直すか" },
+  { icon: "chat", text: "制作会社とのやり取りをどう進めるか" },
+  { icon: "flag", text: "制作途中で止まった案件をどう動かすか" },
+  { icon: "monitor-question", text: "AIで作ったサイトを公開してよいか" },
+  { icon: "target", text: "Web施策の優先順位をどう決めるか" },
+];
+
+const patternIcons = ["chat", "toggle", "trending-up"];
 
 const patterns = [
   {
@@ -151,12 +165,12 @@ const faqItems = [
   {
     question: "当日に決めた内容について、後から確認したいことが出てきた場合は？",
     answer:
-      "当日に決めた内容に関する確認は、実施後の30分フォローで承ります。新しいテーマや追加の検討が必要な場合は、別日での1日WEB担当者または月額Web担当サポートをご案内します。",
+      "当日に決めた内容に関する確認は、実施後の30分フォローで承ります。新しいテーマや追加の検討が必要な場合は、別日での1日WEB担当者またはWeb担当者サポートをご案内します。",
   },
   {
     question: "複数のサイトや、複数のテーマを一度に相談できますか？",
     answer:
-      "対象は原則として1回につき1テーマ・1サイトです。複数のサイトやテーマがある場合は、別日での1日WEB担当者、または月額Web担当サポートをご案内します。",
+      "対象は原則として1回につき1テーマ・1サイトです。複数のサイトやテーマがある場合は、別日での1日WEB担当者、またはWeb担当者サポートをご案内します。",
   },
   {
     question: "秘密保持契約(NDA)には対応していますか？",
@@ -183,59 +197,94 @@ const faqItems = [
     />
 
     <PageHeader
-      pageName="1日WEB担当者"
-      heading="1日だけ、発注する側のWeb担当者になります。"
-      intro="ひとつのWeb課題について状況を確認し、次に誰が何をするかを決めます。WEB担当者メモとテーマに応じた資料1点、実施後のフォローまで含め、全国オンライン対応・55,000円(税込)です。"
+      heading="1日だけ、<br class='heading-break' />発注する側の<br class='heading-break-xs' />Web担当者に<br class='heading-break-xs' />なります。"
+      intro="ひとつのWeb課題に絞って現状を整理し、次に誰が何をするのかを明確にします。WEB担当者メモとテーマに応じた資料1点、実施後のフォローまで含み、全国オンラインで対応します。"
       badges={["単発", "1テーマ・1サイト", "全国オンライン対応"]}
       ctaLabel="お問い合わせへ"
       ctaHref={urls.contact}
       secondaryLabel="料金と実施概要を見る"
       secondaryHref="#pricing"
+      illustrationSrc="/images/home/hero-web-manager.webp"
+      illustrationWidth={899}
+      illustrationHeight={680}
     />
 
     <TableOfContents items={tocItems} minItems={1} />
 
-    <section id="about" class="section-block">
-      <h2>ひとつのテーマを、実際に動かせる状態にするサービスです。</h2>
-      <p>
-        1日WEB担当者は、専任のWeb担当者がいない会社や、一人で判断まで担っている方のために、1日だけ発注する側に立ち、Webに関する判断と進行を支えるサービスです。
-      </p>
-      <p>
-        対象は、原則として1回につき1テーマ・1サイトです。複数のテーマを同時に扱うと、当日の4時間では判断材料をそろえきれないため、扱う範囲をあらかじめ絞っています。
-      </p>
-      <p>
-        「テーマ」とは、たとえば「今のサイトを活かして改善するのか、作り直すのか」「制作会社とのやり取りをどう進めるか」といった、ひとつの判断のかたまりです。
-      </p>
+    <section id="about" class="section-block about-block">
+      <span class="about-block__icon" aria-hidden="true">
+        <Icon name="check-circle" />
+      </span>
+      <div class="about-block__text">
+        <h2>1日WEB担当者とは</h2>
+        <p>ひとつのWeb課題を整理し、実際に動かせる状態まで整える単発サポートです。</p>
+        <p>
+          専任のWeb担当者がいない会社や、Webに関する判断を一人で担っている方に対して、発注する側の立場で状況を整理し、判断と進行を支えます。当日は4時間を使い、次に誰が何をするのかが分かる状態まで整えます。
+        </p>
+        <p>
+          扱う範囲は、原則として1回につき1テーマ・1サイトです。複数のテーマを同時に扱うと、限られた時間の中で必要な判断材料を十分にそろえられないため、事前に取り組む範囲を絞ります。
+        </p>
+        <p class="about-block__annotation">
+          ここでいう「テーマ」とは、<br />
+          「今のサイトを活かして改善するのか、作り直すのか」<br />
+          「制作会社とのやり取りを、どのように進めるのか」<br />
+          といった、ひとつの判断のまとまりを指します。
+        </p>
+      </div>
     </section>
 
     <section id="situations" class="section-block">
-      <h2>こんな状況で、ご相談いただけます。</h2>
-      <ul class="plain-list">
-        <li>制作会社から提案や見積もりが来ているが、内容を判断する材料がなく、返事が止まっている</li>
-        <li>今のホームページを直すか作り直すか迷ったまま、時間だけが過ぎている</li>
-        <li>社内の意見がまとまらず、進めるべきか決められない</li>
-        <li>一人で判断しているため、何を基準に決めればよいか分からない</li>
-        <li>AIやノーコードでサイトを作ったが、このまま公開していいのか判断がつかない</li>
-        <li>Web、SNS、広告など、何から手をつけるべきか優先順位が見えない</li>
+      <h2>こんな状況で、<br class="heading-break" />ご相談いただけます。</h2>
+      <p>Webについて判断しなければならないものの、何を基準に、どこから進めればよいか分からない。そんな段階からご相談いただけます。</p>
+      <ul class="icon-grid">
+        {
+          situations.map((item) => (
+            <li class="icon-grid__item">
+              <span class="icon-grid__icon" aria-hidden="true">
+                <Icon name={item.icon} />
+              </span>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
       </ul>
-      <p>制作会社とすでに契約している場合でも、ご相談いただけます。現在の契約内容ややり取りを確認し、次に何を確認し、何を伝えるかを整理します。</p>
-      <p>資料が整理されていなくても構いません。現在のサイトのURLと、困っていることが分かれば、まずはお問い合わせいただけます。</p>
+      <div class="situations__note">
+        <h3>制作会社と契約中でもご相談いただけます</h3>
+        <p>現在の契約内容や制作会社とのやり取りを確認し、次に何を確認するのか、何を伝えるのかを整理します。制作会社を変更することを前提としたサービスではありません。</p>
+      </div>
+      <div class="situations__note">
+        <h3>資料がそろっていなくても大丈夫です</h3>
+        <p>詳しい資料を準備していただく必要はありません。現在のサイトのURLと、困っていることを分かる範囲でお知らせください。まずはお問い合わせの内容をもとに、ご相談の対象になるかを確認します。</p>
+      </div>
     </section>
 
     <section id="themes" class="section-block">
-      <h2>その日は、次のようなテーマを扱います。</h2>
-      <p>正式なお申し込みの際に、その日のテーマを一つ確定します。</p>
-      <ul class="plain-list">
-        {themeExamples.map((theme) => <li>{theme}</li>)}
+      <h2>ご相談いただけるテーマ</h2>
+      <p>以下は、当日に扱うテーマの一例です。</p>
+      <p>正式なお申し込み時に、ご相談内容からテーマを一つ決めます。</p>
+      <ul class="theme-row">
+        {
+          themeExamples.map((theme) => (
+            <li class="theme-row__item">
+              <span class="theme-row__icon" aria-hidden="true">
+                <Icon name={theme.icon} />
+              </span>
+              <p>{theme.text}</p>
+            </li>
+          ))
+        }
       </ul>
     </section>
 
     <section id="examples" class="section-block">
-      <h2>3つのパターンで、当日の流れをご紹介します。</h2>
+      <h2>3つの相談例から見る、<br class="heading-break" />当日の進め方</h2>
       <div class="pattern-grid">
         {
-          patterns.map((pattern) => (
+          patterns.map((pattern, index) => (
             <article class="pattern-card">
+              <span class="pattern-card__icon" aria-hidden="true">
+                <Icon name={patternIcons[index]} />
+              </span>
               <h3>{pattern.title}</h3>
               <dl>
                 <dt>相談前の状況</dt>
@@ -260,7 +309,7 @@ const faqItems = [
     </section>
 
     <section id="flow" class="section-block">
-      <h2>お問い合わせから、実施後までの流れ。</h2>
+      <h2>お問い合わせから、<br class="heading-break" />実施後までの流れ。</h2>
       <StepList steps={flowSteps} />
     </section>
 
@@ -275,26 +324,26 @@ const faqItems = [
     </section>
 
     <section id="included" class="section-block">
-      <h2>1日で行うこと、基本料金に含まれないこと。</h2>
+      <h2>1日で行うこと、<br class="heading-break" />基本料金に含まれないこと。</h2>
       <p>55,000円(税込)には、次のすべてが含まれます。</p>
       <div class="include-exclude">
         <div class="include-exclude__col">
           <p class="include-exclude__heading">含まれること</p>
-          <ul class="plain-list">
+          <ul class="check-list check-list--include">
             {included.map((item) => <li>{item}</li>)}
           </ul>
         </div>
         <div class="include-exclude__col include-exclude__col--exclude">
           <p class="include-exclude__heading">基本料金に含まれないこと</p>
-          <ul class="plain-list">
+          <ul class="check-list check-list--exclude">
             {notIncluded.map((item) => <li>{item}</li>)}
           </ul>
         </div>
       </div>
       <p>
-        継続的な相談や制作進行の確認が必要な場合は、月額Web担当サポート(月額55,000円・税込)でご案内します。デザイン、コーディング、原稿作成などの実制作が必要な場合は、内容を確認したうえで別途お見積もりします。
+        継続的な相談や制作進行の確認が必要な場合は、Web担当者サポート(月額55,000円・税込)でご案内します。デザイン、コーディング、原稿作成などの実制作が必要な場合は、内容を確認したうえで別途お見積もりします。
       </p>
-      <p><a href="#upsell">月額Web担当サポートについて見る</a></p>
+      <p><a href="#upsell">Web担当者サポートについて見る</a></p>
     </section>
 
     <section id="pricing" class="section-block">
@@ -304,15 +353,15 @@ const faqItems = [
     </section>
 
     <section id="upsell" class="section-block">
-      <h2>その後も、継続して相談したい方へ。</h2>
+      <h2>その後も、<br class="heading-break" />継続して相談したい方へ。</h2>
       <p>
-        複数のテーマを継続して整理したい場合や、制作会社とのやり取りを定期的に確認したい場合は、月額Web担当サポート(月額55,000円・税込)をご案内しています。月2回・各60分のオンライン面談で、提案や見積もりの確認、更新・改修の優先順位整理、公開物や修正内容の確認など、その月に必要なテーマを扱います。
+        複数のテーマを継続して整理したい場合や、制作会社とのやり取りを定期的に確認したい場合は、Web担当者サポート(月額55,000円・税込)をご案内しています。月2回・各60分のオンライン面談で、提案や見積もりの確認、更新・改修の優先順位整理、公開物や修正内容の確認など、その月に必要なテーマを扱います。
       </p>
       <p>
-        1日WEB担当者は一つの課題を単発で集中して整理するサービスです。月額Web担当サポートは、月2回に分けて継続的に確認します。どちらが上位ということではなく、単発か継続かの違いです。
+        1日WEB担当者は一つの課題を単発で集中して整理するサービスです。Web担当者サポートは、月2回に分けて継続的に確認します。どちらが上位ということではなく、単発か継続かの違いです。
       </p>
       <p>デザイン、コーディング、原稿作成などの実制作が必要な場合は、内容を確認したうえで別途お見積もりします。</p>
-      <a class="btn-ghost" href={urls.monthlySupport}>月額Web担当サポートを見る</a>
+      <a class="btn-ghost" href={urls.monthlySupport}>Web担当者サポートを見る</a>
     </section>
 
     <section id="faq" class="section-block">
@@ -322,7 +371,7 @@ const faqItems = [
 
     <div id="contact-cta">
       <CtaBlock
-        heading="まずは、今の状況をお聞かせください。"
+        heading="まずは、<br class='heading-break' />今の状況をお聞かせください。"
         body="今困っていることと、連絡先をお送りください。内容を確認し、進め方をご案内します。"
         buttonLabel="今の状況を相談する"
         url={urls.contact}
@@ -343,16 +392,166 @@ const faqItems = [
     margin-bottom: 0.5em;
   }
 
+  /* セクション「1日WEB担当者とは」:アイコン+本文の2カラム(2026年8月5日追加) */
+  .about-block {
+    display: flex;
+    gap: var(--space-m);
+    align-items: flex-start;
+  }
+
+  .about-block__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  .about-block__icon .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .about-block__text h2 {
+    margin-top: 0;
+  }
+
+  .situations__note {
+    margin-top: var(--space-m);
+  }
+
+  .situations__note h3 {
+    margin-bottom: 0.4em;
+  }
+
+  .about-block__annotation {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    border-left: 2px solid var(--color-border);
+    padding-left: var(--space-s);
+  }
+
+  @media (max-width: 640px) {
+    .about-block {
+      flex-direction: column;
+    }
+  }
+
+  /* セクション「こんな状況で、ご相談いただけます」:アイコン付き2カラムグリッド */
+  .icon-grid {
+    list-style: none;
+    margin: var(--space-m) 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-s) var(--space-m);
+  }
+
+  .icon-grid__item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: var(--space-s);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .icon-grid__item p {
+    margin: 0;
+  }
+
+  .icon-grid__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .icon-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* セクション「その日は、次のようなテーマを扱います」:アイコンカードの横並び */
+  .theme-row {
+    list-style: none;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-s);
+  }
+
+  .theme-row__item {
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: var(--space-s);
+    text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+
+  .theme-row__item p {
+    margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .theme-row__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 900px) {
+    .theme-row {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .theme-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   .pattern-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: var(--space-m);
     margin-top: var(--space-m);
   }
 
   .pattern-card {
     border: 1px solid var(--color-border);
-    padding: var(--space-s);
+    border-radius: var(--radius-card-s);
+    padding: var(--space-m);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .pattern-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-bg-alt);
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
   }
 
   .pattern-card h3 {
@@ -401,8 +600,36 @@ const faqItems = [
     margin-top: 0;
   }
 
+  .check-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .check-list li {
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 0.55em;
+    line-height: 1.6;
+  }
+
+  .check-list li::before {
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+  }
+
+  .check-list--include li::before {
+    content: "✓";
+    color: var(--color-accent);
+  }
+
+  .check-list--exclude li::before {
+    content: "✗";
+    color: var(--color-text-muted);
+  }
+
   @media (max-width: 760px) {
-    .pattern-grid,
     .include-exclude {
       grid-template-columns: 1fr;
     }

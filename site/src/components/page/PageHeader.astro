@@ -3,11 +3,19 @@
 //
 // 参照元: docs/KSNAPSTEP_WIREFRAME.md 6番(共通ファーストビュー)
 // 料金・CTAはすべて任意(props)とし、対応できることページ等では省略できるようにする。
+//
+// 【2026年8月5日(1)】狭い幅で見出しが意味の切れ目でない位置に折り返すのを防ぐため、
+// headingをHTML(set:html)として描画するよう変更した。呼び出し側は各ページの静的な
+// 確定文言のみを渡しており、外部入力は扱わないためXSSの懸念はない。改行が必要な箇所には
+// <br class="heading-break" />(狭い幅のみ有効)を埋め込む。
+// 【2026年8月5日(2)】ユーザー指示により、任意のイラスト(illustrationSrc)を渡した場合のみ、
+// 右カラムに表示する2カラムレイアウトへ切り替えられるようにした。指定しないページは
+// 従来どおり1カラムのまま(見た目の変化なし)。
 
 interface Props {
-  /** ページ名(小見出しラベル。例:「1日WEB担当者」) */
-  pageName: string;
-  /** 主見出し */
+  /** ページ名(小見出しラベル。例:「1日WEB担当者」)。パンくずと重複する場合は省略可 */
+  pageName?: string;
+  /** 主見出し。静的な確定文言のみを渡すこと(set:htmlで描画するため) */
   heading: string;
   /** 導入文 */
   intro?: string;
@@ -24,6 +32,10 @@ interface Props {
   /** 副導線(任意)。主CTAの隣に控えめなテキストリンクとして表示する */
   secondaryLabel?: string;
   secondaryHref?: string;
+  /** 右カラムに表示する装飾イラスト(任意、装飾のみのためalt=""固定) */
+  illustrationSrc?: string;
+  illustrationWidth?: number;
+  illustrationHeight?: number;
 }
 
 const {
@@ -38,50 +50,70 @@ const {
   ctaId,
   secondaryLabel,
   secondaryHref,
+  illustrationSrc,
+  illustrationWidth,
+  illustrationHeight,
 } = Astro.props;
 ---
 
-<div class="page-header">
-  <p class="page-header__eyebrow">{pageName}</p>
-  <h1 class="page-header__heading">{heading}</h1>
+<div class={illustrationSrc ? "page-header page-header--with-visual" : "page-header"}>
+  <div class="page-header__text">
+    {pageName && <p class="page-header__eyebrow">{pageName}</p>}
+    <h1 class="page-header__heading" set:html={heading} />
 
-  {intro && <p class="page-header__intro">{intro}</p>}
+    {intro && <p class="page-header__intro">{intro}</p>}
+
+    {
+      badges.length > 0 && (
+        <ul class="page-header__badges">
+          {badges.map((badge) => (
+            <li>{badge}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      price && (
+        <p class="page-header__price">
+          <span class="page-header__price-amount">{price.amount}</span>
+          {price.unit && <span class="page-header__price-unit">{price.unit}</span>}
+        </p>
+      )
+    }
+
+    {note && <p class="page-header__note">{note}</p>}
+
+    {
+      (ctaLabel && ctaHref) || (secondaryLabel && secondaryHref) ? (
+        <div class="page-header__cta-group">
+          {ctaLabel && ctaHref && (
+            <a class="btn-primary page-header__cta" href={ctaHref} data-cta={ctaId}>
+              {ctaLabel}
+            </a>
+          )}
+          {secondaryLabel && secondaryHref && (
+            <a class="btn-ghost page-header__cta" href={secondaryHref}>
+              {secondaryLabel}
+            </a>
+          )}
+        </div>
+      ) : null
+    }
+  </div>
 
   {
-    badges.length > 0 && (
-      <ul class="page-header__badges">
-        {badges.map((badge) => (
-          <li>{badge}</li>
-        ))}
-      </ul>
+    illustrationSrc && (
+      <img
+        class="page-header__visual"
+        src={illustrationSrc}
+        alt=""
+        aria-hidden="true"
+        width={illustrationWidth}
+        height={illustrationHeight}
+        loading="eager"
+        decoding="async"
+      />
     )
-  }
-
-  {
-    price && (
-      <p class="page-header__price">
-        <span class="page-header__price-amount">{price.amount}</span>
-        {price.unit && <span class="page-header__price-unit">{price.unit}</span>}
-      </p>
-    )
-  }
-
-  {note && <p class="page-header__note">{note}</p>}
-
-  {
-    (ctaLabel && ctaHref) || (secondaryLabel && secondaryHref) ? (
-      <div class="page-header__cta-group">
-        {ctaLabel && ctaHref && (
-          <a class="btn-primary page-header__cta" href={ctaHref} data-cta={ctaId}>
-            {ctaLabel}
-          </a>
-        )}
-        {secondaryLabel && secondaryHref && (
-          <a class="btn-ghost page-header__cta" href={secondaryHref}>
-            {secondaryLabel}
-          </a>
-        )}
-      </div>
-    ) : null
   }
 </div>

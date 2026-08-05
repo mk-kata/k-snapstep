@@ -11,6 +11,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
 import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
+import PageHeader from "../../components/page/PageHeader.astro";
 import ArticleCard from "../../components/reading/ArticleCard.astro";
 import { getCollection } from "astro:content";
 import { urls } from "../../config/site";
@@ -34,16 +35,13 @@ const latestArticles = websiteReviewArticles.slice(0, 3);
     <Breadcrumbs items={breadcrumbItems} />
     <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
-    <header class="page-header">
-      <p class="page-header__eyebrow">読みもの</p>
-      <h1 class="page-header__heading">Webを、自分たちで判断するための読みもの。</h1>
-      <p class="page-header__intro">
-        小さな会社や事業者が、ホームページや制作会社とのやり取りについて考えるための読みものです。今後、テーマが増えた段階で、シリーズを追加していく予定です。
-      </p>
-    </header>
+    <PageHeader
+      heading="Webを、<br class='heading-break' />自分たちで判断する<br class='heading-break-xs' />ための読みもの。"
+      intro="小さな会社や事業者が、ホームページや制作会社とのやり取りについて考えるための読みものです。今後、テーマが増えた段階で、シリーズを追加していく予定です。"
+    />
 
     <section class="section-block">
-      <h2>小さな会社のホームページ見直しノート</h2>
+      <h2>小さな会社の<br class="heading-break" />ホームページ見直しノート</h2>
       <p>
         ホームページの見直し、制作会社とのやり取り、CMS・更新、サーバー・ドメイン、SEO・アクセス解析など、専任のWeb担当者がいない会社や事業者が、自社のWebサイトや制作体制を判断するための読みものです。技術者向けのコード解説ブログではありません。
       </p>
@@ -78,22 +76,6 @@ const latestArticles = websiteReviewArticles.slice(0, 3);
 </BaseLayout>
 
 <style>
-  .page-header {
-    padding-block: var(--space-m);
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: var(--space-m);
-  }
-
-  .page-header__eyebrow {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-    margin: 0 0 0.5em;
-  }
-
-  .page-header__heading {
-    margin: 0 0 0.5em;
-  }
-
   .article-list {
     margin-top: var(--space-s);
   }

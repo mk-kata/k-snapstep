@@ -3,10 +3,16 @@
 //
 // 全ページへ同じ問い合わせCTAを機械的に表示しない方針(docs/KSNAPSTEP_WIREFRAME.md 7番)。
 // 今回はコンポーネントの作成のみ行い、各ページへの大量配置は行わない。
+//
+// 【2026年8月5日】狭い幅で見出しが意味の切れ目でない位置に折り返すのを防ぐため、
+// headingをHTML(set:html)として描画するよう変更した。呼び出し側は各ページの静的な
+// 確定文言のみを渡しており、外部入力は扱わないためXSSの懸念はない。改行が必要な箇所には
+// <br class="heading-break" />(狭い幅のみ有効)を埋め込む。
 
 interface Props {
   /** 小さなラベル(任意) */
   label?: string;
+  /** 見出し。静的な確定文言のみを渡すこと(set:htmlで描画するため) */
   heading: string;
   body?: string;
   buttonLabel: string;
@@ -42,7 +48,7 @@ const HeadingTag = headingLevel;
 
 <div class={`cta-block cta-block--${variant}`}>
   {label && <p class="cta-block__label">{label}</p>}
-  <HeadingTag class="cta-block__heading">{heading}</HeadingTag>
+  <HeadingTag class="cta-block__heading" set:html={heading} />
   {body && <p class="cta-block__body">{body}</p>}
   <a class={variant === "quiet" ? "btn-ghost" : "btn-primary"} href={url} data-cta={ctaId}>
     {buttonLabel}

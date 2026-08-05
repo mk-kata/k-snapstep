@@ -10,6 +10,17 @@
 // - JSON-LDの実装(既存の「本来面目らぼ」名義JSON-LDは移植しない)
 //
 // OGP画像・本番URLは仮の値。正式ロゴ・ドメイン運用方針確定後に差し替える。
+//
+// 【2026年8月6日】以前ここから下のHTML本文側に直接書いていた実装メモ(OGP画像未作成の理由、
+// Noto Sans JP読み込みの経緯、favicon仮参照、JSON-LDの説明)は、本番HTMLソースにそのまま
+// 出力されてしまっていたため、このフロントマター側のコメントへ移動した。
+// - OGP画像は正式なもの未作成のため今回は出力しない(KSNAPSTEP_LAUNCH_FOUNDATION.md 13番参照)。
+// - Noto Sans JP(Google Fonts): tokens.cssの--font-jpは元々このフォントを第一候補に指定していたが、
+//   読み込みタグがなくシステムフォントへ常にフォールバックしていたため、太字(font-weight 800)の
+//   差が出にくかった(2026年8月5日発見・追加)。使用しているウェイトのみ読み込む
+//   (400=本文、700=見出し等、800=フッターロゴ、900=ヘッダーロゴ)。
+// - favicon は仮参照。正式ロゴ確定後に差し替える。
+// - <OrganizationJsonLd /> はサイト共通(ProfessionalService+WebSite)。ページ固有のJSON-LDは各ページで追加する。
 
 import SiteHeader from "../components/global/SiteHeader.astro";
 import SiteFooter from "../components/global/SiteFooter.astro";
@@ -70,7 +81,6 @@ const effectiveNoindex = noindex || !shouldIndex;
     <link rel="canonical" href={canonicalUrl} />
     {effectiveNoindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <!-- OGP(OGP画像は正式なもの未作成のため今回は出力しない。KSNAPSTEP_LAUNCH_FOUNDATION.md 13番参照) -->
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
@@ -78,20 +88,24 @@ const effectiveNoindex = noindex || !shouldIndex;
     <meta property="og:url" content={canonicalUrl} />
     {ogImage && <meta property="og:image" content={new URL(ogImage, site.url).toString()} />}
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     {ogImage && <meta name="twitter:image" content={new URL(ogImage, site.url).toString()} />}
 
-    <!-- favicon(仮参照。正式ロゴ確定後に差し替え) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
 
-    <!-- サイト共通JSON-LD(ProfessionalService+WebSite)。ページ固有のJSON-LDは各ページで追加する -->
     <OrganizationJsonLd />
   </head>
-  <body class={bodyClasses}>
+  <body id="top" class={bodyClasses}>
     <GtmBody />
     <a class="skip-link" href="#main-content">本文へ移動</a>
 

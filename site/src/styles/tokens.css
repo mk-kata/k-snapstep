@@ -14,7 +14,10 @@
 :root {
   /* 色(候補2ベース、DESIGN_GUIDE 13番) */
   --color-bg: #ffffff;
-  --color-bg-alt: #f5f4f1;
+  /* 【2026年8月6日】トップページ(src/styles/home.css)の--home-bg-softと同値にし、
+     下層ページの背景色をトップページの暖色トーンに合わせた(以前は#f5f4f1という
+     やや寒色寄りのグレーだった)。 */
+  --color-bg-alt: #faf7f4;
   --color-text: #2b2a28;
   --color-heading: #1f1e1c;
   --color-text-muted: #726f6a;
@@ -24,13 +27,21 @@
   --color-focus: #1a5fb4; /* アクセント赤と混同しない、フォーカス専用の青系(DESIGN_GUIDE 13・25番) */
   --color-error: #6e2019;
 
+  /* カード装飾(トップページのhome.css --home-radius/--home-shadowと同値。
+     下層ページの雰囲気をトップページに合わせるため、2026年8月6日追加) */
+  --radius-card: 14px;
+  --radius-card-s: 8px;
+  --shadow-card: 0 10px 24px rgba(36, 26, 22, 0.06);
+
   /* フォント(案B、DESIGN_GUIDE 14番:見出し・本文ともゴシック体) */
   --font-jp: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* レイアウト(DESIGN_GUIDE 15番:大きさは暫定。最終ピクセル数は次回決定) */
   --container-width: 1100px;
-  --content-width: 720px;
+  /* 【2026年8月5日】下層ページの本文幅をトップページと揃えるため、--container-widthと同値にした
+     (以前は720pxで、トップページ(1100px)よりかなり狭かった)。 */
+  --content-width: 1100px;
 
   /* 余白(大・中・小の3段階、DESIGN_GUIDE 15番) */
   --space-s: 1rem;
@@ -135,6 +146,37 @@ button:focus-visible,
   --tap-target-min: 44px;
 }
 
+/*
+ * 見出しの改行制御(2026年8月5日追加)。
+ * 幅が狭いときだけブラウザの自動折り返しが意味の切れ目でない位置に発生するため、
+ * <br class="heading-break" /> を意味の切れ目に置き、狭い幅でのみ有効にする。
+ * デスクトップ等ですでに1行に収まる場合は非表示のままなので、不要な改行を増やさない。
+ */
+.heading-break {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .heading-break {
+    display: inline;
+  }
+}
+
+/*
+ * かなり幅が狭いとき(スマートフォン)だけ、長い見出しをさらにもう一箇所改行する。
+ * .heading-breakだけでは片側が入りきらず、意図しない位置でさらに折り返される
+ * 見出しに、意味の切れ目のもう一箇所として組み合わせて使う。
+ */
+.heading-break-xs {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .heading-break-xs {
+    display: inline;
+  }
+}
+
 /* スクリーンリーダー専用テキスト */
 .visually-hidden {
   position: absolute;
@@ -205,14 +247,16 @@ main a {
 .site-header__brand {
   display: flex;
   flex-direction: column;
+  align-items: center;
   text-decoration: none;
   color: var(--color-heading);
   line-height: 1.3;
 }
 
 .site-header__name {
-  font-weight: 700;
-  font-size: 1.25rem;
+  font-weight: 900;
+  font-size: 1.625rem;
+  color: var(--color-accent);
 }
 
 .site-header__tagline {
@@ -284,10 +328,16 @@ main a {
   min-height: var(--tap-target-min);
   display: inline-flex;
   align-items: center;
+  font-size: 0.875rem;
 }
 
 .site-nav__cta {
   white-space: nowrap;
+}
+
+.site-nav__cta--compact {
+  padding: 0.55em 1.25em;
+  font-size: 0.875rem;
 }
 
 /*
@@ -347,29 +397,55 @@ main a {
 
 .site-footer__inner {
   padding-block: var(--space-l);
-  display: grid;
-  gap: var(--space-m);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  column-gap: var(--space-l);
+  row-gap: var(--space-m);
+}
+
+.site-footer__brand {
+  flex: 0 1 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.3;
+}
+
+.site-footer__bottom {
+  flex-basis: 100%;
+}
+
+@media (max-width: 760px) {
+  .site-footer__inner {
+    flex-direction: column;
+  }
 }
 
 .site-footer__name {
-  font-weight: 700;
+  font-weight: 900;
+  font-size: 1.625rem;
+  color: var(--color-accent);
   margin: 0;
 }
 
-.site-footer__tagline,
-.site-footer__owner {
+.site-footer__tagline {
+  font-size: 0.75rem;
   color: var(--color-text-muted);
   margin: 0.25em 0 0;
 }
 
 .site-footer__nav {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-m);
+  grid-template-columns: repeat(4, minmax(7rem, 1fr));
+  gap: var(--space-m) var(--space-s);
 }
 
 .site-footer__nav-heading {
   font-weight: 700;
+  font-size: 0.875rem;
   margin: 0 0 0.5em;
 }
 
@@ -390,21 +466,25 @@ main a {
  */
 .site-footer__nav a {
   color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.site-footer__nav a:hover {
+  text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
 }
 
-.site-footer__maroriri {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
+
+.site-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-s);
   border-top: 1px solid var(--color-border);
   padding-top: var(--space-s);
-}
-
-.site-footer__maroriri a {
-  color: var(--color-text-muted);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
 }
 
 .site-footer__copyright {
@@ -413,7 +493,19 @@ main a {
   margin: 0;
 }
 
-@media (max-width: 760px) {
+.site-footer__totop {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .site-footer__nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
   .site-footer__nav {
     grid-template-columns: 1fr;
   }
@@ -453,8 +545,31 @@ main a {
 
 .page-header {
   padding-block: var(--space-m);
-  border-bottom: 1px solid var(--color-border);
   margin-bottom: var(--space-m);
+}
+
+.page-header--with-visual {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: var(--space-l);
+}
+
+.page-header__visual {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .page-header--with-visual {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header__visual {
+    max-width: 26rem;
+    margin-inline: auto;
+  }
 }
 
 .page-header__eyebrow {
@@ -484,6 +599,7 @@ main a {
   border: 1px solid var(--color-border);
   padding: 0.25em 0.75em;
   font-size: 0.8125rem;
+  border-radius: 999px;
 }
 
 .page-header__price {
@@ -519,6 +635,8 @@ main a {
   border: 1px solid var(--color-border);
   padding: var(--space-m);
   margin-block: var(--space-m);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
 }
 
 .cta-block--quiet {
@@ -567,10 +685,100 @@ main a {
 
 .section-block h2 {
   margin-top: 0;
+  margin-bottom: var(--space-s);
+  display: inline-block;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.4;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--color-accent);
+}
+
+@media (max-width: 640px) {
+  .section-block h2 {
+    font-size: 1.375rem;
+  }
 }
 
 .section-block:nth-of-type(even) {
+  position: relative;
+  border-top: none;
+}
+
+.section-block:nth-of-type(even) + .section-block {
+  border-top: none;
+}
+
+.section-block:nth-of-type(even)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
   background: var(--color-bg-alt);
-  margin-inline: calc(var(--space-s) * -1);
-  padding-inline: var(--space-s);
+  z-index: -1;
+}
+
+/*
+ * 状況・悩みなどを列挙する箇条書きセクション用のカードグリッド
+ * (トップページhome.cssの.concerns__grid/.concerns__cardと同じ見た目に揃えたもの。
+ * トップページはイラスト調PNGアイコンを使うが、下層ページには同じ素材がないため、
+ * 既存の線画SVGアイコン(Icon.astro)をアクセントカラーの円で囲んで代用している。
+ * 2026年8月6日追加)
+ */
+.concern-cards {
+  list-style: none;
+  margin: var(--space-m) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.concern-cards__item {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem 1.375rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.85rem;
+}
+
+.concern-cards__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+
+.concern-cards__icon .icon {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.concern-cards__item p {
+  margin: 0;
+  line-height: 1.75;
+}
+
+@media (max-width: 900px) {
+  .concern-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .concern-cards {
+    grid-template-columns: 1fr;
+  }
 }

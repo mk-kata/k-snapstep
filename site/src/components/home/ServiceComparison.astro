@@ -7,56 +7,66 @@
 //
 // 【2026年7月28日 デザイン実装】承認デザイン画像に合わせ、アイコン・小ラベル・チェックリストを
 // 持つ2枚のサービスカードへ変更した。料金・内容・CTA文言・URLは変更していない。
+// 【2026年8月5日(1)】ユーザー指示により、線画アイコン(Icon.astro)を、他セクションで使用している
+// イラスト調アイコン(site/public/images/home/icons/normalized/)へ差し替え、大きく表示した。
+// 単発=role-current-check(現状確認のイメージ)、継続=role-support-chat(継続的な伴走のイメージ)を
+// 流用している。また「月額サポートを見る」ボタンをbtn-ghostからbtn-primaryへ変更した
+// (2枚を同格に見せる方針は維持しつつ、視認性のためボタンは両方とも色付きにした)。
+// 【2026年8月5日(2)】ユーザー指示により、見出し・小ラベル・箇条書き・ボタン文言を調整した。
+// 箇条書きを左右とも4項目にそろえ、ボタンを下端でそろえた(service-comparison__card側でflex+
+// margin-top:autoを使用)。
+// 【2026年8月5日(3)】ユーザー指示により、アイコンをカード上部中央からテキストの右側へ移動した。
+// 左カードの表示名は正式名称「1日WEB担当者」のまま維持し、右カードの表示名を
+// 「月額Web担当サポート」から「Web担当者サポート（月額制）」へ変更した(ボタン文言も合わせた)。
+// 小ラベル(「単発で相談したい方に」等)の文字も大きくした。
+// 【2026年8月5日(4)】ユーザー指示により、アイコンを削除した(右側に置いた結果、
+// 余白ばかりが目立ち、テキストが左に寄って見えるとの指摘のため)。テキストがカード幅
+// いっぱいに使われるよう、__headのラッパーも解いた。
+// 【2026年8月5日(5)】ユーザー指示により、小ラベル(「単発」「継続」)を削除し、
+// サービス名(見出し)を大きくした。箇条書きが左寄りに見えていた問題は、
+// align-self:stretchがcenterではなく箱を左寄せしていたことが原因だったため修正した。
+// 【2026年8月5日(6)】ユーザー指示により、バッジ文言を「単発で相談したい方に」→「単発サポート」、
+// 「継続して相談したい方に」→「月額サポート」へ変更。左カードの箇条書きをより具体的な表現へ更新した
+// (右カードの箇条書きは指定内容が既存と同一のため変更なし)。
 import { urls } from "../../config/site";
-import Icon from "../icons/Icon.astro";
 ---
 
-<section class="service-comparison section--decorated">
+<section class="service-comparison">
   <div class="container">
-    <h2 class="section-heading section-heading--center">単発と継続、2つの関わり方</h2>
-    <p class="service-comparison__note">上位・下位の関係ではありません</p>
+    <h2 class="section-heading section-heading--center">単発と継続、2つのサポートプラン</h2>
 
     <div class="service-comparison__grid">
       <article class="service-comparison__card">
-        <p class="service-comparison__badge">単発でじっくり相談したい方に</p>
-        <span class="service-comparison__icon" aria-hidden="true">
-          <Icon name="calendar" />
-        </span>
-        <p class="service-comparison__label">単発</p>
-        <h3 class="service-comparison__title">1日WEB担当者</h3>
+        <p class="service-comparison__badge">単発サポート</p>
+        <h3 class="service-comparison__title">1日WEB担当者（案件制）</h3>
         <p class="service-comparison__price">
           <span class="service-comparison__price-amount">55,000円（税込）</span>
-          <span class="service-comparison__price-unit">/ 1回</span>
         </p>
         <ul class="service-comparison__facts">
-          <li>1テーマ・1サイト</li>
-          <li>全国オンライン対応</li>
-          <li>WEB担当者メモ + テーマに応じた資料1点</li>
-          <li>実施後のフォロー</li>
+          <li>1テーマ・1サイトのオンライン相談</li>
+          <li>全国どこからでもオンライン対応</li>
+          <li>相談内容に応じた資料を1点作成</li>
+          <li>実施後14日間のフォローに対応</li>
         </ul>
         <a class="btn-primary service-comparison__cta" href={urls.oneDayWebManager} data-cta="home-compare-oneday">
-          1日WEB担当者を見る
+          1日WEB担当者（案件制）を見る
         </a>
       </article>
 
       <article class="service-comparison__card service-comparison__card--alt">
-        <p class="service-comparison__badge service-comparison__badge--alt">継続して伴走してほしい方に</p>
-        <span class="service-comparison__icon" aria-hidden="true">
-          <Icon name="repeat" />
-        </span>
-        <p class="service-comparison__label">継続</p>
-        <h3 class="service-comparison__title">月額Web担当サポート</h3>
+        <p class="service-comparison__badge service-comparison__badge--alt">月額サポート</p>
+        <h3 class="service-comparison__title">Web担当者サポート（月額制）</h3>
         <p class="service-comparison__price">
           <span class="service-comparison__price-amount">月額55,000円（税込）</span>
-          <span class="service-comparison__price-unit">/ 月</span>
         </p>
         <ul class="service-comparison__facts">
           <li>月2回・各60分のオンライン面談</li>
           <li>判断と進行を継続的に確認</li>
-          <li>実作業は別途見積もり</li>
+          <li>相談内容を随時整理</li>
+          <li>実作業は別途お見積もり</li>
         </ul>
-        <a class="btn-ghost service-comparison__cta" href={urls.monthlySupport} data-cta="home-compare-monthly">
-          月額サポートを見る
+        <a class="btn-primary service-comparison__cta" href={urls.monthlySupport} data-cta="home-compare-monthly">
+          Web担当者サポート（月額制）を見る
         </a>
       </article>
     </div>

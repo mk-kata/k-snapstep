@@ -34,11 +34,15 @@ const { items } = Astro.props;
 
 <style>
   .faq-accordion {
-    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .faq-accordion__item {
-    border-bottom: 1px solid var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding-inline: var(--space-s);
   }
 
   /*

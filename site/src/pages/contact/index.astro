@@ -27,17 +27,18 @@ import Breadcrumbs from "../../components/navigation/Breadcrumbs.astro";
 import BreadcrumbJsonLd from "../../components/seo/BreadcrumbJsonLd.astro";
 import PageHeader from "../../components/page/PageHeader.astro";
 import StepList from "../../components/common/StepList.astro";
+import Icon from "../../components/icons/Icon.astro";
 import { urls, formrun } from "../../config/site";
 
 const breadcrumbItems = [{ label: "トップ", href: "/" }, { label: "お問い合わせ" }];
 
 const consultItems = [
-  "今のサイトを活かして改善するのか、作り直すのか迷っている",
-  "制作会社への頼み方や見積もりを確認したい",
-  "CMSやサーバーの管理状況が分からない",
-  "修正内容が意図どおり反映されているか確認したい",
-  "継続してWebの判断や進行を確認してほしい",
-  "K-SNAPSTEPで実作業に対応できるか確認したい",
+  { icon: "toggle", text: "今のサイトを活かして改善するのか、作り直すのか迷っている" },
+  { icon: "chat", text: "制作会社への頼み方や見積もりを確認したい" },
+  { icon: "server", text: "CMSやサーバーの管理状況が分からない" },
+  { icon: "search-check", text: "修正内容が意図どおり反映されているか確認したい" },
+  { icon: "repeat", text: "継続してWebの判断や進行を確認してほしい" },
+  { icon: "question", text: "K-SNAPSTEPで実作業に対応できるか確認したい" },
 ];
 
 const afterSteps = [
@@ -59,8 +60,7 @@ const afterSteps = [
     <BreadcrumbJsonLd items={breadcrumbItems} currentPath={Astro.url.pathname} />
 
     <PageHeader
-      pageName="お問い合わせ"
-      heading="まとまっていなくても、今の状況をお送りください。"
+      heading="まとまっていなくても、<br class='heading-break' />今の状況を<br class='heading-break-xs' />お送りください。"
       intro="サービスを決めていなくても構いません。今のWebに関する状況や、困っていることを分かる範囲でお送りください。内容を確認し、K-SNAPSTEPから適した進め方をご案内します。お問い合わせのみで契約が成立することはありません。"
       ctaLabel="お問い合わせ内容を入力する"
       ctaHref="#form"
@@ -68,23 +68,32 @@ const afterSteps = [
     />
 
     <section class="section-block">
-      <h2>このような内容をご相談いただけます。</h2>
-      <ul class="plain-list">
-        {consultItems.map((item) => <li>{item}</li>)}
+      <h2>このような内容を<br class="heading-break" />ご相談いただけます。</h2>
+      <ul class="concern-cards">
+        {
+          consultItems.map((item) => (
+            <li class="concern-cards__item">
+              <span class="concern-cards__icon" aria-hidden="true">
+                <Icon name={item.icon} />
+              </span>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
       </ul>
     </section>
 
     <section class="section-block">
-      <h2>サービスを決めていなくても構いません。</h2>
+      <h2>サービスを決めていなくても<br class="heading-break" />構いません。</h2>
       <p>
-        一つの課題を集中して整理する場合は、1日WEB担当者が合います。継続してWebの判断や進行を確認する場合は、月額Web担当サポートが合います。実作業が必要な場合は、内容を確認したうえで個別にお見積もりします。
+        一つの課題を集中して整理する場合は、1日WEB担当者が合います。継続してWebの判断や進行を確認する場合は、Web担当者サポートが合います。実作業が必要な場合は、内容を確認したうえで個別にお見積もりします。
       </p>
       <p>
         どれが合うか分からなくても、ご自身でサービスを決めてからお問い合わせいただく必要はありません。お送りいただいた内容を確認したうえで、進め方をご案内します。
       </p>
       <p class="quiet-links">
         <a href={urls.oneDayWebManager}>1日WEB担当者</a> ／
-        <a href={urls.monthlySupport}>月額Web担当サポート</a> ／
+        <a href={urls.monthlySupport}>Web担当者サポート</a> ／
         <a href={urls.services}>対応できること</a>
       </p>
     </section>
@@ -95,7 +104,7 @@ const afterSteps = [
     </section>
 
     <section class="section-block">
-      <h2>フォームに入力していただく内容。</h2>
+      <h2>フォームに<br class="heading-break" />入力していただく内容。</h2>
       <p>
         お名前、メールアドレス、お問い合わせの種類、現在困っていることをご記入ください。会社名・屋号は任意ですので、個人でご相談の場合は空欄で構いません。
       </p>
