@@ -168,16 +168,18 @@ CSSはすべて`src/styles/tokens.css`に追加した(header/nav/footer/breadcru
 
 ---
 
-## トップページ デザイン比較用の一時ページ(`/__review/`、削除予定)
+## トップページ デザイン比較用の一時ページ(削除済み)
 
-`docs/KSNAPSTEP_HOME_DESIGN_OPTIONS.md`の作業で、既存トップページ(`/`)の文章・構成を一切変更せず、見た目のみ異なる2つのデザイン案を比較できるようにした一時ページ。
+`docs/KSNAPSTEP_HOME_DESIGN_OPTIONS.md`の作業で一時的に用意していた`/__review/home-design-a/`・`/__review/home-design-b/`比較ページは、本番採用デザインが確定し`src/pages/index.astro`・`src/components/home/`側へ反映済みのため、本番公開準備の一環として削除した(`src/pages/[...reviewSlug].astro`・`src/components/review/`・`src/data/homeContent.ts`)。ローカルの比較用スクリーンショット(`review/home-design-options/`、Git管理対象外)は削除していない。
 
-- URL: `/__review/home-design-a/`(実務ノート・エディトリアル案)・`/__review/home-design-b/`(外部Web担当者・進行ボード案)
-- 実装: `src/pages/[...reviewSlug].astro`(動的ルート。Astroは`src/pages/`配下の`_`始まりのファイル/フォルダを自動的にルーティング対象から除外するため、`__review/`という出力パスにするには`getStaticPaths()`の`params`で直接指定する方式を取った)、表示コンポーネントは`src/components/review/HomeDesignA.astro`・`HomeDesignB.astro`、本文データは`src/data/homeContent.ts`(既存トップページの確定本文を一字一句そのまま書き写した、比較専用の読み取り元)
-- 常にnoindex固定。`src/pages/sitemap.xml.ts`は出力ページを自動探索せず手動列挙のため、この2ページは追加していない限りsitemapに含まれない
-- ヘッダー・フッターのナビゲーションからはリンクしていない
-- スクリーンショット(`review/home-design-options/`)は容量が大きいため`.gitignore`でGit管理対象外にしている
-- **デザイン決定後に削除する想定の一時実装。** 本番採用するデザインが決まったら、採用しない側のコンポーネント・このルートファイル・`src/data/homeContent.ts`・比較用スクリーンショットを削除し、採用したデザインを`src/pages/index.astro`・`src/components/home/`側へ反映する
+## 公開後の改善項目(2026年8月5日時点、未着手)
+
+デザイン調整に時間がかかりすぎるため、いったん現在のデザインで公開できる状態を優先し、以下は公開後の改善項目として保留する。
+
+- 「このような状態になっていませんか。」(`ConcernsSection`)のアイコンサイズの再調整
+- プロフィール概要(`ProfileSummary`)の見出し表現の再検討
+- 必要に応じたAdobe Stockイラストの追加(今回は未使用)
+- 各セクションの細かな余白・装飾調整
 
 ## 本番公開に関する注意
 
