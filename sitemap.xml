@@ -2,20 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://k-snapstep.com/</loc>
-    <lastmod>2026-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://k-snapstep.com/labo/</loc>
-    <lastmod>2026-05-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://k-snapstep.com/one-day-web-manager/</loc>
+  </url>
+  <url>
+    <loc>https://k-snapstep.com/monthly-support/</loc>
+  </url>
+  <url>
+    <loc>https://k-snapstep.com/services/</loc>
+  </url>
+  <url>
+    <loc>https://k-snapstep.com/profile/</loc>
+  </url>
+  <url>
+    <loc>https://k-snapstep.com/contact/</loc>
+  </url>
+  <url>
+    <loc>https://k-snapstep.com/reading/</loc>
+  </url>
+  <url>
+    <loc>https://k-snapstep.com/reading/website-review/</loc>
   </url>
   <url>
     <loc>https://k-snapstep.com/privacy.html</loc>
-    <lastmod>2026-05-24</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://k-snapstep.com/reading/website-review/sample-website-checkup/</loc>
   </url>
 </urlset>

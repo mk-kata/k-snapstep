@@ -1,0 +1,5 @@
+# K-SNAPSTEP .htaccess
+# 旧「本来面目らぼ」の /labo/ を新トップページへ301転送する。
+RewriteEngine On
+RewriteRule ^labo/?$ /? [R=301,L]
+RewriteRule ^labo/index\.html$ /? [R=301,L]
